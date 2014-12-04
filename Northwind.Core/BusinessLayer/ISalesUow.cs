@@ -2,6 +2,7 @@
 
 namespace Northwind.Core.BusinessLayer
 {
+    // operation contract wcf
     public interface ISalesUow : IUow
     {
         void CommitChanges();
