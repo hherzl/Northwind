@@ -171,6 +171,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -183,9 +184,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Angular\app.js" />
-    <Content Include="Angular\index.html" />
-    <Content Include="Angular\product\product.html" />
-    <Content Include="Angular\product\product.js" />
+    <Content Include="Angular\customers.html" />
+    <Content Include="Angular\products.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />

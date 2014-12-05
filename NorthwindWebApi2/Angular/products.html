@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <title>Products list</title>
+    <link href="../Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+    <body>
+        <div ng-controller="ProductCtrl">
+            <table class="table table-striped table-responsive table-hover">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Company</th>
+                        <th>Q. per Unit</th>
+                        <th>Unit Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="prod in products">
+                        <td>{{prod.productName}}</td>
+                        <td>{{prod.categoryName}}</td>
+                        <td>{{prod.companyName}}</td>
+                        <td>{{prod.quantityPerUnit}}</td>
+                        <td>{{prod.unitPrice | currency }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <script src="../Scripts/angular.js"></script>
+        <script src="app.js"></script>
+</body>
+</html>

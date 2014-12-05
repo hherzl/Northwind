@@ -3,11 +3,19 @@
 
     var app = angular.module("app", []);
 
-    app.controller("ProductController", ["$http", "$scope", function ($http, $scope) {
+    app.controller("ProductCtrl", ["$http", "$scope", function ($http, $scope) {
         $scope.products = [];
 
-        $http.get("http://localhost:58532/api/Product").success(function (data) {
+        $http.get("/api/Product").success(function (data) {
             $scope.products = data;
+        });
+    }]);
+
+    app.controller("CustomerCtrl", ["$http", "$scope", function ($http, $scope) {
+        $scope.customers = [];
+
+        $http.get("/api/Customer").success(function (data) {
+            $scope.customers = data;
         });
     }]);
 })();

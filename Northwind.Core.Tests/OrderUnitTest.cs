@@ -16,18 +16,18 @@ namespace Northwind.Core.Tests
             var header = new Order();
 
             header.OrderID = 0;
-            header.CustomerID = "ALFKI";
-            header.EmployeeID = 4;
+            header.CustomerID = "ANATR";
+            header.EmployeeID = 6;
             header.OrderDate = DateTime.Now;
             header.RequiredDate = DateTime.Now.AddDays(7);
             header.ShippedDate = null;
             header.ShipVia = 1;
-            header.Freight = 15.0m;
-            header.ShipName = "Bill Gates";
-            header.ShipAddress = "Redmon";
+            header.Freight = 25.0m;
+            header.ShipName = "Steve Jobs";
+            header.ShipAddress = "Redmon II";
             header.ShipCity = "Washington";
             header.ShipRegion = "West";
-            header.ShipPostalCode = "11111";
+            header.ShipPostalCode = "12345";
             header.ShipCountry = "USA";
 
             var details = new List<OrderDetail>();
@@ -38,7 +38,7 @@ namespace Northwind.Core.Tests
                     OrderID = header.OrderID,
                     ProductID = 1,
                     UnitPrice = 9.99m,
-                    Quantity = 1,
+                    Quantity = 3,
                     Discount = 0.0f
                 });
 
@@ -58,6 +58,16 @@ namespace Northwind.Core.Tests
                     OrderID = header.OrderID,
                     ProductID = 20,
                     UnitPrice = 29.99m,
+                    Quantity = 1,
+                    Discount = 0.0f
+                });
+
+            details.Add(
+                new OrderDetail()
+                {
+                    OrderID = header.OrderID,
+                    ProductID = 25,
+                    UnitPrice = 39.99m,
                     Quantity = 1,
                     Discount = 0.0f
                 });
