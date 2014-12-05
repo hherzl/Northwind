@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Http.Formatting;
-using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace NorthwindWebApi2
@@ -21,14 +19,17 @@ namespace NorthwindWebApi2
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            // Remover el serializador de xml, para que la api genere JSON
+            // Remove the xml serializer
             GlobalConfiguration.Configuration.Formatters.Remove(GlobalConfiguration.Configuration.Formatters.XmlFormatter);
 
-            // Obtener el serializador JSON de la configuración global
+            // Get json serializer from global configuration
             var jsonFormatter = GlobalConfiguration.Configuration.Formatters.OfType<JsonMediaTypeFormatter>().First();
 
-            // Asignar el objeto para que genere los nombres de propiedades en camelCase
+            // Set the object to generate the property names in camelCase
             jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
+            // Avoid to serialize circular references
+            jsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
         }
     }
 }

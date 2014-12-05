@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Northwind.Core.BusinessLayer;
-using Northwind.Core.DataLayer;
 using Northwind.Core.PocoLayer;
 using NorthwindWebApi2.Services;
 
@@ -36,18 +34,18 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // GET: api/Shipper/5
-        public string Get(int id)
+        public string Get(Int32 id)
         {
             return "value";
         }
 
         // POST: api/Shipper
-        public void Post([FromBody]string value)
+        public void Post([FromBody]Shipper value)
         {
         }
 
         // PUT: api/Shipper/5
-        public HttpResponseMessage Put(int id, [FromBody]string value)
+        public HttpResponseMessage Put(Int32 id, [FromBody]Shipper value)
         {
             var entity = uow.ShipperRepository.Get(new Shipper() { ShipperID = id });
 
@@ -56,11 +54,18 @@ namespace NorthwindWebApi2.Controllers
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Error");
             }
 
+            entity.CompanyName = value.CompanyName;
+            entity.Phone = value.Phone;
+
+            uow.ShipperRepository.Update(entity);
+
+            uow.CommitChanges();
+
             return Request.CreateResponse(HttpStatusCode.OK, "Update was successfully!");
         }
 
         // DELETE: api/Shipper/5
-        public void Delete(int id)
+        public void Delete(Int32 id)
         {
         }
     }

@@ -1,17 +1,13 @@
 ﻿(function () {
-    'use strict';
+    "use strict";
 
-    var app = angular.module('app', []);
+    var app = angular.module("app", []);
 
-    app.controller('ProductController', [
-     '$http', '$scope', function ($http, $scope) {
+    app.controller("ProductController", ["$http", "$scope", function ($http, $scope) {
+        $scope.products = [];
 
-         $scope.products = [];
-         $http.get('http://localhost:58532/api/Product').success(function (data) {
-             $scope.products = data;
-         });
-
-     }
-    ]);
-
-   })();
+        $http.get("http://localhost:58532/api/Product").success(function (data) {
+            $scope.products = data;
+        });
+    }]);
+})();

@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Northwind.Core.BusinessLayer;
-using Northwind.Core.DataLayer;
 using Northwind.Core.PocoLayer;
 using NorthwindWebApi2.Services;
 
@@ -36,23 +34,23 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // GET: api/Product/5
-        public string Get(int id)
+        public string Get(Int32 id)
         {
             return "value";
         }
 
         // POST: api/Product
-        public void Post([FromBody]string value)
+        public void Post([FromBody]Product value)
         {
         }
 
         // PUT: api/Product/5
-        public void Put(int id, [FromBody]string value)
+        public void Put(Int32 id, [FromBody]Product value)
         {
         }
 
         // DELETE: api/Product/5
-        public void Delete(int id)
+        public void Delete(Int32 id)
         {
         }
     }
