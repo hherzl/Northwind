@@ -11,16 +11,16 @@ namespace NorthwindWebApi2.Controllers
 {
     public class ShipperController : ApiController
     {
-        ISalesUow uow;
+        protected ISalesUow Uow;
 
         public ShipperController(IUowService service)
         {
-            uow = service.GetSalesUow();
+            Uow = service.GetSalesUow();
         }
 
-        protected override void Dispose(bool disposing)
+        protected override void Dispose(Boolean disposing)
         {
-            uow.Dispose();
+            Uow.Dispose();
 
             base.Dispose(disposing);
         }
@@ -28,7 +28,7 @@ namespace NorthwindWebApi2.Controllers
         // GET: api/Shipper
         public HttpResponseMessage Get()
         {
-            var list = uow.ShipperRepository.GetAll().ToList();
+            var list = Uow.ShipperRepository.GetAll().ToList();
 
             return Request.CreateResponse(HttpStatusCode.OK, list);
         }
@@ -47,7 +47,7 @@ namespace NorthwindWebApi2.Controllers
         // PUT: api/Shipper/5
         public HttpResponseMessage Put(Int32 id, [FromBody]Shipper value)
         {
-            var entity = uow.ShipperRepository.Get(new Shipper() { ShipperID = id });
+            var entity = Uow.ShipperRepository.Get(new Shipper() { ShipperID = id });
 
             if (entity == null)
             {
@@ -57,9 +57,9 @@ namespace NorthwindWebApi2.Controllers
             entity.CompanyName = value.CompanyName;
             entity.Phone = value.Phone;
 
-            uow.ShipperRepository.Update(entity);
+            Uow.ShipperRepository.Update(entity);
 
-            uow.CommitChanges();
+            Uow.CommitChanges();
 
             return Request.CreateResponse(HttpStatusCode.OK, "Update was successfully!");
         }

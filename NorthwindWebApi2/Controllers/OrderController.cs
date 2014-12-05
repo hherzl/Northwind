@@ -9,11 +9,11 @@ using NorthwindWebApi2.Services;
 
 namespace NorthwindWebApi2.Controllers
 {
-    public class ProductController : ApiController
+    public class OrderController : ApiController
     {
         protected ISalesUow Uow;
 
-        public ProductController(IUowService service)
+        public OrderController(IUowService service)
         {
             Uow = service.GetSalesUow();
         }
@@ -25,31 +25,33 @@ namespace NorthwindWebApi2.Controllers
             base.Dispose(disposing);
         }
 
-        // GET: api/Product
+        // GET: api/Order
         public HttpResponseMessage Get()
         {
-            var list = Uow.ProductRepository.GetDetails().ToList();
+            var list = Uow.OrderRepository.GetAll().OrderByDescending(item => item.OrderDate).Take(10).ToList();
 
             return Request.CreateResponse(HttpStatusCode.OK, list);
         }
 
-        // GET: api/Product/5
-        public string Get(Int32 id)
+        // GET: api/Order/5
+        public HttpResponseMessage Get(Int32 id)
         {
-            return "value";
+            var entity = Uow.OrderRepository.Get(new Order() { OrderID = id });
+
+            return Request.CreateResponse(HttpStatusCode.OK, entity);
         }
 
-        // POST: api/Product
-        public void Post([FromBody]Product value)
-        {
-        }
-
-        // PUT: api/Product/5
-        public void Put(Int32 id, [FromBody]Product value)
+        // POST: api/Order
+        public void Post([FromBody]Order value)
         {
         }
 
-        // DELETE: api/Product/5
+        // PUT: api/Order/5
+        public void Put(Int32 id, [FromBody]Order value)
+        {
+        }
+
+        // DELETE: api/Order/5
         public void Delete(Int32 id)
         {
         }
