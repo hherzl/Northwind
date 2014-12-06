@@ -1,0 +1,14 @@
+﻿<div>
+    <h3>Shippers list</h3>
+
+    <table class="table table-hover">
+        <tr>
+            <th>Company name</th>
+            <th>Phone</th>
+        </tr>
+        <tr ng-repeat="shipper in shippers">
+            <td>{{ shipper.companyName }}</td>
+            <td>{{ shipper.phone }}</td>
+        </tr>
+    </table>
+</div>
