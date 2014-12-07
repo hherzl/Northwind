@@ -29,12 +29,28 @@ namespace Northwind.Core.DataLayer
 
         public virtual void Add(E entity)
         {
-            DbSet.Add(entity);
+            var dbEntityEntry = DbContext.Entry(entity);
+
+            if (dbEntityEntry.State != EntityState.Detached)
+            {
+                dbEntityEntry.State = EntityState.Added;
+            }
+            else
+            {
+                DbSet.Add(entity);
+            }
         }
 
         public virtual void Update(E entity)
         {
+            var dbEntityEntry = DbContext.Entry(entity);
 
+            if (dbEntityEntry.State == EntityState.Detached)
+            {
+                DbSet.Attach(entity);
+            }
+
+            dbEntityEntry.State = EntityState.Modified;
         }
 
         public virtual void Remove(E entity)

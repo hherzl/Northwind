@@ -28,15 +28,17 @@ namespace NorthwindWebApi2.Controllers
         // GET: api/Product
         public HttpResponseMessage Get()
         {
-            var list = Uow.ProductRepository.GetDetails().ToList();
+            var list = Uow.ProductRepository.GetDetails().OrderByDescending(item => item.ProductID).ToList();
 
             return Request.CreateResponse(HttpStatusCode.OK, list);
         }
 
         // GET: api/Product/5
-        public string Get(Int32 id)
+        public HttpResponseMessage Get(Int32 id)
         {
-            return "value";
+            var entity = Uow.ProductRepository.Get(new Product() { ProductID = id });
+
+            return Request.CreateResponse(HttpStatusCode.OK, entity);
         }
 
         // POST: api/Product

@@ -1,0 +1,29 @@
+﻿<h2>Create</h2>
+
+<form name="form" novalidate ng-submit="create()">
+    <div class="form-horizontal">
+        <h4>Shipper</h4>
+        <hr />
+        <div class="form-group" ng-class="{ 'has-error': form.companyName.$invalid }">
+            <label for="companyName" class="control-label col-md-2">Company name</label>
+            <div class="col-md-10">
+                <input type="text" name="companyName" ng-model="model.companyName" required class="form-control" />
+                <span class="text-danger help-block" ng-show="form.companyName.$error.required">(*) Required</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="phone" class="control-label col-md-2">Phone</label>
+            <div class="col-md-10">
+                <input type="text" name="phone" ng-model="model.phone" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" ng-disabled="!form.$valid" class="btn btn-default" />
+                <a ng-click="cancel()">Cancel</a>
+            </div>
+        </div>
+    </div>
+</form>

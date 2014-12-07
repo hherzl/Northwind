@@ -28,20 +28,25 @@ namespace NorthwindWebApi2.Controllers
         // GET: api/Shipper
         public HttpResponseMessage Get()
         {
-            var list = Uow.ShipperRepository.GetAll().ToList();
+            var list = Uow.ShipperRepository.GetAll().OrderByDescending(item => item.ShipperID).ToList();
 
             return Request.CreateResponse(HttpStatusCode.OK, list);
         }
 
         // GET: api/Shipper/5
-        public string Get(Int32 id)
+        public HttpResponseMessage Get(Int32 id)
         {
-            return "value";
+            var entity = Uow.ShipperRepository.Get(new Shipper() { ShipperID = id });
+
+            return Request.CreateResponse(HttpStatusCode.OK, entity);
         }
 
         // POST: api/Shipper
         public void Post([FromBody]Shipper value)
         {
+            Uow.ShipperRepository.Add(value);
+
+            Uow.CommitChanges();
         }
 
         // PUT: api/Shipper/5
@@ -65,8 +70,20 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // DELETE: api/Shipper/5
-        public void Delete(Int32 id)
+        public HttpResponseMessage Delete(Int32 id)
         {
+            var entity = Uow.ShipperRepository.Get(new Shipper() { ShipperID = id });
+
+            if (entity == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, "Error");
+            }
+
+            Uow.ShipperRepository.Remove(entity);
+
+            Uow.CommitChanges();
+
+            return Request.CreateResponse(HttpStatusCode.OK, "Delete was successfully!");
         }
     }
 }

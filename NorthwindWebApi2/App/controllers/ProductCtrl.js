@@ -1,4 +1,4 @@
-﻿northwindApp.controller("productCtrl", function ($scope, $http) {
+﻿northwindApp.controller("ProductCtrl", function ($scope, $http) {
     $scope.products = [];
 
     $http.get("/api/Product/").success(function (data) {

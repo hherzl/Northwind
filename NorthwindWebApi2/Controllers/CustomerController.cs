@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Northwind.Core.BusinessLayer;
+using Northwind.Core.PocoLayer;
 using NorthwindWebApi2.Services;
 
 namespace NorthwindWebApi2.Controllers
@@ -39,12 +40,12 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // POST: api/Customer
-        public void Post([FromBody]string value)
+        public void Post([FromBody]Customer value)
         {
         }
 
         // PUT: api/Customer/5
-        public void Put(String id, [FromBody]string value)
+        public void Put(String id, [FromBody]Customer value)
         {
         }
 
