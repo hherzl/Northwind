@@ -1,0 +1,30 @@
+﻿<h2>Edit</h2>
+
+<form name="form" novalidate ng-submit="update()">
+    <div class="form-horizontal">
+        <h4>Product</h4>
+        <hr />
+
+        <div class="form-group" ng-class="{ 'has-error': form.productName.$invalid }">
+            <label for="productName" class="control-label col-md-2">Product name</label>
+            <div class="col-md-10">
+                <input type="text" name="productName" ng-model="model.productName" required class="form-control" />
+                <span class="text-danger help-block" ng-show="form.productName.$error.required">(*) Required</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="quantityPerUnit" class="control-label col-md-2">Quantity per unit</label>
+            <div class="col-md-10">
+                <input type="text" name="quantityPerUnit" ng-model="model.quantityPerUnit" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" ng-disabled="!form.$valid" class="btn btn-default" />
+                <a ng-click="cancel()">Cancel</a>
+            </div>
+        </div>
+    </div>
+</form>

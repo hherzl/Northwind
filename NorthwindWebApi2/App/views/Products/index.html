@@ -7,29 +7,33 @@
 <br />
 
 <table class="table table-hover">
-    <tr>
-        <th>Product name</th>
-        <th>Supplier</th>
-        <th>Category</th>
-        <th>Unit price</th>
-        <th></th>
-    </tr>
-    <tr ng-repeat="product in products">
-        <td>{{ product.productName }}</td>
-        <td>{{ product.companyName }}</td>
-        <td>{{ product.categoryName }}</td>
-        <td>{{ product.unitPrice | currency }}</td>
-        <td>
-            <div class="btn-group">
-                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a ng-click="edit(product.productID)">Edit</a></li>
-                    <li><a ng-click="details(product.productID)">Details</a></li>
-                    <li><a ng-click="delete(product.productID)">Delete</a></li>
-                </ul>
-            </div>
-        </td>
-    </tr>
+    <thead>
+        <tr>
+            <th>Product name</th>
+            <th>Supplier</th>
+            <th>Category</th>
+            <th>Unit price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="product in products">
+            <td>{{ product.productName }}</td>
+            <td>{{ product.companyName }}</td>
+            <td>{{ product.categoryName }}</td>
+            <td>{{ product.unitPrice | currency }}</td>
+            <td>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a ng-click="edit(product.productID)">Edit</a></li>
+                        <li><a ng-click="details(product.productID)">Details</a></li>
+                        <li><a ng-click="delete(product.productID)">Delete</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    </tbody>
 </table>

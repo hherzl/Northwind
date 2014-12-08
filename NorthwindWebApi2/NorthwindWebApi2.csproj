@@ -193,9 +193,14 @@
     <Content Include="App\controllers\ProductCtrl.js" />
     <Content Include="App\controllers\ShipperCtrl.js" />
     <Content Include="App\index.html" />
+    <Content Include="App\services\ProductService.js" />
     <Content Include="App\services\ShipperService.js" />
     <Content Include="App\views\Customers\index.html" />
     <Content Include="App\views\home.html" />
+    <Content Include="App\views\Products\create.html" />
+    <Content Include="App\views\Products\delete.html" />
+    <Content Include="App\views\Products\details.html" />
+    <Content Include="App\views\Products\edit.html" />
     <Content Include="App\views\Products\index.html" />
     <Content Include="App\views\Shippers\create.html" />
     <Content Include="App\views\Shippers\delete.html" />

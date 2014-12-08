@@ -1,0 +1,32 @@
+﻿<h2>Delete</h2>
+
+<h3>Are you sure to want delete this record?</h3>
+
+<div>
+    <h4>Product</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Product name</dt>
+        <dd>{{ model.productName }}</dd>
+
+        <dt>Supplier name</dt>
+        <dd>{{ model.fkProductsSuppliers.companyName}}</dd>
+
+        <dt>Category name</dt>
+        <dd>{{ model.fkProductsCategories.categoryName }}</dd>
+
+        <dt>Quantity per unit</dt>
+        <dd>{{model.quantityPerUnit}}</dd>
+
+        <dt>Unit price</dt>
+        <dd>{{model.unitPrice | currency}}</dd>
+
+        <dt>Units in stock</dt>
+        <dd>{{model.unitsInStock}}</dd>
+    </dl>
+
+    <div class="form-actions no-color">
+        <a ng-click="delete(model.productID)" class="btn btn-default">Delete</a>
+        <a ng-click="cancel()" class="btn btn-small">Cancel</a>
+    </div>
+</div>
