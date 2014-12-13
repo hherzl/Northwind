@@ -171,11 +171,13 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ShipperController.cs" />
+    <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -193,8 +195,10 @@
     <Content Include="App\controllers\ProductCtrl.js" />
     <Content Include="App\controllers\ShipperCtrl.js" />
     <Content Include="App\index.html" />
+    <Content Include="App\services\CategoryService.js" />
     <Content Include="App\services\ProductService.js" />
     <Content Include="App\services\ShipperService.js" />
+    <Content Include="App\services\SupplierService.js" />
     <Content Include="App\views\Customers\index.html" />
     <Content Include="App\views\home.html" />
     <Content Include="App\views\Products\create.html" />

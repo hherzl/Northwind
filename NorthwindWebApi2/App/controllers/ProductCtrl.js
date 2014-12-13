@@ -22,11 +22,19 @@
     };
 }]);
 
-
-
-
-northwindApp.controller("CreateProductCtrl", ["$scope", "$location", "ProductService", function ($scope, $location, productService) {
+northwindApp.controller("CreateProductCtrl", ["$scope", "$location", "SupplierService", "CategoryService", "ProductService", function ($scope, $location, supplierService, categoryService, productService) {
     $scope.model = {};
+
+    $scope.suppliers = [];
+    $scope.categories = [];
+
+    supplierService.getAll().then(function (result) {
+        $scope.suppliers = result.data;
+    });
+
+    categoryService.getAll().then(function (result) {
+        $scope.categories = result.data;
+    });
 
     $scope.create = function () {
         productService.create($scope.model);
@@ -38,8 +46,6 @@ northwindApp.controller("CreateProductCtrl", ["$scope", "$location", "ProductSer
         $location.path("/products");
     };
 }]);
-
-
 
 northwindApp.controller("EditProductCtrl", ["$scope", "$location", "$routeParams", "ProductService", function ($scope, $location, $routeParams, productService) {
     $scope.model = {};

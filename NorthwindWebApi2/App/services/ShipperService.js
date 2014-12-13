@@ -1,6 +1,6 @@
-﻿var baseUrl = "/api/";
+﻿northwindApp.service("ShipperService", function ($http) {
+    var baseUrl = "/api/";
 
-northwindApp.service("ShipperService", function ($http) {
     var url = baseUrl + "Shipper/";
 
     this.getAll = function () {

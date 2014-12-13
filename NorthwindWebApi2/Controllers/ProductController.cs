@@ -45,14 +45,16 @@ namespace NorthwindWebApi2.Controllers
         public void Post([FromBody]Product value)
         {
             Uow.ProductRepository.Add(value);
+
             Uow.CommitChanges();
         }
 
         // PUT: api/Product/5
         public HttpResponseMessage Put(Int32 id, [FromBody]Product value)
         {
-            var entity = Uow.ProductRepository.Get(new Product(){ProductID = id});
-            if (entity ==null)
+            var entity = Uow.ProductRepository.Get(new Product() { ProductID = id });
+
+            if (entity == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Error");
             }
@@ -61,6 +63,7 @@ namespace NorthwindWebApi2.Controllers
             entity.QuantityPerUnit = value.QuantityPerUnit;
 
             Uow.ProductRepository.Update(entity);
+
             Uow.CommitChanges();
 
             return Request.CreateResponse(HttpStatusCode.OK, "Update was successfully!");
@@ -70,12 +73,14 @@ namespace NorthwindWebApi2.Controllers
         public HttpResponseMessage Delete(Int32 id)
         {
             var entity = Uow.ProductRepository.Get(new Product() { ProductID = id });
+
             if (entity == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Error");
             }
 
             Uow.ProductRepository.Remove(entity);
+
             Uow.CommitChanges();
 
             return Request.CreateResponse(HttpStatusCode.OK, "Delete was successfully!");

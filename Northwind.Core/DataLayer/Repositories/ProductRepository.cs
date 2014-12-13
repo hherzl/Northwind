@@ -28,6 +28,16 @@ namespace Northwind.Core.DataLayer.Repositories
                 .FirstOrDefault(item => item.ProductID == entity.ProductID);
         }
 
+        public override void Add(Product entity)
+        {
+            if (!entity.Discontinued.HasValue)
+            {
+                entity.Discontinued = false;
+            }
+
+            base.Add(entity);
+        }
+
         public Collection<ProductDetail> GetDetails()
         {
             var query =
