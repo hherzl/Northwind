@@ -1,4 +1,4 @@
-﻿<h2>Edit</h2>
+﻿<h2>Create</h2>
 
 <form name="form" novalidate ng-submit="create()">
     <div class="form-horizontal">
@@ -8,7 +8,7 @@
         <div class="form-group">
             <label for="supplierID" class="control-label col-md-2">Supplier</label>
             <div class="col-md-10">
-                <select ng-model="model.supplierID">
+                <select ng-model="model.supplierID" class="form-control">
                     <option ng-repeat="supplier in suppliers" value="{{ supplier.supplierID }}">{{ supplier.companyName }}</option>
                 </select>
             </div>
@@ -17,7 +17,7 @@
         <div class="form-group">
             <label for="categoryID" class="control-label col-md-2">Category</label>
             <div class="col-md-10">
-                <select ng-model="model.categoryID">
+                <select ng-model="model.categoryID" class="form-control">
                     <option ng-repeat="category in categories" value="{{ category.categoryID }}">{{ category.categoryName }}</option>
                 </select>
             </div>

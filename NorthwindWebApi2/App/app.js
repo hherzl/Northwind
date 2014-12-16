@@ -35,8 +35,8 @@ northwindApp.config(function ($routeProvider) {
                controller: "CreateProductCtrl"
            })
         .when("/product-details/:id", {
-               templateUrl: "views/Products/details.html",
-               controller: "EditProductCtrl"
+            templateUrl: "views/Products/details.html",
+            controller: "EditProductCtrl"
         })
           .when("/product-edit/:id", {
               templateUrl: "views/Products/edit.html",
@@ -49,5 +49,25 @@ northwindApp.config(function ($routeProvider) {
         .when("/customers", {
             templateUrl: "views/Customers/index.html",
             controller: "CustomerCtrl"
-        });
+        })
+        .when("/suppliers", {
+            templateUrl: "views/Suppliers/index.html",
+            controller: "SupplierController"
+        })
+     .when("/supplier-details/:id", {
+         templateUrl: "views/Suppliers/details.html",
+         controller: "EditSupplierController"
+     })
+         .when("/supplier-create", {
+             templateUrl: "views/Suppliers/create.html",
+             controller: "CreateSupplierController"
+         })
+     .when("/supplier-edit/:id", {
+         templateUrl: "views/Suppliers/edit.html",
+         controller: "EditSupplierController"
+     })
+     .when("/supplier-delete/:id", {
+         templateUrl: "views/Suppliers/delete.html",
+         controller: "EditSupplierController"
+     });
 });

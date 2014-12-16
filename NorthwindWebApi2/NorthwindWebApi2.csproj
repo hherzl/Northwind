@@ -194,6 +194,7 @@
     <Content Include="App\controllers\HomeCtrl.js" />
     <Content Include="App\controllers\ProductCtrl.js" />
     <Content Include="App\controllers\ShipperCtrl.js" />
+    <Content Include="App\controllers\SupplierController.js" />
     <Content Include="App\index.html" />
     <Content Include="App\services\CategoryService.js" />
     <Content Include="App\services\ProductService.js" />
@@ -211,6 +212,11 @@
     <Content Include="App\views\Shippers\details.html" />
     <Content Include="App\views\Shippers\edit.html" />
     <Content Include="App\views\Shippers\index.html" />
+    <Content Include="App\views\Suppliers\create.html" />
+    <Content Include="App\views\Suppliers\delete.html" />
+    <Content Include="App\views\Suppliers\details.html" />
+    <Content Include="App\views\Suppliers\edit.html" />
+    <Content Include="App\views\Suppliers\index.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
