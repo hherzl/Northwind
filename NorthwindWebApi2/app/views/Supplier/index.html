@@ -7,33 +7,29 @@
 <br />
 
 <table class="table table-hover">
-    <thead>
-        <tr>
-            <th>Company name</th>
-            <th>Contact name</th>
-            <th>City</th>
-            <th>Phone</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="supplier in suppliers">
-            <td>{{ supplier.companyName }}</td>
-            <td>{{ supplier.contactName }}</td>
-            <td>{{ supplier.city }}</td>
-            <td>{{ supplier.phone}}</td>
-            <td>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a ng-click="edit(supplier.supplierID)">Edit</a></li>
+    <tr>
+        <th>Company name</th>
+        <th>Contact name</th>
+        <th>Country</th>
+        <th>City</th>
+        <th></th>
+    </tr>
+    <tr ng-repeat="supplier in suppliers">
+        <td>{{ supplier.companyName }}</td>
+        <td>{{ supplier.contactName }}</td>
+        <td>{{ supplier.country }}</td>
+        <td>{{ supplier.city }}</td>
+        <td>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a ng-click="edit(supplier.supplierID)">Edit</a></li>
                     <li><a ng-click="details(supplier.supplierID)">Details</a></li>
                     <li><a ng-click="delete(supplier.supplierID)">Delete</a></li>
-                    </ul>
-                </div>
-            </td>
-        </tr>
-    </tbody>
+                </ul>
+            </div>
+        </td>
+    </tr>
 </table>
