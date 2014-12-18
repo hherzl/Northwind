@@ -1,4 +1,4 @@
-﻿northwindApp.controller("ShipperCtrl", ["$scope", "$location", "$routeParams", "ShipperService", function ($scope, $location, $routeParams, shipperService) {
+﻿northwindApp.controller("ShipperController", ["$scope", "$location", "$routeParams", "ShipperService", function ($scope, $location, $routeParams, shipperService) {
     $scope.shippers = [];
 
     shipperService.getAll().then(function (result) {
@@ -22,7 +22,7 @@
     };
 }]);
 
-northwindApp.controller("CreateShipperCtrl", ["$scope", "$location", "ShipperService", function ($scope, $location, shipperService) {
+northwindApp.controller("CreateShipperController", ["$scope", "$location", "ShipperService", function ($scope, $location, shipperService) {
     $scope.model = {};
 
     $scope.create = function () {
@@ -36,7 +36,7 @@ northwindApp.controller("CreateShipperCtrl", ["$scope", "$location", "ShipperSer
     };
 }]);
 
-northwindApp.controller("EditShipperCtrl", ["$scope", "$location", "$routeParams", "ShipperService", function ($scope, $location, $routeParams, shipperService) {
+northwindApp.controller("EditShipperController", ["$scope", "$location", "$routeParams", "ShipperService", function ($scope, $location, $routeParams, shipperService) {
     $scope.model = {};
 
     shipperService.get($routeParams.id).then(function (result) {

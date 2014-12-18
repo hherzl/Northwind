@@ -4,70 +4,70 @@ northwindApp.config(function ($routeProvider) {
     $routeProvider
         .when("/", {
             templateUrl: "views/home.html",
-            controller: "homeCtrl"
+            controller: "HomeController"
         })
-        .when("/shippers", {
-            templateUrl: "views/Shippers/index.html",
-            controller: "ShipperCtrl"
+        .when("/shipper", {
+            templateUrl: "views/Shipper/index.html",
+            controller: "ShipperController"
         })
         .when("/shipper-create", {
-            templateUrl: "views/Shippers/create.html",
-            controller: "CreateShipperCtrl"
+            templateUrl: "views/Shipper/create.html",
+            controller: "CreateShipperController"
         })
         .when("/shipper-details/:id", {
-            templateUrl: "views/Shippers/details.html",
-            controller: "EditShipperCtrl"
+            templateUrl: "views/Shipper/details.html",
+            controller: "EditShipperController"
         })
         .when("/shipper-edit/:id", {
-            templateUrl: "views/Shippers/edit.html",
-            controller: "EditShipperCtrl"
+            templateUrl: "views/Shipper/edit.html",
+            controller: "EditShipperController"
         })
         .when("/shipper-delete/:id", {
-            templateUrl: "views/Shippers/delete.html",
-            controller: "EditShipperCtrl"
+            templateUrl: "views/Shipper/delete.html",
+            controller: "EditShipperController"
         })
-        .when("/products", {
-            templateUrl: "views/Products/index.html",
-            controller: "ProductCtrl"
+        .when("/product", {
+            templateUrl: "views/Product/index.html",
+            controller: "ProductController"
         })
-           .when("/product-create", {
-               templateUrl: "views/Products/create.html",
-               controller: "CreateProductCtrl"
-           })
+        .when("/product-create", {
+            templateUrl: "views/Product/create.html",
+            controller: "CreateProductController"
+        })
         .when("/product-details/:id", {
-            templateUrl: "views/Products/details.html",
-            controller: "EditProductCtrl"
+            templateUrl: "views/Product/details.html",
+            controller: "EditProductController"
         })
-          .when("/product-edit/:id", {
-              templateUrl: "views/Products/edit.html",
-              controller: "EditProductCtrl"
-          })
+        .when("/product-edit/:id", {
+            templateUrl: "views/Product/edit.html",
+            controller: "EditProductController"
+        })
         .when("/product-delete/:id", {
-            templateUrl: "views/Products/delete.html",
-            controller: "EditProductCtrl"
+            templateUrl: "views/Product/delete.html",
+            controller: "EditProductController"
         })
-        .when("/customers", {
-            templateUrl: "views/Customers/index.html",
-            controller: "CustomerCtrl"
+        .when("/customer", {
+            templateUrl: "views/Customer/index.html",
+            controller: "CustomerController"
         })
-        .when("/suppliers", {
-            templateUrl: "views/Suppliers/index.html",
+        .when("/supplier", {
+            templateUrl: "views/Supplier/index.html",
             controller: "SupplierController"
         })
-     .when("/supplier-details/:id", {
-         templateUrl: "views/Suppliers/details.html",
-         controller: "EditSupplierController"
-     })
-         .when("/supplier-create", {
-             templateUrl: "views/Suppliers/create.html",
-             controller: "CreateSupplierController"
-         })
-     .when("/supplier-edit/:id", {
-         templateUrl: "views/Suppliers/edit.html",
-         controller: "EditSupplierController"
-     })
-     .when("/supplier-delete/:id", {
-         templateUrl: "views/Suppliers/delete.html",
-         controller: "EditSupplierController"
-     });
+        .when("/supplier-details/:id", {
+            templateUrl: "views/Supplier/details.html",
+            controller: "EditSupplierController"
+        })
+        .when("/supplier-create", {
+            templateUrl: "views/Supplier/create.html",
+            controller: "CreateSupplierController"
+        })
+        .when("/supplier-edit/:id", {
+            templateUrl: "views/Supplier/edit.html",
+            controller: "EditSupplierController"
+        })
+        .when("/supplier-delete/:id", {
+            templateUrl: "views/Supplier/delete.html",
+            controller: "EditSupplierController"
+        });
 });

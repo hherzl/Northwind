@@ -1,16 +1,16 @@
 ﻿(function () {
-    'use strict';
+    "use strict";
 
-    northwindApp.controller('SupplierController', SupplierController);
-    northwindApp.controller('CreateSupplierController', CreateSupplierController);
-    northwindApp.controller('EditSupplierController', EditSupplierController);
+    northwindApp.controller("SupplierController", SupplierController);
+    northwindApp.controller("CreateSupplierController", CreateSupplierController);
+    northwindApp.controller("EditSupplierController", EditSupplierController);
     
-    SupplierController.$inject = ['$scope', '$location', '$routeParams', 'SupplierService'];
-    CreateSupplierController.$inject = ['$scope', '$location', 'SupplierService'];
-    EditSupplierController.$inject = ['$scope', '$location', '$routeParams', 'SupplierService'];
+    SupplierController.$inject = ["$scope", "$location", "$routeParams", "SupplierService"];
+    CreateSupplierController.$inject = ["$scope", "$location", "SupplierService"];
+    EditSupplierController.$inject = ["$scope", "$location", "$routeParams", "SupplierService"];
 
     function SupplierController($scope, $location, $routeParams, supplierService) {
-        $scope.title = 'SupplierController';
+        $scope.title = "SupplierController";
         $scope.suppliers = [];
 
         supplierService.getAll().then(function (result) {
@@ -35,7 +35,6 @@
     }
 
     function CreateSupplierController($scope, $location, supplierService) {
-
         $scope.model = {};
 
         $scope.create = function () {
@@ -46,8 +45,6 @@
         $scope.cancel = function () {
             $location.path("/suppliers");
         };
-
-
     }
 
     function EditSupplierController($scope, $location, $routeParams, supplierService) {
@@ -76,6 +73,5 @@
         $scope.cancel = function () {
             $location.path("/suppliers");
         };
-        
     }
 })();

@@ -1,4 +1,4 @@
-﻿northwindApp.controller("ProductCtrl", ["$scope", "$location", "$routeParams", "ProductService", function ($scope, $location, $routeParams, productService) {
+﻿northwindApp.controller("ProductController", ["$scope", "$location", "$routeParams", "ProductService", function ($scope, $location, $routeParams, productService) {
     $scope.products = [];
 
     productService.getAll().then(function(result) {
@@ -22,7 +22,7 @@
     };
 }]);
 
-northwindApp.controller("CreateProductCtrl", ["$scope", "$location", "SupplierService", "CategoryService", "ProductService", function ($scope, $location, supplierService, categoryService, productService) {
+northwindApp.controller("CreateProductController", ["$scope", "$location", "SupplierService", "CategoryService", "ProductService", function ($scope, $location, supplierService, categoryService, productService) {
     $scope.model = {};
 
     $scope.suppliers = [];
@@ -47,7 +47,7 @@ northwindApp.controller("CreateProductCtrl", ["$scope", "$location", "SupplierSe
     };
 }]);
 
-northwindApp.controller("EditProductCtrl", ["$scope", "$location", "$routeParams", "ProductService", function ($scope, $location, $routeParams, productService) {
+northwindApp.controller("EditProductController", ["$scope", "$location", "$routeParams", "ProductService", function ($scope, $location, $routeParams, productService) {
     $scope.model = {};
 
     productService.get($routeParams.id).then(function (result) {
