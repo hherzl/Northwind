@@ -1,7 +1,7 @@
-﻿northwindApp.controller("CustomerController", function ($scope, $http) {
+﻿northwindApp.controller("CustomerController", ["$scope","CustomerService", function ($scope, customerService) {
     $scope.customers = [];
 
-    $http.get("/api/Customer").success(function (data) {
-        $scope.customers = data;
+ customerService.getAll().then(function (result) {
+        $scope.customers = result.data;
     });
-});
+}]);

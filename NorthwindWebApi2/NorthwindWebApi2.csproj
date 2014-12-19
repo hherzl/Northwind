@@ -192,9 +192,15 @@
     <Content Include="app\controllers\SupplierController.js" />
     <Content Include="app\index.html" />
     <Content Include="app\services\CategoryService.js" />
+    <Content Include="app\services\CustomerService.js" />
+    <Content Include="app\services\EmployeeService.js" />
     <Content Include="app\services\ProductService.js" />
     <Content Include="app\services\ShipperService.js" />
     <Content Include="app\services\SupplierService.js" />
+    <Content Include="app\views\Customer\create.html" />
+    <Content Include="app\views\Customer\delete.html" />
+    <Content Include="app\views\Customer\details.html" />
+    <Content Include="app\views\Customer\edit.html" />
     <Content Include="app\views\Customer\index.html" />
     <Content Include="app\views\home.html" />
     <Content Include="app\views\Product\create.html" />
