@@ -50,6 +50,22 @@ northwindApp.config(function ($routeProvider) {
             templateUrl: "views/Customer/index.html",
             controller: "CustomerController"
         })
+          .when("/customer-create", {
+              templateUrl: "views/Customer/create.html",
+              controller: "CreateCustomerController"
+          })
+        .when("/customer-details/:id", {
+            templateUrl: "views/Customer/details.html",
+            controller: "EditCustomerController"
+        })
+        .when("/customer-edit/:id", {
+            templateUrl: "views/Customer/edit.html",
+            controller: "EditCustomerController"
+        })
+        .when("/customer-delete/:id", {
+            templateUrl: "views/Customer/delete.html",
+            controller: "EditCustomerController"
+        })
         .when("/supplier", {
             templateUrl: "views/Supplier/index.html",
             controller: "SupplierController"
