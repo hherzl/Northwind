@@ -1,9 +1,11 @@
-﻿northwindApp.controller("ShipperController", ["$scope", "$location", "$routeParams", "ShipperService", function ($scope, $location, $routeParams, shipperService) {
+﻿northwindApp.controller("ShipperController", ["$scope", "$location", "$routeParams", "$cookies", "ShipperService", "TranslationService", function ($scope, $location, $routeParams, $cookies, shipperService, translationService) {
     $scope.shippers = [];
 
     shipperService.getAll().then(function (result) {
         $scope.shippers = result.data;
     });
+
+    translationService.getTranslation($scope, $cookies.lang);
 
     $scope.create = function () {
         $location.path("/shipper-create");
@@ -22,26 +24,30 @@
     };
 }]);
 
-northwindApp.controller("CreateShipperController", ["$scope", "$location", "ShipperService", function ($scope, $location, shipperService) {
+northwindApp.controller("CreateShipperController", ["$scope", "$location", "$cookies", "ShipperService", "TranslationService", function ($scope, $location, $cookies, shipperService, translationService) {
     $scope.model = {};
+
+    translationService.getTranslation($scope, $cookies.lang);
 
     $scope.create = function () {
         shipperService.create($scope.model);
 
-        $location.path("/shippers");
+        $location.path("/shipper");
     };
 
     $scope.cancel = function () {
-        $location.path("/shippers");
+        $location.path("/shipper");
     };
 }]);
 
-northwindApp.controller("EditShipperController", ["$scope", "$location", "$routeParams", "ShipperService", function ($scope, $location, $routeParams, shipperService) {
+northwindApp.controller("EditShipperController", ["$scope", "$location", "$routeParams", "$cookies", "ShipperService", "TranslationService", function ($scope, $location, $routeParams, shipperService, translationService) {
     $scope.model = {};
 
     shipperService.get($routeParams.id).then(function (result) {
         $scope.model = result.data;
     });
+
+    translationService.getTranslation($scope, $cookies.lang);
 
     $scope.edit = function (id) {
         $location.path("/shipper-edit/" + id);
@@ -50,16 +56,16 @@ northwindApp.controller("EditShipperController", ["$scope", "$location", "$route
     $scope.update = function () {
         shipperService.update($scope.model);
 
-        $location.path("/shippers");
+        $location.path("/shipper");
     };
 
     $scope.delete = function () {
         shipperService.delete($scope.model);
 
-        $location.path("/shippers");
+        $location.path("/shipper");
     };
 
     $scope.cancel = function () {
-        $location.path("/shippers");
+        $location.path("/shipper");
     };
 }]);

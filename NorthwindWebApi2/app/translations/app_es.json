@@ -1,0 +1,18 @@
+﻿{
+    "createNew": "Crear nuevo",
+    "edit": "Editar",
+    "details": "Detalles",
+    "delete": "Eliminar",
+    
+    "create":  "Crear",
+    "required": "(*) Requerido",
+    "cancel": "Cancelar",
+
+    "save": "Guardar",
+
+    "shippers": "Expedidores",
+    "shipper": "Expedidor",
+    "shipperID": "ID",
+    "companyName": "Nombre de compañía",
+    "phone": "Teléfono"
+}

@@ -1,86 +1,63 @@
-﻿(function () {
-    'use strict';
+﻿northwindApp.controller("CustomerController", ["$scope", "$location", "$routeParams", "CustomerService", function ($scope,$location,$routeParams,customerService) {
+    $scope.customers = [];
 
-    northwindApp.controller("CustomerController", CustomerController);
-    northwindApp.controller("CreateCustomerController", CreateCustomerController);
-    northwindApp.controller("EditCustomerController", EditCustomerController);
+    customerService.getAll().then(function (result) {
+        $scope.customers = result.data;
+    });
 
+    $scope.create = function() {
+        $location.path("/customer-create");
+    };
 
-    CustomerController.$inject = ["$scope","$location","$routeParams","CustomerService"];
-    CreateCustomerController.$inject = ["$scope","$location", "CustomerService"];
-    EditCustomerController.$inject = ["$scope", "$location", "$routeParams", "CustomerService"];
+    $scope.details = function(id) {
+        $location.path("/customer-details/" + id);
+    };
 
-    function CustomerController($scope,$location,$routeParams,customerService) {
-        $scope.title = "CustomerController";
+    $scope.edit = function(id) {
+        $location.path("/customer-edit/" + id);
+    };
 
-        $scope.customers = [];
+    $scope.delete = function(id) {
+        $location.path("/customer-delete/" + id);
+    };
+}]);
 
-        customerService.getAll().then(function (result) {
-            $scope.customers = result.data;
-        });
+northwindApp.controller("CreateCustomerController", ["$scope", "$location", "CustomerService", function ($scope, $location, customerService, categoryService, productService) {
+    $scope.model = {};
 
-        $scope.create = function() {
-            $location.path("/customer-create");
-        }
+    $scope.create = function() {
+        customerService.create($scope.model);
+        $location.path("/customer");
+    };
 
-        $scope.details = function(id) {
-            $location.path("/customer-details/" + id);
-        }
+    $scope.cancel = function() {
+        $location.path("/customer");
+    };
+}]);
 
-        $scope.edit = function(id) {
-            $location.path("/customer-edit/" + id);
-        }
+northwindApp.controller("EditCustomerController", ["$scope", "$location", "$routeParams", "CustomerService", function ($scope, $location, $routeParams, customerService) {
+    $scope.model = {};
 
-        $scope.delete = function(id) {
-            $location.path("/customer-delete/" + id);
-        }
-      
-    }
+    customerService.get($routeParams.id).then(function (result) {
+        $scope.model = result.data;
+    });
 
+    $scope.edit = function (id) {
+        $location.path("/customer-edit/" + id);
+    };
 
-    function CreateCustomerController($scope, $location, customerService) {
-        $scope.title = "CreateCustomerController";
+    $scope.update = function () {
+        customerService.update($scope.model);
+        $location.path("/customer");
+    };
 
-        $scope.model = {};
+    $scope.delete = function () {
+        customerService.delete($scope.model);
 
-        $scope.create = function() {
-            customerService.create($scope.model);
-            $location.path("/customer");
-        }
+        $location.path("/customer");
+    };
 
-        $scope.cancel = function() {
-            $location.path("/customer");
-        }
-
-    }
-
-    function EditCustomerController($scope, $location, $routeParams, customerService) {
-        $scope.model = {};
-
-        $scope.title = "EditCustomerController";
-
-        customerService.get($routeParams.id).then(function (result) {
-            $scope.model = result.data;
-        });
-
-        $scope.edit = function (id) {
-            $location.path("/customer-edit/" + id);
-        };
-
-        $scope.update = function () {
-            customerService.update($scope.model);
-            $location.path("/customer");
-        };
-
-        $scope.delete = function () {
-            customerService.delete($scope.model);
-
-            $location.path("/customer");
-        };
-
-        $scope.cancel = function () {
-            $location.path("/customer");
-        };
-    }
-
-})();
+    $scope.cancel = function () {
+        $location.path("/customer");
+    };
+}]);

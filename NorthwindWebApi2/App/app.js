@@ -1,4 +1,4 @@
-﻿var northwindApp = angular.module("northwindApp", ["ngRoute"]);
+﻿var northwindApp = angular.module("northwindApp", ["ngRoute", "ngResource", "ngCookies"]);
 
 northwindApp.config(function ($routeProvider) {
     $routeProvider

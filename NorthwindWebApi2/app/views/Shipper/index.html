@@ -1,15 +1,15 @@
-﻿<h2>Shippers</h2>
+﻿<h2>{{ translation.shippers }}</h2>
 
 <p>
-    <a ng-click="create()">Create new</a>
+    <a ng-click="create()">{{ translation.createNew }}</a>
 </p>
 
 <br />
 
 <table class="table table-hover">
     <tr>
-        <th>Company name</th>
-        <th>Phone</th>
+        <th>{{ translation.companyName }}</th>
+        <th>{{ translation.phone }}</th>
         <th></th>
     </tr>
     <tr ng-repeat="shipper in shippers">
@@ -21,9 +21,9 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a ng-click="edit(shipper.shipperID)">Edit</a></li>
-                    <li><a ng-click="details(shipper.shipperID)">Details</a></li>
-                    <li><a ng-click="delete(shipper.shipperID)">Delete</a></li>
+                    <li><a ng-click="edit(shipper.shipperID)">{{ translation.edit }}</a></li>
+                    <li><a ng-click="details(shipper.shipperID)">{{ translation.details }}</a></li>
+                    <li><a ng-click="delete(shipper.shipperID)">{{ translation.delete }}</a></li>
                 </ul>
             </div>
         </td>
