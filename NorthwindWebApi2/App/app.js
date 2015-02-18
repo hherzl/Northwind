@@ -26,6 +26,7 @@ northwindApp.config(function ($routeProvider) {
             templateUrl: "views/Shipper/delete.html",
             controller: "EditShipperController"
         })
+
         .when("/product", {
             templateUrl: "views/Product/index.html",
             controller: "ProductController"
@@ -46,6 +47,7 @@ northwindApp.config(function ($routeProvider) {
             templateUrl: "views/Product/delete.html",
             controller: "EditProductController"
         })
+
         .when("/customer", {
             templateUrl: "views/Customer/index.html",
             controller: "CustomerController"

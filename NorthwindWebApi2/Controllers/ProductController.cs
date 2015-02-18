@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -20,7 +21,10 @@ namespace NorthwindWebApi2.Controllers
 
         protected override void Dispose(Boolean disposing)
         {
-            Uow.Dispose();
+            if (Uow != null)
+            {
+                Uow.Dispose();
+            }
 
             base.Dispose(disposing);
         }
@@ -28,62 +32,153 @@ namespace NorthwindWebApi2.Controllers
         // GET: api/Product
         public HttpResponseMessage Get()
         {
-            var list = Uow.ProductRepository.GetDetails().OrderByDescending(item => item.ProductID).ToList();
+            var result = new ApiResult();
 
-            return Request.CreateResponse(HttpStatusCode.OK, list);
+            try
+            {
+                result.Model = Uow.ProductRepository.GetDetails().OrderByDescending(item => item.ProductID).ToList();
+            }
+            catch (SqlException ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         // GET: api/Product/5
         public HttpResponseMessage Get(Int32 id)
         {
-            var entity = Uow.ProductRepository.Get(new Product() { ProductID = id });
+            var result = new ApiResult();
 
-            return Request.CreateResponse(HttpStatusCode.OK, entity);
+            try
+            {
+                result.Model = Uow.ProductRepository.Get(new Product() { ProductID = id });
+            }
+            catch (SqlException ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         // POST: api/Product
-        public void Post([FromBody]Product value)
+        public HttpResponseMessage Post([FromBody]Product value)
         {
-            Uow.ProductRepository.Add(value);
+            var result = new ApiResult();
 
-            Uow.CommitChanges();
+            try
+            {
+                Uow.ProductRepository.Add(value);
+
+                Uow.CommitChanges();
+
+                result.Model = value;
+            }
+            catch (SqlException ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         // PUT: api/Product/5
         public HttpResponseMessage Put(Int32 id, [FromBody]Product value)
         {
-            var entity = Uow.ProductRepository.Get(new Product() { ProductID = id });
+            var result = new ApiResult();
 
-            if (entity == null)
+            try
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound, "Error");
+                var entity = Uow.ProductRepository.Get(new Product() { ProductID = id });
+
+                if (entity == null)
+                {
+                    result.DidError = true;
+                    result.ErrorMessage = String.Format("There isn't a record with id: {0}", id); ;
+                }
+                else
+                {
+                    entity.ProductName = value.ProductName;
+                    entity.QuantityPerUnit = value.QuantityPerUnit;
+
+                    Uow.ProductRepository.Update(entity);
+
+                    Uow.CommitChanges();
+
+                    result.Model = value;
+
+                    result.Message = "Update was successfully!";
+                }
+            }
+            catch (SqlException ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
             }
 
-            entity.ProductName = value.ProductName;
-            entity.QuantityPerUnit = value.QuantityPerUnit;
-
-            Uow.ProductRepository.Update(entity);
-
-            Uow.CommitChanges();
-
-            return Request.CreateResponse(HttpStatusCode.OK, "Update was successfully!");
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         // DELETE: api/Product/5
         public HttpResponseMessage Delete(Int32 id)
         {
-            var entity = Uow.ProductRepository.Get(new Product() { ProductID = id });
+            var result = new ApiResult();
 
-            if (entity == null)
+            try
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound, "Error");
+                var entity = Uow.ProductRepository.Get(new Product() { ProductID = id });
+
+                if (entity == null)
+                {
+                    result.DidError = true;
+                    result.ErrorMessage = String.Format("There isn't a record with id: {0}", id); ;
+                }
+                else
+                {
+                    Uow.ProductRepository.Remove(entity);
+
+                    Uow.CommitChanges();
+
+                    result.Message = "Delete was successfully!";
+                }
+            }
+            catch (SqlException ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
             }
 
-            Uow.ProductRepository.Remove(entity);
-
-            Uow.CommitChanges();
-
-            return Request.CreateResponse(HttpStatusCode.OK, "Delete was successfully!");
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
     }
 }

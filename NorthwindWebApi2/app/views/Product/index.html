@@ -1,5 +1,9 @@
 ﻿<h2>Products</h2>
 
+<div class="alert alert-danger" role="alert" ng-show="result.didError">
+    {{ result.errorMessage }}
+</div>
+
 <p>
     <a ng-click="create()">Create new</a>
 </p>
@@ -14,7 +18,7 @@
         <th>Unit price</th>
         <th></th>
     </tr>
-    <tr ng-repeat="product in products">
+    <tr ng-repeat="product in result.model">
         <td>{{ product.productName }}</td>
         <td>{{ product.companyName }}</td>
         <td>{{ product.categoryName }}</td>

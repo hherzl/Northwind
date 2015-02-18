@@ -1,5 +1,9 @@
 ﻿<h2>Create</h2>
 
+<div class="alert alert-danger" role="alert" ng-show="result.didError">
+    {{ result.errorMessage }}
+</div>
+
 <form name="form" novalidate ng-submit="create()">
     <div class="form-horizontal">
         <h4>Product</h4>

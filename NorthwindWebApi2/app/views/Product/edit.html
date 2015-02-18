@@ -1,14 +1,36 @@
 ﻿<h2>Edit</h2>
 
+<div class="alert alert-danger" role="alert" ng-show="result.didError">
+    {{ result.errorMessage }}
+</div>
+
 <form name="form" novalidate ng-submit="update()">
     <div class="form-horizontal">
         <h4>Product</h4>
         <hr />
 
+        <div class="form-group">
+            <label for="supplierID" class="control-label col-md-2">Supplier</label>
+            <div class="col-md-10">
+                <select ng-model="result.model.supplierID" class="form-control">
+                    <option ng-repeat="supplier in suppliers" value="{{ supplier.supplierID }}">{{ supplier.companyName }}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="categoryID" class="control-label col-md-2">Category</label>
+            <div class="col-md-10">
+                <select ng-model="result.model.categoryID" class="form-control">
+                    <option ng-repeat="category in categories" value="{{ category.categoryID }}">{{ category.categoryName }}</option>
+                </select>
+            </div>
+        </div>
+
         <div class="form-group" ng-class="{ 'has-error': form.productName.$invalid }">
             <label for="productName" class="control-label col-md-2">Product name</label>
             <div class="col-md-10">
-                <input type="text" name="productName" ng-model="model.productName" required class="form-control" />
+                <input type="text" name="productName" ng-model="result.model.productName" required class="form-control" />
                 <span class="text-danger help-block" ng-show="form.productName.$error.required">(*) Required</span>
             </div>
         </div>
@@ -16,7 +38,14 @@
         <div class="form-group">
             <label for="quantityPerUnit" class="control-label col-md-2">Quantity per unit</label>
             <div class="col-md-10">
-                <input type="text" name="quantityPerUnit" ng-model="model.quantityPerUnit" class="form-control" />
+                <input type="text" name="quantityPerUnit" ng-model="result.model.quantityPerUnit" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="unitPrice" class="control-label col-md-2">Unit price</label>
+            <div class="col-md-10">
+                <input type="number" name="unitPrice" ng-model="result.model.unitPrice" class="form-control" />
             </div>
         </div>
 

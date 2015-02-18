@@ -12,14 +12,14 @@
     };
 
     this.create = function (entity) {
-        $http.post(url, entity);
+        return $http.post(url, entity);
     };
 
     this.update = function (entity) {
-        $http.put(url + entity.productID, entity);
+        return $http.put(url + entity.productID, entity);
     };
 
     this.delete = function (entity) {
-        $http.delete(url + entity.productID, entity);
+        return $http.delete(url + entity.productID, entity);
     };
 });
