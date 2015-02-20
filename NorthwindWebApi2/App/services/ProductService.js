@@ -1,4 +1,4 @@
-﻿northwindApp.service("ProductService", function ($http) {
+﻿northwindApp.service("ProductService", ["$log", "$http", function ($log, $http) {
     var baseUrl = "/api/";
 
     var url = baseUrl + "Product/";
@@ -22,4 +22,4 @@
     this.delete = function (entity) {
         return $http.delete(url + entity.productID, entity);
     };
-});
+}]);
