@@ -1,5 +1,9 @@
 ﻿<h2>Create</h2>
 
+<div class="alert alert-danger" role="alert" ng-show="result.didError">
+    {{ result.errorMessage }}
+</div>
+
 <form name="form" novalidate ng-submit="create()">
     <div class="form-horizontal">
         <h4>Supplier</h4>
@@ -8,7 +12,7 @@
         <div class="form-group" ng-class="{ 'has-error': form.companyName.$invalid }">
             <label for="companyName" class="control-label col-md-2">Company name</label>
             <div class="col-md-10">
-                <input type="text" name="companyName" ng-model="model.companyName" required class="form-control" />
+                <input type="text" name="companyName" ng-model="result.model.companyName" required class="form-control" />
                 <span class="text-danger help-block" ng-show="form.companyName.$error.required">(*) Required</span>
             </div>
         </div>
@@ -16,56 +20,56 @@
         <div class="form-group">
             <label for="contactName" class="control-label col-md-2">Contact name</label>
             <div class="col-md-10">
-                <input type="text" name="contactName" ng-model="model.contactName" class="form-control" />
+                <input type="text" name="contactName" ng-model="result.model.contactName" class="form-control" />
             </div>
         </div>
 
         <div class="form-group">
             <label for="contactTitle" class="control-label col-md-2">Contact title</label>
             <div class="col-md-10">
-                <input type="text" name="contactTitle" ng-model="model.contactTitle" class="form-control" />
+                <input type="text" name="contactTitle" ng-model="result.model.contactTitle" class="form-control" />
             </div>
         </div>
 
         <div class="form-group">
             <label for="address" class="control-label col-md-2">Address</label>
             <div class="col-md-10">
-                <textarea name="address" ng-model="model.address" class="form-control"></textarea>
+                <textarea name="address" ng-model="result.model.address" class="form-control"></textarea>
             </div>
         </div>
 
         <div class="form-group">
             <label for="city" class="control-label col-md-2">City</label>
             <div class="col-md-10">
-                <input type="text" name="city" ng-model="model.city" class="form-control" />
+                <input type="text" name="city" ng-model="result.model.city" class="form-control" />
             </div>
         </div>
 
         <div class="form-group">
             <label for="region" class="control-label col-md-2">Region</label>
             <div class="col-md-10">
-                <input type="text" name="region" ng-model="model.region" class="form-control" />
+                <input type="text" name="region" ng-model="result.model.region" class="form-control" />
             </div>
         </div>
 
         <div class="form-group">
             <label for="postalCode" class="control-label col-md-2">Postal code</label>
             <div class="col-md-10">
-                <input type="text" name="postalCode" ng-model="model.postalCode" class="form-control" />
+                <input type="text" name="postalCode" ng-model="result.model.postalCode" class="form-control" />
             </div>
         </div>
 
         <div class="form-group">
             <label for="country" class="control-label col-md-2">Country</label>
             <div class="col-md-10">
-                <input type="text" name="country" ng-model="model.country" class="form-control" />
+                <input type="text" name="country" ng-model="result.model.country" class="form-control" />
             </div>
         </div>
 
         <div class="form-group">
             <label for="phone" class="control-label col-md-2">Phone</label>
             <div class="col-md-10">
-                <input type="tel" name="phone" ng-model="model.phone" class="form-control" />
+                <input type="tel" name="phone" ng-model="result.model.phone" class="form-control" />
             </div>
         </div>
 
@@ -73,14 +77,14 @@
         <div class="form-group">
             <label for="fax" class="control-label col-md-2">Fax</label>
             <div class="col-md-10">
-                <input type="tel" name="fax" ng-model="model.fax" class="form-control" />
+                <input type="tel" name="fax" ng-model="result.model.fax" class="form-control" />
             </div>
         </div>
 
         <div class="form-group">
             <label for="homePage" class="control-label col-md-2">Home page</label>
             <div class="col-md-10">
-                <input type="text" name="homePage" ng-model="model.homePage" class="form-control" />
+                <input type="text" name="homePage" ng-model="result.model.homePage" class="form-control" />
             </div>
         </div>
 

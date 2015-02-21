@@ -1,9 +1,13 @@
-﻿northwindApp.service("CategoryService", function ($http) {
-    var baseUrl = "/api/";
+﻿(function () {
+    "use strict";
 
-    var url = baseUrl + "Category";
+    northwindApp.service("CategoryService", ["$log", "$http", function ($log, $http) {
+        var baseUrl = "/api/";
 
-    this.getAll = function () {
-        return $http.get(url);
-    }
-});
+        var url = baseUrl + "Category";
+
+        this.getAll = function () {
+            return $http.get(url);
+        };
+    }]);
+})();

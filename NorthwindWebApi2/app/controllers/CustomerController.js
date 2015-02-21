@@ -1,63 +1,92 @@
-﻿northwindApp.controller("CustomerController", ["$scope", "$location", "$routeParams", "CustomerService", function ($scope,$location,$routeParams,customerService) {
-    $scope.customers = [];
+﻿(function () {
+    "use strict";
 
-    customerService.getAll().then(function (result) {
-        $scope.customers = result.data;
-    });
+    northwindApp.controller("CustomerController", ["$log", "$scope", "$location", "$routeParams", "ngTableParams", "$filter", "CustomerService", function ($log, $scope, $location, $routeParams, ngTableParams, $filter, customerService) {
+        $scope.result = {};
 
-    $scope.create = function() {
-        $location.path("/customer-create");
-    };
+        customerService.getAll().then(function (result) {
+            $scope.result = result.data;
 
-    $scope.details = function(id) {
-        $location.path("/customer-details/" + id);
-    };
+            $scope.tableParams = new ngTableParams({
+                page: 1,
+                count: 10,
+                sorting: {
+                    name: "asc"
+                }
+            }, {
+                total: $scope.result.model.length,
+                getData: function ($defer, params) {
+                    var orderedData = params.sorting() ? $filter("orderBy")($scope.result.model, params.orderBy()) : $scope.result.model;
 
-    $scope.edit = function(id) {
-        $location.path("/customer-edit/" + id);
-    };
+                    $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                }
+            });
+        });
 
-    $scope.delete = function(id) {
-        $location.path("/customer-delete/" + id);
-    };
-}]);
+        $scope.create = function () {
+            $location.path("/customer-create");
+        };
 
-northwindApp.controller("CreateCustomerController", ["$scope", "$location", "CustomerService", function ($scope, $location, customerService, categoryService, productService) {
-    $scope.model = {};
+        $scope.details = function (id) {
+            $location.path("/customer-details/" + id);
+        };
 
-    $scope.create = function() {
-        customerService.create($scope.model);
-        $location.path("/customer");
-    };
+        $scope.edit = function (id) {
+            $location.path("/customer-edit/" + id);
+        };
 
-    $scope.cancel = function() {
-        $location.path("/customer");
-    };
-}]);
+        $scope.delete = function (id) {
+            $location.path("/customer-delete/" + id);
+        };
+    }]);
 
-northwindApp.controller("EditCustomerController", ["$scope", "$location", "$routeParams", "CustomerService", function ($scope, $location, $routeParams, customerService) {
-    $scope.model = {};
+    northwindApp.controller("CreateCustomerController", ["$scope", "$location", "CustomerService", function ($scope, $location, customerService) {
+        $scope.result = {};
 
-    customerService.get($routeParams.id).then(function (result) {
-        $scope.model = result.data;
-    });
+        $scope.create = function () {
+            customerService.create($scope.result.model).then(function (result) {
+                if (result.data.didError) {
+                    $scope.result = result.data;
+                } else {
+                    $location.path("/customer");
+                }
+            });
+        };
 
-    $scope.edit = function (id) {
-        $location.path("/customer-edit/" + id);
-    };
+        $scope.cancel = function () {
+            $location.path("/customer");
+        };
+    }]);
 
-    $scope.update = function () {
-        customerService.update($scope.model);
-        $location.path("/customer");
-    };
+    northwindApp.controller("EditCustomerController", ["$scope", "$location", "$routeParams", "CustomerService", function ($scope, $location, $routeParams, customerService) {
+        $scope.result = {};
 
-    $scope.delete = function () {
-        customerService.delete($scope.model);
+        customerService.get($routeParams.id).then(function (result) {
+            $scope.result = result.data;
+        });
 
-        $location.path("/customer");
-    };
+        $scope.edit = function (id) {
+            $location.path("/customer-edit/" + id);
+        };
 
-    $scope.cancel = function () {
-        $location.path("/customer");
-    };
-}]);
+        $scope.update = function () {
+            customerService.update($scope.result.model).then(function (result) {
+                if (result.data.didError) {
+                    $scope.result = result.data;
+                } else {
+                    $location.path("/customer");
+                }
+            });
+        };
+
+        $scope.delete = function () {
+            customerService.delete($scope.model);
+
+            $location.path("/customer");
+        };
+
+        $scope.cancel = function () {
+            $location.path("/customer");
+        };
+    }]);
+})();

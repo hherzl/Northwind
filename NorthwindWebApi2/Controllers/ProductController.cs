@@ -38,11 +38,6 @@ namespace NorthwindWebApi2.Controllers
             {
                 result.Model = Uow.ProductRepository.GetDetails().OrderByDescending(item => item.ProductID).ToList();
             }
-            catch (SqlException ex)
-            {
-                result.DidError = true;
-                result.ErrorMessage = ex.Message;
-            }
             catch (Exception ex)
             {
                 result.DidError = true;
@@ -60,11 +55,6 @@ namespace NorthwindWebApi2.Controllers
             try
             {
                 result.Model = Uow.ProductRepository.Get(new Product() { ProductID = id });
-            }
-            catch (SqlException ex)
-            {
-                result.DidError = true;
-                result.ErrorMessage = ex.Message;
             }
             catch (Exception ex)
             {
@@ -87,11 +77,6 @@ namespace NorthwindWebApi2.Controllers
                 Uow.CommitChanges();
 
                 result.Model = value;
-            }
-            catch (SqlException ex)
-            {
-                result.DidError = true;
-                result.ErrorMessage = ex.Message;
             }
             catch (Exception ex)
             {
@@ -130,11 +115,6 @@ namespace NorthwindWebApi2.Controllers
                     result.Message = "Update was successfully!";
                 }
             }
-            catch (SqlException ex)
-            {
-                result.DidError = true;
-                result.ErrorMessage = ex.Message;
-            }
             catch (Exception ex)
             {
                 result.DidError = true;
@@ -166,11 +146,6 @@ namespace NorthwindWebApi2.Controllers
 
                     result.Message = "Delete was successfully!";
                 }
-            }
-            catch (SqlException ex)
-            {
-                result.DidError = true;
-                result.ErrorMessage = ex.Message;
             }
             catch (Exception ex)
             {

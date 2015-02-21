@@ -1,25 +1,29 @@
-﻿northwindApp.service("ShipperService", function ($http) {
-    var baseUrl = "/api/";
+﻿(function () {
+    "use strict";
 
-    var url = baseUrl + "Shipper/";
+    northwindApp.service("ShipperService", ["$log", "$http", function ($log, $http) {
+        var baseUrl = "/api/";
 
-    this.getAll = function () {
-        return $http.get(url);
-    };
+        var url = baseUrl + "Shipper/";
 
-    this.get = function (id) {
-        return $http.get(url + id);
-    };
+        this.getAll = function () {
+            return $http.get(url);
+        };
 
-    this.create = function (entity) {
-        return $http.post(url, entity);
-    };
+        this.get = function (id) {
+            return $http.get(url + id);
+        };
 
-    this.update = function (entity) {
-        return $http.put(url + entity.shipperID, entity);
-    };
+        this.create = function (entity) {
+            return $http.post(url, entity);
+        };
 
-    this.delete = function (entity) {
-        return $http.delete(url + entity.shipperID, entity);
-    };
-});
+        this.update = function (entity) {
+            return $http.put(url + entity.shipperID, entity);
+        };
+
+        this.delete = function (entity) {
+            return $http.delete(url + entity.shipperID, entity);
+        };
+    }]);
+})();

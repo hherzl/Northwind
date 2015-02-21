@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -21,38 +20,78 @@ namespace NorthwindWebApi2.Controllers
 
         protected override void Dispose(Boolean disposing)
         {
-            Uow.Dispose();
+            if (Uow != null)
+            {
+                Uow.Dispose();
+            }
 
-            base.Dispose(disposing);}
+            base.Dispose(disposing);
+        }
 
         // GET: api/Customer
         public HttpResponseMessage Get()
         {
-            var list = Uow.CustomerRepository.GetAll().ToList();
+            var result = new ApiResult();
 
-            return Request.CreateResponse(HttpStatusCode.OK, list);
+            try
+            {
+                result.Model = Uow.CustomerRepository.GetAll().OrderByDescending(item => item.CustomerID).ToList();
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         // GET: api/Customer/5
         public HttpResponseMessage Get(String id)
         {
-            var entity = Uow.CustomerRepository.Get(new Customer { CustomerID = id });
+            var result = new ApiResult();
 
-            return Request.CreateResponse(HttpStatusCode.OK, entity);
+            try
+            {
+                result.Model = Uow.CustomerRepository.Get(new Customer { CustomerID = id });
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         // POST: api/Customer
-        public void Post([FromBody]Customer value)
+        public HttpResponseMessage Post([FromBody]Customer value)
         {
-            value.CustomerID = value.CompanyName.Substring(0, 5).ToUpper();
-            Uow.CustomerRepository.Add(value);
-            Uow.CommitChanges();
+            var result = new ApiResult();
+
+            try
+            {
+                value.CustomerID = value.CompanyName.Substring(0, 5).ToUpper();
+
+                Uow.CustomerRepository.Add(value);
+
+                Uow.CommitChanges();
+
+                result.Message = "The data was saved successfully!";
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         // PUT: api/Customer/5
         public HttpResponseMessage Put(String id, [FromBody]Customer value)
         {
-            var entity = Uow.CustomerRepository.Get(new Customer {CustomerID = id});
+            var entity = Uow.CustomerRepository.Get(new Customer { CustomerID = id });
 
             if (entity == null)
             {
@@ -69,30 +108,51 @@ namespace NorthwindWebApi2.Controllers
             entity.Country = value.Country;
             entity.Phone = value.Phone;
             entity.Fax = value.Fax;
-            
-            Uow.CustomerRepository.Update(entity);
-            Uow.CommitChanges();
 
-            return Request.CreateResponse(HttpStatusCode.OK, "Update was successfully!");
+            var result = new ApiResult();
 
+            try
+            {
+                Uow.CustomerRepository.Update(entity);
+
+                Uow.CommitChanges();
+
+                result.Message = "The changes was saved successfully!";
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         // DELETE: api/Customer/5
         public HttpResponseMessage Delete(String id)
         {
-            var entity = Uow.CustomerRepository.Get(new Customer {CustomerID = id});
+            var entity = Uow.CustomerRepository.Get(new Customer { CustomerID = id });
 
             if (entity == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Error");
             }
-        
-            Uow.CustomerRepository.Remove(entity);
 
-            Uow.CommitChanges();
+            var result = new ApiResult();
+
+            try
+            {
+                Uow.CustomerRepository.Remove(entity);
+
+                Uow.CommitChanges();
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
 
             return Request.CreateResponse(HttpStatusCode.OK, "Delete was successfully!");
-
         }
     }
 }

@@ -1,71 +1,75 @@
-﻿northwindApp.controller("ShipperController", ["$scope", "$location", "$routeParams", "$cookies", "ShipperService", "TranslationService", function ($scope, $location, $routeParams, $cookies, shipperService, translationService) {
-    $scope.shippers = [];
+﻿(function () {
+    "use strict";
 
-    shipperService.getAll().then(function (result) {
-        $scope.shippers = result.data;
-    });
+    northwindApp.controller("ShipperController", ["$scope", "$location", "$routeParams", "$cookies", "ShipperService", "TranslationService", function ($scope, $location, $routeParams, $cookies, shipperService, translationService) {
+        $scope.shippers = [];
 
-    translationService.getTranslation($scope, $cookies.lang);
+        shipperService.getAll().then(function (result) {
+            $scope.shippers = result.data;
+        });
 
-    $scope.create = function () {
-        $location.path("/shipper-create");
-    };
+        translationService.getTranslation($scope, $cookies.lang);
 
-    $scope.details = function (id) {
-        $location.path("/shipper-details/" + id);
-    };
+        $scope.create = function () {
+            $location.path("/shipper-create");
+        };
 
-    $scope.edit = function (id) {
-        $location.path("/shipper-edit/" + id);
-    };
+        $scope.details = function (id) {
+            $location.path("/shipper-details/" + id);
+        };
 
-    $scope.delete = function (id) {
-        $location.path("/shipper-delete/" + id);
-    };
-}]);
+        $scope.edit = function (id) {
+            $location.path("/shipper-edit/" + id);
+        };
 
-northwindApp.controller("CreateShipperController", ["$scope", "$location", "$cookies", "ShipperService", "TranslationService", function ($scope, $location, $cookies, shipperService, translationService) {
-    $scope.model = {};
+        $scope.delete = function (id) {
+            $location.path("/shipper-delete/" + id);
+        };
+    }]);
 
-    translationService.getTranslation($scope, $cookies.lang);
+    northwindApp.controller("CreateShipperController", ["$scope", "$location", "$cookies", "ShipperService", "TranslationService", function ($scope, $location, $cookies, shipperService, translationService) {
+        $scope.model = {};
 
-    $scope.create = function () {
-        shipperService.create($scope.model);
+        translationService.getTranslation($scope, $cookies.lang);
 
-        $location.path("/shipper");
-    };
+        $scope.create = function () {
+            shipperService.create($scope.model);
 
-    $scope.cancel = function () {
-        $location.path("/shipper");
-    };
-}]);
+            $location.path("/shipper");
+        };
 
-northwindApp.controller("EditShipperController", ["$scope", "$location", "$routeParams", "$cookies", "ShipperService", "TranslationService", function ($scope, $location, $routeParams, shipperService, translationService) {
-    $scope.model = {};
+        $scope.cancel = function () {
+            $location.path("/shipper");
+        };
+    }]);
 
-    shipperService.get($routeParams.id).then(function (result) {
-        $scope.model = result.data;
-    });
+    northwindApp.controller("EditShipperController", ["$scope", "$location", "$routeParams", "$cookies", "ShipperService", "TranslationService", function ($scope, $location, $routeParams, shipperService, translationService) {
+        $scope.model = {};
 
-    translationService.getTranslation($scope, $cookies.lang);
+        shipperService.get($routeParams.id).then(function (result) {
+            $scope.model = result.data;
+        });
 
-    $scope.edit = function (id) {
-        $location.path("/shipper-edit/" + id);
-    };
+        translationService.getTranslation($scope, $cookies.lang);
 
-    $scope.update = function () {
-        shipperService.update($scope.model);
+        $scope.edit = function (id) {
+            $location.path("/shipper-edit/" + id);
+        };
 
-        $location.path("/shipper");
-    };
+        $scope.update = function () {
+            shipperService.update($scope.model);
 
-    $scope.delete = function () {
-        shipperService.delete($scope.model);
+            $location.path("/shipper");
+        };
 
-        $location.path("/shipper");
-    };
+        $scope.delete = function () {
+            shipperService.delete($scope.model);
 
-    $scope.cancel = function () {
-        $location.path("/shipper");
-    };
-}]);
+            $location.path("/shipper");
+        };
+
+        $scope.cancel = function () {
+            $location.path("/shipper");
+        };
+    }]);
+})();

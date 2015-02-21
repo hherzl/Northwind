@@ -1,14 +1,13 @@
 ﻿(function () {
-    'use strict';
+    "use strict";
 
-    northwindApp
-        .service('EmployeeService', EmployeeService);
+    northwindApp.service("EmployeeService", ["$log", "$http", function ($log, $http) {
+        var baseUrl = "/api/";
 
-    EmployeeService.$inject = ['$http'];
+        var url = baseUrl + "Employee";
 
-    function EmployeeService($http) {
-        this.getData = getData;
-
-        function getData() { }
-    }
+        this.getAll = function () {
+            return $http.get(url);
+        };
+    }]);
 })();

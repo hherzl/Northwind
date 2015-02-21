@@ -1,25 +1,29 @@
-﻿northwindApp.service("ProductService", ["$log", "$http", function ($log, $http) {
-    var baseUrl = "/api/";
+﻿(function () {
+    "use strict";
 
-    var url = baseUrl + "Product/";
+    northwindApp.service("ProductService", ["$log", "$http", function ($log, $http) {
+        var baseUrl = "/api/";
 
-    this.getAll = function () {
-        return $http.get(url);
-    };
+        var url = baseUrl + "Product/";
 
-    this.get = function (id) {
-        return $http.get(url + id);
-    };
+        this.getAll = function () {
+            return $http.get(url);
+        };
 
-    this.create = function (entity) {
-        return $http.post(url, entity);
-    };
+        this.get = function (id) {
+            return $http.get(url + id);
+        };
 
-    this.update = function (entity) {
-        return $http.put(url + entity.productID, entity);
-    };
+        this.create = function (entity) {
+            return $http.post(url, entity);
+        };
 
-    this.delete = function (entity) {
-        return $http.delete(url + entity.productID, entity);
-    };
-}]);
+        this.update = function (entity) {
+            return $http.put(url + entity.productID, entity);
+        };
+
+        this.delete = function (entity) {
+            return $http.delete(url + entity.productID, entity);
+        };
+    }]);
+})();

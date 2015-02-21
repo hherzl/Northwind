@@ -7,42 +7,38 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>Company name</dt>
-        <dd>{{ model.companyName }}</dd>
+        <dd>{{ result.model.companyName }}</dd>
 
         <dt>Contact name</dt>
-        <dd>{{ model.contactName}}</dd>
+        <dd>{{ result.model.contactName }}</dd>
 
         <dt>Contact title</dt>
-        <dd>{{ model.contactTitle }}</dd>
+        <dd>{{ result.model.contactTitle }}</dd>
 
         <dt>Address</dt>
-        <dd>{{model.address}}</dd>
+        <dd>{{ result.model.address }}</dd>
 
         <dt>City</dt>
-        <dd>{{model.city}}</dd>
+        <dd>{{ result.model.city }}</dd>
 
         <dt>Region</dt>
-        <dd>{{model.region}}</dd>
+        <dd>{{ result.model.region }}</dd>
 
         <dt>Postal code</dt>
-        <dd>{{model.postalCode}}</dd>
+        <dd>{{ result.model.postalCode }}</dd>
 
         <dt>Country</dt>
-        <dd>{{model.country}}</dd>
+        <dd>{{ result.model.country }}</dd>
 
         <dt>Phone</dt>
-        <dd>{{model.phone}}</dd>
+        <dd>{{ result.model.phone }}</dd>
 
         <dt>Fax</dt>
-        <dd>{{model.fax}}</dd>
-
-        
+        <dd>{{ result.model.fax }}</dd>
     </dl>
 
     <div class="form-actions no-color">
-        <a ng-click="delete(model.customerID)" class="btn btn-default">Delete</a>
+        <a ng-click="delete(result.model.customerID)" class="btn btn-default">Delete</a>
         <a ng-click="cancel()" class="btn btn-small">Cancel</a>
     </div>
 </div>
-
-

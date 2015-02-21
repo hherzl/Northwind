@@ -20,7 +20,10 @@ namespace NorthwindWebApi2.Controllers
 
         protected override void Dispose(Boolean disposing)
         {
-            Uow.Dispose();
+            if (Uow != null)
+            {
+                Uow.Dispose();
+            }
 
             base.Dispose(disposing);
         }
@@ -28,52 +31,98 @@ namespace NorthwindWebApi2.Controllers
         // GET: api/Supplier
         public HttpResponseMessage Get()
         {
-            var list = Uow.SupplierRepository.GetAll().ToList();
+            var result = new ApiResult();
 
-            return Request.CreateResponse(HttpStatusCode.OK, list);
+            try
+            {
+                result.Model = Uow.SupplierRepository.GetAll().OrderByDescending(item => item.SupplierID).ToList();
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         // GET: api/Supplier/5
         public HttpResponseMessage Get(Int32 id)
         {
-            var entity = Uow.SupplierRepository.Get(new Supplier { SupplierID = id });
+            var result = new ApiResult();
 
-            return Request.CreateResponse(HttpStatusCode.OK, entity);
+            try
+            {
+                result.Model = Uow.SupplierRepository.Get(new Supplier { SupplierID = id });
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         // POST: api/Supplier
-        public void Post([FromBody]Supplier value)
+        public HttpResponseMessage Post([FromBody]Supplier value)
         {
-            Uow.SupplierRepository.Add(value);
-            Uow.CommitChanges();
+            var result = new ApiResult();
+
+            try
+            {
+                Uow.SupplierRepository.Add(value);
+
+                Uow.CommitChanges();
+
+                result.Model = value;
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         // PUT: api/Supplier/5
         public HttpResponseMessage Put(Int32 id, [FromBody]Supplier value)
         {
-            var entity = Uow.SupplierRepository.Get(new Supplier {SupplierID = id});
+            var entity = Uow.SupplierRepository.Get(new Supplier { SupplierID = id });
 
-            if (entity ==null)
+            if (entity == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Error");
             }
 
-            entity.CompanyName = value.CompanyName;
-            entity.ContactName = value.ContactName;
-            entity.ContactTitle = value.ContactTitle;
-            entity.Address = value.Address;
-            entity.City = value.City;
-            entity.Region = value.Region;
-            entity.PostalCode = value.PostalCode;
-            entity.Country = value.Country;
-            entity.Phone = value.Phone;
-            entity.Fax = value.Fax;
-            entity.HomePage = value.HomePage;
+            var result = new ApiResult();
 
-            Uow.SupplierRepository.Update(entity);
-            Uow.CommitChanges();
+            try
+            {
+                entity.CompanyName = value.CompanyName;
+                entity.ContactName = value.ContactName;
+                entity.ContactTitle = value.ContactTitle;
+                entity.Address = value.Address;
+                entity.City = value.City;
+                entity.Region = value.Region;
+                entity.PostalCode = value.PostalCode;
+                entity.Country = value.Country;
+                entity.Phone = value.Phone;
+                entity.Fax = value.Fax;
+                entity.HomePage = value.HomePage;
 
-            return Request.CreateResponse(HttpStatusCode.OK, "Update was successfully!");
+                Uow.SupplierRepository.Update(entity);
+
+                Uow.CommitChanges();
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         // DELETE: api/Supplier/5

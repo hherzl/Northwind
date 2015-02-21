@@ -1,44 +1,29 @@
 ﻿(function () {
-    'use strict';
+    "use strict";
 
-    northwindApp.service("CustomerService", CustomerService);
-
-    CustomerService.$inject = ['$http'];
-
-    function CustomerService($http) {
+    northwindApp.service("CustomerService", ["$log", "$http", function ($log, $http) {
         var baseUrl = "/api/";
+
         var url = baseUrl + "Customer/";
 
-        this.getAll = getAll;
-
-        this.get = get;
-
-        this.create = create;
-
-        this.update = update;
-
-        this.delete = destroy;
-
-        function getAll() {
+        this.getAll = function () {
             return $http.get(url);
-        }
+        };
 
-        function get(id) {
+        this.get = function (id) {
             return $http.get(url + id);
-        }
+        };
 
-       function create(entity) {
-           return $http.post(url, entity);
-       }
+        this.create = function (entity) {
+            return $http.post(url, entity);
+        };
 
-        function update(entity) {
+        this.update = function (entity) {
             return $http.put(url + entity.customerID, entity);
-        }
+        };
 
-
-        function destroy(entity) {
+        this.delete = function (entity) {
             return $http.delete(url + entity.customerID, entity);
-        }
-
-    }
+        };
+    }]);
 })();

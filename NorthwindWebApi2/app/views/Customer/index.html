@@ -1,24 +1,29 @@
 ﻿<H2>Customers</H2>
 
+<div class="alert alert-danger" role="alert" ng-show="result.didError">
+    {{ result.errorMessage }}
+</div>
+
 <p>
     <a ng-click="create()">Create new</a>
 </p>
 
 <br />
 
-<table class="table table-hover">
-    <tr>
-        <th>Company name</th>
-        <th>Contact name</th>
-        <th>Country</th>
-        <th>City</th>
-        <th></th>
-    </tr>
-    <tr ng-repeat="customer in customers">
-        <td>{{ customer.companyName }}</td>
-        <td>{{ customer.contactName }}</td>
-        <td>{{ customer.country }}</td>
-        <td>{{ customer.city }}</td>
+<table ng-table="tableParams" class="table">
+    <tr ng-repeat="customer in $data">
+        <td data-title="'Company name'" sortable="'companyName'">
+            {{ customer.companyName }}
+        </td>
+        <td data-title="'Contact name'" sortable="'contactName'">
+            {{ customer.contactName }}
+        </td>
+        <td data-title="'Country'" sortable="'country'">
+            {{ customer.country }}
+        </td>
+        <td data-title="'City'" sortable="'city'">
+            {{ customer.city }}
+        </td>
         <td>
             <div class="btn-group">
                 <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
@@ -32,5 +37,4 @@
             </div>
         </td>
     </tr>
-
 </table>
