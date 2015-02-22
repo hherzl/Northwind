@@ -1,20 +1,19 @@
 ﻿<h2>{{ translation.shippers }}</h2>
 
+<div class="alert alert-danger" role="alert" ng-show="result.didError">
+    {{ result.errorMessage }}
+</div>
+
 <p>
     <a ng-click="create()">{{ translation.createNew }}</a>
 </p>
 
 <br />
 
-<table class="table table-hover">
-    <tr>
-        <th>{{ translation.companyName }}</th>
-        <th>{{ translation.phone }}</th>
-        <th></th>
-    </tr>
-    <tr ng-repeat="shipper in shippers">
-        <td>{{ shipper.companyName }}</td>
-        <td>{{ shipper.phone }}</td>
+<table ng-table="tableParams" class="table">
+    <tr ng-repeat="shipper in $data">
+        <td data-title="translation.companyName" sortable="'companyName'">{{ shipper.companyName }}</td>
+        <td data-title="translation.phone" sortable="'phone'">{{ shipper.phone }}</td>
         <td>
             <div class="btn-group">
                 <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">

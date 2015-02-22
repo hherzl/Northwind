@@ -10,13 +10,12 @@ namespace Northwind.Core.DataLayer.Repositories
         public OrderRepository(DbContext dbContext)
             : base(dbContext)
         {
-
         }
 
         public override Order Get(Order entity)
         {
             return DbSet
-                .Include(p => p.OrderDetails)
+                .Include(p => p.OrderDetails.Select(od => od.FkOrderDetailsProducts))
                 .FirstOrDefault(item => item.OrderID == entity.OrderID);
         }
     }

@@ -20,7 +20,10 @@ namespace NorthwindWebApi2.Controllers
 
         protected override void Dispose(Boolean disposing)
         {
-            Uow.Dispose();
+            if (Uow != null)
+            {
+                Uow.Dispose();
+            }
 
             base.Dispose(disposing);
         }
@@ -28,17 +31,37 @@ namespace NorthwindWebApi2.Controllers
         // GET: api/Order
         public HttpResponseMessage Get()
         {
-            var list = Uow.OrderRepository.GetAll().OrderByDescending(item => item.OrderDate).Take(10).ToList();
+            var result = new ApiResult();
 
-            return Request.CreateResponse(HttpStatusCode.OK, list);
+            try
+            {
+                result.Model = Uow.OrderRepository.GetAll().OrderByDescending(item => item.OrderDate).ToList();
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         // GET: api/Order/5
         public HttpResponseMessage Get(Int32 id)
         {
-            var entity = Uow.OrderRepository.Get(new Order() { OrderID = id });
+            var result = new ApiResult();
 
-            return Request.CreateResponse(HttpStatusCode.OK, entity);
+            try
+            {
+                result.Model = Uow.OrderRepository.Get(new Order() { OrderID = id });
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         // POST: api/Order

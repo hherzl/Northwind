@@ -7,6 +7,11 @@ northwindApp.config(function ($routeProvider) {
             controller: "HomeController"
         })
 
+        .when("/category", {
+            templateUrl: "views/Category/index.html",
+            controller: "CategoryController"
+        })
+
         .when("/shipper", {
             templateUrl: "views/Shipper/index.html",
             controller: "ShipperController"
@@ -68,6 +73,11 @@ northwindApp.config(function ($routeProvider) {
         .when("/customer-delete/:id", {
             templateUrl: "views/Customer/delete.html",
             controller: "EditCustomerController"
+        })
+
+        .when("/order", {
+            templateUrl: "views/Order/index.html",
+            controller: "OrderController"
         })
 
         .when("/supplier", {

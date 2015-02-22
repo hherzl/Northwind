@@ -9,7 +9,6 @@ namespace Northwind.Core.DataLayer.Repositories
         public CategoryRepository(DbContext dbContext)
             : base(dbContext)
         {
-
         }
     }
 }

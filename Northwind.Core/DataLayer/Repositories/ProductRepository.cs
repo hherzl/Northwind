@@ -12,7 +12,6 @@ namespace Northwind.Core.DataLayer.Repositories
         public ProductRepository(DbContext dbContext)
             : base(dbContext)
         {
-
         }
 
         public override IQueryable<Product> GetAll()

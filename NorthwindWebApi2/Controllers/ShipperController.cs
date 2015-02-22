@@ -20,7 +20,10 @@ namespace NorthwindWebApi2.Controllers
 
         protected override void Dispose(Boolean disposing)
         {
-            Uow.Dispose();
+            if (Uow != null)
+            {
+                Uow.Dispose();
+            }
 
             base.Dispose(disposing);
         }
@@ -28,25 +31,59 @@ namespace NorthwindWebApi2.Controllers
         // GET: api/Shipper
         public HttpResponseMessage Get()
         {
-            var list = Uow.ShipperRepository.GetAll().OrderByDescending(item => item.ShipperID).ToList();
+            var result = new ApiResult();
 
-            return Request.CreateResponse(HttpStatusCode.OK, list);
+            try
+            {
+                result.Model = Uow.ShipperRepository.GetAll().OrderByDescending(item => item.ShipperID).ToList();
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         // GET: api/Shipper/5
         public HttpResponseMessage Get(Int32 id)
         {
-            var entity = Uow.ShipperRepository.Get(new Shipper() { ShipperID = id });
+            var result = new ApiResult();
 
-            return Request.CreateResponse(HttpStatusCode.OK, entity);
+            try
+            {
+                result.Model = Uow.ShipperRepository.Get(new Shipper() { ShipperID = id });
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         // POST: api/Shipper
-        public void Post([FromBody]Shipper value)
+        public HttpResponseMessage Post([FromBody]Shipper value)
         {
-            Uow.ShipperRepository.Add(value);
+            var result = new ApiResult();
 
-            Uow.CommitChanges();
+            try
+            {
+                Uow.ShipperRepository.Add(value);
+
+                Uow.CommitChanges();
+
+                result.Model = value;
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         // PUT: api/Shipper/5
@@ -59,14 +96,26 @@ namespace NorthwindWebApi2.Controllers
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Error");
             }
 
-            entity.CompanyName = value.CompanyName;
-            entity.Phone = value.Phone;
+            var result = new ApiResult();
 
-            Uow.ShipperRepository.Update(entity);
+            try
+            {
+                entity.CompanyName = value.CompanyName;
+                entity.Phone = value.Phone;
 
-            Uow.CommitChanges();
+                Uow.ShipperRepository.Update(entity);
 
-            return Request.CreateResponse(HttpStatusCode.OK, "Update was successfully!");
+                Uow.CommitChanges();
+
+                result.Model = value;
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         // DELETE: api/Shipper/5
@@ -79,11 +128,23 @@ namespace NorthwindWebApi2.Controllers
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Error");
             }
 
-            Uow.ShipperRepository.Remove(entity);
+            var result = new ApiResult();
 
-            Uow.CommitChanges();
+            try
+            {
+                Uow.ShipperRepository.Remove(entity);
 
-            return Request.CreateResponse(HttpStatusCode.OK, "Delete was successfully!");
+                Uow.CommitChanges();
+
+                result.Model = entity;
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
     }
 }

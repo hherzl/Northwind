@@ -189,8 +189,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\app.js" />
+    <Content Include="app\controllers\CategoryController.js" />
     <Content Include="app\controllers\CustomerController.js" />
     <Content Include="app\controllers\HomeController.js" />
+    <Content Include="app\controllers\OrderController.js" />
     <Content Include="app\controllers\ProductController.js" />
     <Content Include="app\controllers\ShipperController.js" />
     <Content Include="app\controllers\SupplierController.js" />
@@ -198,16 +200,19 @@
     <Content Include="app\services\CategoryService.js" />
     <Content Include="app\services\CustomerService.js" />
     <Content Include="app\services\EmployeeService.js" />
+    <Content Include="app\services\OrderService.js" />
     <Content Include="app\services\ProductService.js" />
     <Content Include="app\services\ShipperService.js" />
     <Content Include="app\services\SupplierService.js" />
     <Content Include="app\services\TranslationService.js" />
+    <Content Include="app\views\Category\index.html" />
     <Content Include="app\views\Customer\create.html" />
     <Content Include="app\views\Customer\delete.html" />
     <Content Include="app\views\Customer\details.html" />
     <Content Include="app\views\Customer\edit.html" />
     <Content Include="app\views\Customer\index.html" />
     <Content Include="app\views\home.html" />
+    <Content Include="app\views\Order\index.html" />
     <Content Include="app\views\Product\create.html" />
     <Content Include="app\views\Product\delete.html" />
     <Content Include="app\views\Product\details.html" />

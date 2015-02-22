@@ -10,7 +10,6 @@ namespace Northwind.Core.DataLayer.Repositories
         public CustomerRepository(DbContext dbContext)
             : base(dbContext)
         {
-
         }
 
         public override Customer Get(Customer entity)

@@ -9,7 +9,6 @@ namespace Northwind.Core.DataLayer.Repositories
         public OrderDetailRepository(DbContext dbContext)
             : base(dbContext)
         {
-
         }
     }
 }

@@ -1,11 +1,26 @@
 ﻿(function () {
     "use strict";
 
-    northwindApp.controller("ShipperController", ["$scope", "$location", "$routeParams", "$cookies", "ShipperService", "TranslationService", function ($scope, $location, $routeParams, $cookies, shipperService, translationService) {
-        $scope.shippers = [];
+    northwindApp.controller("ShipperController", ["$scope", "$location", "$routeParams", "$cookies", "ngTableParams", "$filter", "ShipperService", "TranslationService", function ($scope, $location, $routeParams, $cookies, ngTableParams, $filter, shipperService, translationService) {
+        $scope.result = [];
 
         shipperService.getAll().then(function (result) {
-            $scope.shippers = result.data;
+            $scope.result = result.data;
+
+            $scope.tableParams = new ngTableParams({
+                page: 1,
+                count: 10,
+                sorting: {
+                    name: "asc"
+                }
+            }, {
+                total: $scope.result.model.length,
+                getData: function ($defer, params) {
+                    var orderedData = params.sorting() ? $filter("orderBy")($scope.result.model, params.orderBy()) : $scope.result.model;
+
+                    $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                }
+            });
         });
 
         translationService.getTranslation($scope, $cookies.lang);
