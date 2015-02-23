@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Northwind.Core.BusinessLayer;
+using Northwind.Core.PocoLayer;
 using NorthwindWebApi2.Services;
 
 namespace NorthwindWebApi2.Controllers
@@ -20,7 +21,10 @@ namespace NorthwindWebApi2.Controllers
 
         protected override void Dispose(Boolean disposing)
         {
-            Uow.Dispose();
+            if (Uow != null)
+            {
+                Uow.Dispose();
+            }
 
             base.Dispose(disposing);
         }
@@ -28,15 +32,41 @@ namespace NorthwindWebApi2.Controllers
         // GET: api/Category
         public HttpResponseMessage Get()
         {
-            var list = Uow.CategoryRepository.GetAll().ToList();
+            var result = new ApiResult();
 
-            return Request.CreateResponse(HttpStatusCode.OK, list);
+            try
+            {
+                var list = Uow.CategoryRepository.GetAll().OrderByDescending(item => item.CategoryID).ToList();
+
+                list.ForEach(i => i.Picture = null);
+
+                result.Model = list;
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         // GET: api/Category/5
-        public string Get(int id)
+        public HttpResponseMessage Get(Int32 id)
         {
-            return "value";
+            var result = new ApiResult();
+
+            try
+            {
+                result.Model = Uow.CategoryRepository.Get(new Category() { CategoryID = id });
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+                result.ErrorMessage = ex.Message;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         // POST: api/Category

@@ -1,4 +1,4 @@
-﻿<h2>Categories</h2>
+﻿<h2>Orders</h2>
 
 <div class="alert alert-danger" role="alert" ng-show="result.didError">
     {{ result.errorMessage }}
@@ -11,12 +11,15 @@
 <br />
 
 <table ng-table="tableParams" class="table">
-    <tr ng-repeat="category in $data">
-        <td data-title="'Category name'" sortable="'categoryName'">
-            {{ category.categoryName }}
+    <tr ng-repeat="order in $data">
+        <td data-title="'Order #'" sortable="'orderID'">
+            {{ order.orderID }}
         </td>
-        <td data-title="'Description'" sortable="'description'">
-            {{ category.description }}
+        <td data-title="'Customer'" sortable="'customerID'">
+            {{ order.customerID }}
+        </td>
+        <td data-title="'Date'" sortable="'orderDate'">
+            {{ order.orderDate }}
         </td>
         <td>
             <div class="btn-group">
@@ -24,9 +27,9 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a ng-click="edit(product.categoryID)">Edit</a></li>
-                    <li><a ng-click="details(product.categoryID)">Details</a></li>
-                    <li><a ng-click="delete(product.categoryID)">Delete</a></li>
+                    <li><a ng-click="edit(product.productID)">Edit</a></li>
+                    <li><a ng-click="details(product.productID)">Details</a></li>
+                    <li><a ng-click="delete(product.productID)">Delete</a></li>
                 </ul>
             </div>
         </td>

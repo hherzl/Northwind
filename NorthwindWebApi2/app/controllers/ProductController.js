@@ -1,11 +1,15 @@
 ﻿(function () {
     "use strict";
 
-    northwindApp.controller("ProductController", ["$log", "$scope", "$location", "$routeParams", "ngTableParams", "$filter", "ProductService", function ($log, $scope, $location, $routeParams, ngTableParams, $filter, productService) {
+    northwindApp.controller("ProductController", ["$log", "$scope", "$location", "$routeParams", "toaster", "ngTableParams", "$filter", "ProductService", function ($log, $scope, $location, $routeParams, toaster, ngTableParams, $filter, productService) {
         $scope.result = {};
 
         productService.getAll().then(function (result) {
             $scope.result = result.data;
+
+            if (!$scope.result.didError) {
+                toaster.pop("success", "Message", "Products data was loaded successfully!");
+            }
 
             $scope.tableParams = new ngTableParams({
                 page: 1,
