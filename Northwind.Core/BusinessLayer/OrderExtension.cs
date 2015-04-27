@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Transactions;
-using Northwind.Core.PocoLayer;
+using Northwind.Core.EntityLayer;
 
 namespace Northwind.Core.BusinessLayer
 {

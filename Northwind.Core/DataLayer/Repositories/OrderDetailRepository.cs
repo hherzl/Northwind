@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity;
-using Northwind.Core.DataLayer.Contracts;
-using Northwind.Core.PocoLayer;
+using Northwind.Core.DataLayer.Operations;
+using Northwind.Core.EntityLayer;
 
 namespace Northwind.Core.DataLayer.Repositories
 {

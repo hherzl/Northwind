@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Northwind.Core.Practices
+namespace Northwind.Core.DataLayer
 {
     public interface IRepository<E> where E : class
     {

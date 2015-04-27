@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Northwind.Core.PocoLayer
+namespace Northwind.Core.EntityLayer
 {
     public class OrderDetail : Object
     {

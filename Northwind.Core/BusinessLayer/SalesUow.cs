@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using Northwind.Core.DataLayer.Contracts;
+using Northwind.Core.DataLayer.Operations;
 using Northwind.Core.DataLayer.Repositories;
 
 namespace Northwind.Core.BusinessLayer
@@ -13,6 +14,7 @@ namespace Northwind.Core.BusinessLayer
         private IProductRepository m_productRepository;
         private IShipperRepository m_shipperRepository;
         private ICustomerRepository m_customerRepository;
+        private IEmployeeRepository m_employeeRepository;
         private IOrderRepository m_orderRepository;
         private IOrderDetailRepository m_orderDetailRepository;
         protected Boolean Disposed;
@@ -67,6 +69,14 @@ namespace Northwind.Core.BusinessLayer
             get
             {
                 return m_customerRepository ?? (m_customerRepository = new CustomerRepository(m_dbContext));
+            }
+        }
+
+        public IEmployeeRepository EmployeeRepository
+        {
+            get
+            {
+                return m_employeeRepository ?? (m_employeeRepository = new EmployeeRepository(m_dbContext));
             }
         }
 

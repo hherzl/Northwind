@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 using System.Data.Entity.ModelConfiguration.Configuration;
-using Northwind.Core.PocoLayer;
+using Northwind.Core.EntityLayer;
 
 namespace Northwind.Core.DataLayer.Configurations
 {

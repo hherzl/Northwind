@@ -1,8 +1,7 @@
-﻿using Northwind.Core.DataLayer.Contracts;
+﻿using Northwind.Core.DataLayer.Operations;
 
 namespace Northwind.Core.BusinessLayer
 {
-    // operation contract wcf
     public interface ISalesUow : IUow
     {
         void CommitChanges();
@@ -16,6 +15,8 @@ namespace Northwind.Core.BusinessLayer
         IShipperRepository ShipperRepository { get; }
 
         ICustomerRepository CustomerRepository { get; }
+
+        IEmployeeRepository EmployeeRepository { get; }
 
         IOrderRepository OrderRepository { get; }
 

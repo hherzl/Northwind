@@ -5,17 +5,17 @@ using Northwind.Core.EntityLayer;
 
 namespace Northwind.Core.DataLayer.Repositories
 {
-    public class CustomerRepository : Repository<Customer>, ICustomerRepository
+    public class EmployeeRepository : Repository<Employee>, IEmployeeRepository
     {
-        public CustomerRepository(DbContext dbContext)
+        public EmployeeRepository(DbContext dbContext)
             : base(dbContext)
         {
         }
 
-        public override Customer Get(Customer entity)
+        public override Employee Get(Employee entity)
         {
             return DbSet
-                .FirstOrDefault(item => item.CustomerID == entity.CustomerID);
+                .FirstOrDefault(item => item.EmployeeID == entity.EmployeeID);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Reflection;
 using Northwind.Core.DataLayer.Configurations;
 
@@ -13,12 +14,16 @@ namespace Northwind.Core.DataLayer
             : base("SalesConnection")
         {
             Configuration.ProxyCreationEnabled = false;
+
+            Database.Log = (s) => Debug.WriteLine(s);
         }
 
         public SalesDbContext(String nameOrConnectionString)
             : base(nameOrConnectionString)
         {
             Configuration.ProxyCreationEnabled = false;
+
+            Database.Log = (s) => Debug.WriteLine(s);
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

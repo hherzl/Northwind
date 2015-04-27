@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Northwind.Core.PocoLayer
+namespace Northwind.Core.EntityLayer
 {
     public class Order : Object
     {

@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity;
 using System.Linq;
-using Northwind.Core.DataLayer.Contracts;
-using Northwind.Core.PocoLayer;
+using Northwind.Core.DataLayer.Operations;
+using Northwind.Core.EntityLayer;
 
 namespace Northwind.Core.DataLayer.Repositories
 {
@@ -14,7 +14,8 @@ namespace Northwind.Core.DataLayer.Repositories
 
         public override Shipper Get(Shipper entity)
         {
-            return DbSet.FirstOrDefault(item => item.ShipperID == entity.ShipperID);
+            return DbSet
+                .FirstOrDefault(item => item.ShipperID == entity.ShipperID);
         }
     }
 }

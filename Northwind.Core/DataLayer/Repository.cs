@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
-using Northwind.Core.Practices;
 
 namespace Northwind.Core.DataLayer
 {

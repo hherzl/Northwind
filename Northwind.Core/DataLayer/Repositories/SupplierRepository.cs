@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity;
 using System.Linq;
-using Northwind.Core.DataLayer.Contracts;
-using Northwind.Core.PocoLayer;
+using Northwind.Core.DataLayer.Operations;
+using Northwind.Core.EntityLayer;
 
 namespace Northwind.Core.DataLayer.Repositories
 {
@@ -10,13 +10,12 @@ namespace Northwind.Core.DataLayer.Repositories
         public SupplierRepository(DbContext dbContext)
             : base(dbContext)
         {
-
         }
 
         public override Supplier Get(Supplier entity)
         {
-            return DbSet.
-                   FirstOrDefault(item => item.SupplierID == entity.SupplierID);
+            return DbSet
+                .FirstOrDefault(item => item.SupplierID == entity.SupplierID);
         }
     }
 }

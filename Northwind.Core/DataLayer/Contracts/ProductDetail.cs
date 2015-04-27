@@ -1,9 +1,14 @@
 ﻿using System;
 
-namespace Northwind.Core.PocoLayer
+namespace Northwind.Core.DataLayer.Contracts
 {
     public class ProductDetail
     {
+        public ProductDetail()
+        {
+
+        }
+
         public Int32? ProductID { get; set; }
 
         public String ProductName { get; set; }

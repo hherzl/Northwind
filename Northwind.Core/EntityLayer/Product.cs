@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 
-namespace Northwind.Core.PocoLayer
+namespace Northwind.Core.EntityLayer
 {
     public class Product : Object
     {

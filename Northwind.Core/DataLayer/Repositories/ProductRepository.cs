@@ -1,9 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using Northwind.Core.DataLayer.Contracts;
-using Northwind.Core.Extensions;
-using Northwind.Core.PocoLayer;
+using Northwind.Core.DataLayer.Operations;
+using Northwind.Core.EntityLayer;
 
 namespace Northwind.Core.DataLayer.Repositories
 {
@@ -37,10 +37,9 @@ namespace Northwind.Core.DataLayer.Repositories
             base.Add(entity);
         }
 
-        public Collection<ProductDetail> GetDetails()
+        public IQueryable<ProductDetail> GetDetails()
         {
-            var query =
-                from product in GetAll()
+            return from product in GetAll()
                 join category in DbContext.Set<Category>() on product.CategoryID equals category.CategoryID
                 join supplier in DbContext.Set<Supplier>() on product.SupplierID equals supplier.SupplierID
                 where product.Discontinued == false
@@ -53,8 +52,6 @@ namespace Northwind.Core.DataLayer.Repositories
                     QuantityPerUnit = product.QuantityPerUnit,
                     UnitPrice = product.UnitPrice
                 };
-
-            return query.ToCollection();
         }
     }
 }

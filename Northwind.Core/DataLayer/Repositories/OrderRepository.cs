@@ -1,7 +1,10 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using Northwind.Core.DataLayer.Contracts;
-using Northwind.Core.PocoLayer;
+using Northwind.Core.DataLayer.Operations;
+using Northwind.Core.EntityLayer;
 
 namespace Northwind.Core.DataLayer.Repositories
 {
@@ -12,11 +15,26 @@ namespace Northwind.Core.DataLayer.Repositories
         {
         }
 
-        public override Order Get(Order entity)
+        public async Task<Order> Get(Int32? orderID)
         {
-            return DbSet
+            return await DbSet
                 .Include(p => p.OrderDetails.Select(od => od.FkOrderDetailsProducts))
-                .FirstOrDefault(item => item.OrderID == entity.OrderID);
+                .FirstOrDefaultAsync(item => item.OrderID == orderID);
+        }
+
+        public IQueryable<OrderSummary> GetSummaries()
+        {
+            return from order in GetAll()
+                   join customer in DbContext.Set<Customer>() on order.CustomerID equals customer.CustomerID
+                   join shipper in DbContext.Set<Shipper>() on order.ShipVia equals shipper.ShipperID
+                   select new OrderSummary()
+                   {
+                       OrderID = order.OrderID,
+                       OrderDate = order.OrderDate,
+                       Lines = order.OrderDetails.Count(),
+                       Customer = customer.CompanyName,
+                       Shipper = shipper.CompanyName
+                   };
         }
     }
 }
