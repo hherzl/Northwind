@@ -9,5 +9,9 @@
         this.getAll = function () {
             return $http.get(url);
         };
+
+        this.post = function (entity) {
+            return $http.post(url, entity);
+        };
     }]);
 })();

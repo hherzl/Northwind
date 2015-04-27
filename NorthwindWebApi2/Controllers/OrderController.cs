@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Northwind.Core.BusinessLayer;
-using Northwind.Core.PocoLayer;
+using Northwind.Core.EntityLayer;
 using NorthwindWebApi2.Services;
 
 namespace NorthwindWebApi2.Controllers
@@ -29,17 +31,21 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // GET: api/Order
-        public HttpResponseMessage Get()
+        public async Task<HttpResponseMessage> Get()
         {
             var result = new ApiResult();
 
             try
             {
-                result.Model = Uow.OrderRepository.GetAll().OrderByDescending(item => item.OrderDate).ToList();
+                result.Model = await Uow.OrderRepository
+                    .GetSummaries()
+                    .OrderByDescending(item => item.OrderDate)
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
                 result.DidError = true;
+
                 result.ErrorMessage = ex.Message;
             }
 
@@ -47,13 +53,14 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // GET: api/Order/5
-        public HttpResponseMessage Get(Int32 id)
+        public async Task<HttpResponseMessage> Get(Int32 id)
         {
             var result = new ApiResult();
 
             try
             {
-                result.Model = Uow.OrderRepository.Get(new Order() { OrderID = id });
+                result.Model = await Uow.OrderRepository
+                    .Get(id);
             }
             catch (Exception ex)
             {
@@ -65,8 +72,24 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // POST: api/Order
-        public void Post([FromBody]Order value)
+        public HttpResponseMessage Post([FromBody]Order value)
         {
+            var result = new ApiResult();
+
+            try
+            {
+                Uow.CreateOrder(value, value.OrderDetails.ToArray());
+
+                result.Model = value;
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+
+                result.ErrorMessage = ex.Message;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         // PUT: api/Order/5

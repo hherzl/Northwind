@@ -1,7 +1,8 @@
 ﻿(function () {
     "use strict";
 
-    northwindApp.controller("HomeController", ["$log", "toaster", function ($log, toaster) {
+    northwindApp.controller("HomeController", ["$log", "$cookies", "toaster", function ($log, $cookies, toaster) {
+        $cookies.lang = "en";
         //toaster.pop("success", "1st", "first");
         //toaster.pop("error", "2nd", "second");
         //toaster.pop("warning", "3rd", "third");

@@ -1,4 +1,11 @@
-﻿var northwindApp = angular.module("northwindApp", ["ngRoute", "ngResource", "ngCookies", "ngTable", "ui.bootstrap", "toaster"]);
+﻿var northwindApp = angular.module("northwindApp", [
+    "ngRoute",
+    "ngResource",
+    "ngCookies",
+    "ngTable",
+    "ui.bootstrap",
+    "toaster"
+]);
 
 northwindApp.config(function ($routeProvider) {
     $routeProvider
@@ -78,6 +85,10 @@ northwindApp.config(function ($routeProvider) {
         .when("/order", {
             templateUrl: "views/Order/index.html",
             controller: "OrderController"
+        })
+        .when("/order-create", {
+            templateUrl: "views/Order/create.html",
+            controller: "CreateOrderController"
         })
 
         .when("/supplier", {

@@ -1,0 +1,122 @@
+﻿<h2>Create</h2>
+
+<div class="alert alert-danger" role="alert" ng-show="result.didError">
+    {{ result.errorMessage }}
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-md-2">Customer</label>
+                <select class="form-control list-box tri-state">
+                    <option ng-repeat="c in customerResult.model | orderBy: 'companyName'" value="{{ c.customerID }}">{{ c.companyName }}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Employee</label>
+                <select class="form-control list-box tri-state">
+                    <option ng-repeat="e in employeeResult.model | orderBy: 'fullName'" value="{{ e.employeeID }}">{{ e.fullName }}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Required Date</label>
+                <input type="text" />
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Shipper</label>
+                <select class="form-control list-box tri-state">
+                    <option ng-repeat="s in shipperResult.model | orderBy: 'companyName'" value="{{ s.shipperID }}">{{ s.companyName }}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Ship Name</label>
+                <input type="text" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Product</label>
+                <select class="form-control tri-state" ng-model="product">
+                    <option ng-repeat="p in productResult.model | orderBy: 'productName'" value="{{ p.productID }}">{{ p.productName }}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <button type="button" class="btn btn-default" ng-click="add()">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="form-inline">
+            
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <fieldset>
+        <legend>Shipping</legend>
+
+        <table class="table">
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </fieldset>
+
+    <table class="table">
+        <tr>
+            <th class="text-center">
+                Product name
+            </th>
+            <th class="text-center">
+                Unit price
+            </th>
+            <th class="text-center">
+                Quantity
+            </th>
+            <th class="text-center">
+                Total
+            </th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="detail in order.orderDetails">
+            <td>
+                {{ detail.productName }}
+            </td>
+            <td class="text-right">
+                {{ detail.unitPrice }}
+            </td>
+            <td class="text-center">
+                <input type="text" size="5" class="text-right" ng-model="detail.quantity" />
+            </td>
+            <td class="text-right">
+                {{ detail.total() }}
+            </td>
+            <td class="text-center">
+                <a ng-click="remove(detail)">Remove</a>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="text-right">
+                {{ order.total() }}
+            </td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <button type="button" class="btn btn-primary" ng-disabled="order.orderDetails.length == 0">Create Order</button>
+</div>

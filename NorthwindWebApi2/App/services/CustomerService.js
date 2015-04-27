@@ -1,10 +1,8 @@
 ﻿(function () {
     "use strict";
 
-    northwindApp.service("CustomerService", ["$log", "$http", function ($log, $http) {
-        var baseUrl = "/api/";
-
-        var url = baseUrl + "Customer/";
+    northwindApp.service("CustomerService", ["$log", "$http", "UrlBuilderService", function ($log, $http, urlBuilder) {
+        var url = urlBuilder.getUrl("Customer");
 
         this.getAll = function () {
             return $http.get(url);

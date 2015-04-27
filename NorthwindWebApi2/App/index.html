@@ -1,15 +1,16 @@
 ﻿<!DOCTYPE html>
 <html ng-app="northwindApp">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="../Content/bootstrap.css" rel="stylesheet" />
+    <link href="../Content/Site.css" rel="stylesheet" />
     <link href="../Content/toaster.css" rel="stylesheet" />
     <link href="../Content/ng-table.css" rel="stylesheet" />
 </head>
 <body ng-controller="HomeController">
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -35,9 +36,6 @@
     </div>
 
     <div class="container body-content">
-        <br />
-        <br />
-
         <div ng-view>
 
         </div>
@@ -47,9 +45,9 @@
         <footer class="text-center">
             Northwind App
         </footer>
-
-        <toaster-container></toaster-container>
     </div>
+
+    <toaster-container></toaster-container>
 
     <script src="../Scripts/jquery-2.1.3.js"></script>
     <script src="../Scripts/bootstrap.js"></script>
@@ -65,10 +63,12 @@
     <script src="app.js"></script>
 
     <script src="services/TranslationService.js"></script>
+    <script src="services/UrlBuilderService.js"></script>
     <script src="services/SupplierService.js"></script>
     <script src="services/CategoryService.js"></script>
     <script src="services/ProductService.js"></script>
     <script src="services/CustomerService.js"></script>
+    <script src="services/EmployeeService.js"></script>
     <script src="services/ShipperService.js"></script>
     <script src="services/OrderService.js"></script>
 
