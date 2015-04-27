@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Northwind.Core.BusinessLayer;
 using Northwind.Core.DataLayer;
-using Northwind.Core.PocoLayer;
+using Northwind.Core.EntityLayer;
 
 namespace Northwind.Core.Tests
 {
@@ -74,7 +74,7 @@ namespace Northwind.Core.Tests
 
             var dbContext = new SalesDbContext();
 
-            ISalesUow uow = new SalesUow(dbContext);
+            var uow = new SalesUow(dbContext) as ISalesUow;
 
             uow.CreateOrder(header, details.ToArray());
 
