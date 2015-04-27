@@ -12,8 +12,12 @@
 
 <table ng-table="tableParams" class="table">
     <tr ng-repeat="shipper in $data">
-        <td data-title="translation.companyName" sortable="'companyName'">{{ shipper.companyName }}</td>
-        <td data-title="translation.phone" sortable="'phone'">{{ shipper.phone }}</td>
+        <td data-title="translation.companyName" sortable="'companyName'">
+            {{ shipper.companyName }}
+        </td>
+        <td data-title="translation.phone" sortable="'phone'">
+            {{ shipper.phone }}
+        </td>
         <td>
             <div class="btn-group">
                 <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">

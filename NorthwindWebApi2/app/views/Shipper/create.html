@@ -3,25 +3,29 @@
 <form name="form" novalidate ng-submit="create()">
     <div class="form-horizontal">
         <h4>{{ translation.shipper }}</h4>
+
         <hr />
+
         <div class="form-group" ng-class="{ 'has-error': form.companyName.$invalid }">
             <label for="companyName" class="control-label col-md-2">{{ translation.companyName }}</label>
             <div class="col-md-10">
-                <input type="text" name="companyName" ng-model="model.companyName" required class="form-control" />
+                <input type="text" name="companyName" class="form-control" required ng-model="model.companyName" ng-maxlength="80" />
                 <span class="text-danger help-block" ng-show="form.companyName.$error.required">{{ translation.required }}</span>
+                <span class="text-danger help-block" ng-show="form.companyName.$error.maxlength">{{ translation.companyNameMaxLength }}</span>
             </div>
         </div>
 
         <div class="form-group">
             <label for="phone" class="control-label col-md-2">{{ translation.phone }}</label>
             <div class="col-md-10">
-                <input type="text" name="phone" ng-model="model.phone" class="form-control" />
+                <input type="text" name="phone" class="form-control" ng-model="model.phone" ng-maxlength="48" />
+                <span class="text-danger help-block" ng-show="form.phone.$error.maxlength">{{ translation.phoneMaxLength }}</span>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="{{ translation.create }}" ng-disabled="!form.$valid" class="btn btn-default" />
+                <input type="submit" value="{{ translation.create }}" class="btn btn-default" ng-disabled="!form.$valid" />
                 <a ng-click="cancel()">{{ translation.cancel }}</a>
             </div>
         </div>

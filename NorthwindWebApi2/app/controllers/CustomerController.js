@@ -1,7 +1,15 @@
 ﻿(function () {
     "use strict";
 
-    northwindApp.controller("CustomerController", ["$log", "$scope", "$location", "$routeParams", "ngTableParams", "$filter", "CustomerService", function ($log, $scope, $location, $routeParams, ngTableParams, $filter, customerService) {
+    northwindApp.controller("CustomerController", CustomerController);
+    northwindApp.controller("CreateCustomerController", CreateCustomerController);
+    northwindApp.controller("EditCustomerController", EditCustomerController);
+
+    CustomerController.$inject = ["$log", "$scope", "$location", "$routeParams", "ngTableParams", "$filter", "CustomerService"];
+    CreateCustomerController.$inject = ["$scope", "$location", "CustomerService"];
+    EditCustomerController.$inject = ["$scope", "$location", "$routeParams", "CustomerService"];
+
+    function CustomerController($log, $scope, $location, $routeParams, ngTableParams, $filter, customerService) {
         $scope.result = {};
 
         customerService.getAll().then(function (result) {
@@ -38,9 +46,9 @@
         $scope.delete = function (id) {
             $location.path("/customer-delete/" + id);
         };
-    }]);
+    };
 
-    northwindApp.controller("CreateCustomerController", ["$scope", "$location", "CustomerService", function ($scope, $location, customerService) {
+    function CreateCustomerController($scope, $location, customerService) {
         $scope.result = {};
 
         $scope.create = function () {
@@ -56,9 +64,9 @@
         $scope.cancel = function () {
             $location.path("/customer");
         };
-    }]);
+    };
 
-    northwindApp.controller("EditCustomerController", ["$scope", "$location", "$routeParams", "CustomerService", function ($scope, $location, $routeParams, customerService) {
+    function EditCustomerController($scope, $location, $routeParams, customerService) {
         $scope.result = {};
 
         customerService.get($routeParams.id).then(function (result) {
@@ -88,5 +96,5 @@
         $scope.cancel = function () {
             $location.path("/customer");
         };
-    }]);
+    };
 })();

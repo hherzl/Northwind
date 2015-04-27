@@ -14,5 +14,7 @@
     "shipper": "Expedidor",
     "shipperID": "ID",
     "companyName": "Nombre de compañía",
-    "phone": "Teléfono"
+    "phone": "Teléfono",
+    "companyNameMaxLength": "(?) Must be at least 80 characters long",
+    "phoneMaxLength": "(?) Must be at least 48 characters long"
 }

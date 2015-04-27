@@ -1,27 +1,33 @@
 ﻿(function () {
     "use strict";
 
-    northwindApp.service("CustomerService", ["$log", "$http", "UrlBuilderService", function ($log, $http, urlBuilder) {
+    angular.module("northwindApp").service("CustomerService", CustomerService);
+
+    CustomerService.$inject = ["$log", "$http", "UrlBuilderService"];
+
+    function CustomerService($log, $http, urlBuilder) {
         var url = urlBuilder.getUrl("Customer");
 
-        this.getAll = function () {
+        var svc = this;
+
+        svc.getAll = function () {
             return $http.get(url);
         };
 
-        this.get = function (id) {
+        svc.get = function (id) {
             return $http.get(url + id);
         };
 
-        this.create = function (entity) {
+        svc.create = function (entity) {
             return $http.post(url, entity);
         };
 
-        this.update = function (entity) {
+        svc.update = function (entity) {
             return $http.put(url + entity.customerID, entity);
         };
 
-        this.delete = function (entity) {
+        svc.delete = function (entity) {
             return $http.delete(url + entity.customerID, entity);
         };
-    }]);
+    };
 })();
