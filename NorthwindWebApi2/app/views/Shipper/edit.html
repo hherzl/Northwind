@@ -9,7 +9,7 @@
         <div class="form-group" ng-class="{ 'has-error': form.companyName.$invalid }">
             <label for="companyName" class="control-label col-md-2">{{ translation.companyName }}</label>
             <div class="col-md-10">
-                <input type="text" name="companyName" class="form-control" required ng-model="model.companyName" ng-maxlength="80" />
+                <input type="text" name="companyName" class="form-control" required ng-model="result.model.companyName" ng-maxlength="80" />
                 <span class="text-danger help-block" ng-show="form.companyName.$error.required">{{ translation.required }}</span>
                 <span class="text-danger help-block" ng-show="form.companyName.$error.maxlength">{{ translation.companyNameMaxLength }}</span>
             </div>
@@ -18,7 +18,7 @@
         <div class="form-group">
             <label for="phone" class="control-label col-md-2">{{ translation.phone }}</label>
             <div class="col-md-10">
-                <input type="text" name="phone" class="form-control" ng-model="model.phone" ng-maxlength="48" />
+                <input type="text" name="phone" class="form-control" ng-model="result.model.phone" ng-maxlength="48" />
                 <span class="text-danger help-block" ng-show="form.companyName.$error.maxlength">{{ translation.phoneMaxLength }}</span>
             </div>
         </div>

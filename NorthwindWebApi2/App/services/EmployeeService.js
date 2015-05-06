@@ -1,13 +1,17 @@
 ﻿(function () {
     "use strict";
 
-    northwindApp.service("EmployeeService", ["$log", "$http", function ($log, $http) {
-        var baseUrl = "/api/";
+    angular.module("northwindApp").service("EmployeeService", EmployeeService);
 
-        var url = baseUrl + "Employee";
+    EmployeeService.$inject = ["$log", "$http", "UrlBuilderService"];
 
-        this.getAll = function () {
-            return $http.get(url);
+    function EmployeeService($log, $http, urlBuilder) {
+        var url = urlBuilder.getUrl("Employee");
+
+        var svc = this;
+
+        svc.get = function (id) {
+            return id ? $http.get(url + id) : $http.get(url);
         };
-    }]);
+    };
 })();

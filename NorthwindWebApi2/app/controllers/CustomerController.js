@@ -1,18 +1,18 @@
 ﻿(function () {
     "use strict";
 
-    northwindApp.controller("CustomerController", CustomerController);
-    northwindApp.controller("CreateCustomerController", CreateCustomerController);
-    northwindApp.controller("EditCustomerController", EditCustomerController);
+    angular.module("northwindApp").controller("CustomerController", CustomerController);
+    angular.module("northwindApp").controller("CreateCustomerController", CreateCustomerController);
+    angular.module("northwindApp").controller("EditCustomerController", EditCustomerController);
 
-    CustomerController.$inject = ["$log", "$scope", "$location", "$routeParams", "ngTableParams", "$filter", "CustomerService"];
-    CreateCustomerController.$inject = ["$scope", "$location", "CustomerService"];
-    EditCustomerController.$inject = ["$scope", "$location", "$routeParams", "CustomerService"];
+    CustomerController.$inject = ["$log", "$scope", "$location", "$routeParams", "ngTableParams", "$filter", "UnitOfWork"];
+    CreateCustomerController.$inject = ["$scope", "$location", "UnitOfWork"];
+    EditCustomerController.$inject = ["$scope", "$location", "$routeParams", "UnitOfWork"];
 
-    function CustomerController($log, $scope, $location, $routeParams, ngTableParams, $filter, customerService) {
+    function CustomerController($log, $scope, $location, $routeParams, ngTableParams, $filter, uow) {
         $scope.result = {};
 
-        customerService.getAll().then(function (result) {
+        uow.customerRepository.get().then(function (result) {
             $scope.result = result.data;
 
             $scope.tableParams = new ngTableParams({
@@ -48,11 +48,11 @@
         };
     };
 
-    function CreateCustomerController($scope, $location, customerService) {
+    function CreateCustomerController($scope, $location, uow) {
         $scope.result = {};
 
         $scope.create = function () {
-            customerService.create($scope.result.model).then(function (result) {
+            uow.customerRepository.create($scope.result.model).then(function (result) {
                 if (result.data.didError) {
                     $scope.result = result.data;
                 } else {
@@ -66,10 +66,10 @@
         };
     };
 
-    function EditCustomerController($scope, $location, $routeParams, customerService) {
+    function EditCustomerController($scope, $location, $routeParams, uow) {
         $scope.result = {};
 
-        customerService.get($routeParams.id).then(function (result) {
+        uow.customerRepository.get($routeParams.id).then(function (result) {
             $scope.result = result.data;
         });
 
@@ -78,7 +78,7 @@
         };
 
         $scope.update = function () {
-            customerService.update($scope.result.model).then(function (result) {
+            uow.customerRepository.update($scope.result.model).then(function (result) {
                 if (result.data.didError) {
                     $scope.result = result.data;
                 } else {
@@ -88,7 +88,7 @@
         };
 
         $scope.delete = function () {
-            customerService.delete($scope.model);
+            uow.customerRepository.delete($scope.model);
 
             $location.path("/customer");
         };

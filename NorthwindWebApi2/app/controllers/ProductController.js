@@ -1,10 +1,18 @@
 ﻿(function () {
     "use strict";
 
-    northwindApp.controller("ProductController", ["$log", "$scope", "$location", "$routeParams", "toaster", "ngTableParams", "$filter", "ProductService", function ($log, $scope, $location, $routeParams, toaster, ngTableParams, $filter, productService) {
+    angular.module("northwindApp").controller("ProductController", ProductController);
+    angular.module("northwindApp").controller("CreateProductController", CreateProductController);
+    angular.module("northwindApp").controller("EditProductController", EditProductController);
+
+    ProductController.$inject = ["$log", "$scope", "$location", "$routeParams", "toaster", "ngTableParams", "$filter", "UnitOfWork"];
+    CreateProductController.$inject = ["$scope", "$location", "UnitOfWork"];
+    EditProductController.$inject = ["$scope", "$location", "$routeParams", "UnitOfWork"];
+
+    function ProductController($log, $scope, $location, $routeParams, toaster, ngTableParams, $filter, uow) {
         $scope.result = {};
 
-        productService.getAll().then(function (result) {
+        uow.productRepository.get().then(function (result) {
             $scope.result = result.data;
 
             if (!$scope.result.didError) {
@@ -42,24 +50,24 @@
         $scope.delete = function (id) {
             $location.path("/product-delete/" + id);
         };
-    }]);
+    };
 
-    northwindApp.controller("CreateProductController", ["$scope", "$location", "SupplierService", "CategoryService", "ProductService", function ($scope, $location, supplierService, categoryService, productService) {
+    function CreateProductController($scope, $location, uow) {
         $scope.result = {};
 
         $scope.suppliers = [];
         $scope.categories = [];
 
-        supplierService.getAll().then(function (result) {
+        uow.supplierRepository.get().then(function (result) {
             $scope.suppliers = result.data;
         });
 
-        categoryService.getAll().then(function (result) {
+        uow.categoryRepository.get().then(function (result) {
             $scope.categories = result.data;
         });
 
         $scope.create = function () {
-            productService.create($scope.result.model).then(function (result) {
+            uow.productRepository.post($scope.result.model).then(function (result) {
                 if (result.data.didError) {
                     $scope.result = result.data;
                 } else {
@@ -71,23 +79,23 @@
         $scope.cancel = function () {
             $location.path("/product");
         };
-    }]);
+    };
 
-    northwindApp.controller("EditProductController", ["$scope", "$location", "$routeParams", "SupplierService", "CategoryService", "ProductService", function ($scope, $location, $routeParams, supplierService, categoryService, productService) {
+    function EditProductController($scope, $location, $routeParams, uow) {
         $scope.result = {};
 
-        productService.get($routeParams.id).then(function (result) {
+        uow.productRepository.get($routeParams.id).then(function (result) {
             $scope.result = result.data;
 
-            $scope.suppliers = [];
-            $scope.categories = [];
+            $scope.supplierResult = {};
+            $scope.categoryResult = {};
 
-            supplierService.getAll().then(function (result) {
-                $scope.suppliers = result.data;
+            uow.supplierRepository.get().then(function (result) {
+                $scope.supplierResult = result.data;
             });
 
-            categoryService.getAll().then(function (result) {
-                $scope.categories = result.data;
+            uow.categoryRepository.get().then(function (result) {
+                $scope.categoryResult = result.data;
             });
         });
 
@@ -106,7 +114,7 @@
         };
 
         $scope.delete = function () {
-            productService.delete($scope.model);
+            uow.productRepository.delete($scope.result.model.productID, $scope.result.model);
 
             $location.path("/products");
         };
@@ -114,5 +122,5 @@
         $scope.cancel = function () {
             $location.path("/product");
         };
-    }]);
+    };
 })();

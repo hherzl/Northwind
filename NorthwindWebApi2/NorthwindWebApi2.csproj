@@ -154,10 +154,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="app\views\Region\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiResult.cs" />
+    <Compile Include="Controllers\RegionController.cs" />
+    <Compile Include="Models\ApiResult.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
@@ -205,6 +207,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IUowService.cs" />
+    <Compile Include="Services\UowService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\app.js" />
@@ -213,6 +216,7 @@
     <Content Include="app\controllers\HomeController.js" />
     <Content Include="app\controllers\OrderController.js" />
     <Content Include="app\controllers\ProductController.js" />
+    <Content Include="app\controllers\RegionController.js" />
     <Content Include="app\controllers\ShipperController.js" />
     <Content Include="app\controllers\SupplierController.js" />
     <Content Include="app\index.html" />
@@ -221,9 +225,11 @@
     <Content Include="app\services\EmployeeService.js" />
     <Content Include="app\services\OrderService.js" />
     <Content Include="app\services\ProductService.js" />
+    <Content Include="app\services\RegionService.js" />
     <Content Include="app\services\ShipperService.js" />
     <Content Include="app\services\SupplierService.js" />
     <Content Include="app\services\TranslationService.js" />
+    <Content Include="app\services\UnitOfWork.js" />
     <Content Include="app\services\UrlBuilderService.js" />
     <Content Include="app\views\Category\index.html" />
     <Content Include="app\views\Customer\create.html" />
@@ -234,6 +240,7 @@
     <Content Include="app\views\Employee\index.html" />
     <Content Include="app\views\home.html" />
     <Content Include="app\views\Order\create.html" />
+    <Content Include="app\views\Order\details.html" />
     <Content Include="app\views\Order\index.html" />
     <Content Include="app\views\Product\create.html" />
     <Content Include="app\views\Product\delete.html" />

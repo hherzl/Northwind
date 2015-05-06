@@ -10,24 +10,20 @@
 
         var svc = this;
 
-        svc.getAll = function () {
-            return $http.get(url);
-        };
-
         svc.get = function (id) {
-            return $http.get(url + id);
+            return id ? $http.get(url + id) : $http.get(url);
         };
 
-        svc.create = function (entity) {
+        svc.post = function (entity) {
             return $http.post(url, entity);
         };
 
-        svc.update = function (entity) {
-            return $http.put(url + entity.customerID, entity);
+        svc.put = function (id, entity) {
+            return $http.put(url + id, entity);
         };
 
-        svc.delete = function (entity) {
-            return $http.delete(url + entity.customerID, entity);
+        svc.delete = function (id, entity) {
+            return $http.delete(url + id, entity);
         };
     };
 })();

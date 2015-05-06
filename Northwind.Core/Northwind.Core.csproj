@@ -79,9 +79,11 @@
     <Compile Include="DataLayer\Repositories\CategoryRepository.cs" />
     <Compile Include="DataLayer\Repositories\CustomerRepository.cs" />
     <Compile Include="DataLayer\Repositories\EmployeeRepository.cs" />
+    <Compile Include="DataLayer\Operations\IRegionRepository.cs" />
     <Compile Include="DataLayer\Repositories\OrderDetailRepository.cs" />
     <Compile Include="DataLayer\Repositories\OrderRepository.cs" />
     <Compile Include="DataLayer\Repositories\ProductRepository.cs" />
+    <Compile Include="DataLayer\Repositories\RegionRepository.cs" />
     <Compile Include="DataLayer\Repositories\ShipperRepository.cs" />
     <Compile Include="DataLayer\Repositories\SupplierRepository.cs" />
     <Compile Include="DataLayer\Repository.cs" />
@@ -95,14 +97,15 @@
     <Compile Include="EntityLayer\Region.cs" />
     <Compile Include="EntityLayer\Shipper.cs" />
     <Compile Include="EntityLayer\Supplier.cs" />
-    <Compile Include="Extensions\CollectionExtensor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

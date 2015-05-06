@@ -7,14 +7,14 @@
 
     <dl class="dl-horizontal">
         <dt>{{ translation.companyName }}</dt>
-        <dd>{{ model.companyName }}</dd>
+        <dd>{{ result.model.companyName }}</dd>
 
         <dt>{{ translation.phone }}</dt>
-        <dd>{{ model.phone }}</dd>
+        <dd>{{ result.model.phone }}</dd>
     </dl>
 </div>
 
 <p>
-    <a ng-click="edit(model.shipperID)">{{ translation.edit }}</a>
+    <a ng-click="edit(result.model.shipperID)">{{ translation.edit }}</a>
     <a ng-click="cancel()">{{ translation.cancel }}</a>
 </p>

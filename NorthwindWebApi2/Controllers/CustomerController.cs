@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Web.Http;
 using Northwind.Core.BusinessLayer;
 using Northwind.Core.EntityLayer;
+using NorthwindWebApi2.Models;
 using NorthwindWebApi2.Services;
 
 namespace NorthwindWebApi2.Controllers

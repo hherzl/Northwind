@@ -1,10 +1,14 @@
 ﻿(function () {
     "use strict";
 
-    northwindApp.controller("CategoryController", ["$log", "$scope", "$location", "$routeParams", "toaster", "ngTableParams", "$filter", "CategoryService", function ($log, $scope, $location, $routeParams, toaster, ngTableParams, $filter, categoryService) {
+    angular.module("northwindApp").controller("CategoryController", CategoryController);
+
+    CategoryController.$inject = ["$log", "$scope", "$location", "$routeParams", "toaster", "ngTableParams", "$filter", "UnitOfWork"];
+
+    function CategoryController($log, $scope, $location, $routeParams, toaster, ngTableParams, $filter, uow) {
         $scope.result = {};
 
-        categoryService.getAll().then(function (result) {
+        uow.categoryRepository.get().then(function (result) {
             $scope.result = result.data;
 
             if (!$scope.result.didError) {
@@ -42,5 +46,5 @@
         $scope.delete = function (id) {
             $location.path("/category-delete/" + id);
         };
-    }]);
+    };
 })();

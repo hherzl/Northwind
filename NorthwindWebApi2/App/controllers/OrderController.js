@@ -1,8 +1,16 @@
 ﻿(function () {
     "use strict";
 
-    northwindApp.controller("OrderController", ["$log", "$scope", "$location", "$routeParams", "ngTableParams", "$filter", "OrderService", function ($log, $scope, $location, $routeParams, ngTableParams, $filter, orderService) {
-        orderService.getAll().then(function (result) {
+    angular.module("northwindApp").controller("OrderController", OrderController);
+    angular.module("northwindApp").controller("CreateOrderController", CreateOrderController);
+    angular.module("northwindApp").controller("OrderDetailsController", OrderDetailsController);
+
+    OrderController.$inject = ["$log", "$scope", "$location", "$routeParams", "ngTableParams", "$filter", "UnitOfWork"];
+    CreateOrderController.$inject = ["$log", "$scope", "$location", "UnitOfWork"];
+    OrderDetailsController.$inject = [];
+
+    function OrderController($log, $scope, $location, $routeParams, ngTableParams, $filter, uow) {
+        uow.orderRepository.get().then(function (result) {
             $scope.result = result.data;
 
             $scope.tableParams = new ngTableParams({
@@ -24,27 +32,31 @@
         $scope.create = function () {
             $location.path("/order-create");
         };
-    }]);
-    
-    northwindApp.controller("OrderCreateController", ["$log", "$scope", "$location", "CustomerService", "EmployeeService", "ShipperService", "ProductService", "OrderService", function ($log, $scope, $location, customerService, employeeService, shipperService, productService, orderService) {
+
+        $scope.details = function (obj) {
+            $location.path("/order-details/" + obj.orderID);
+        };
+    };
+
+    function CreateOrderController($log, $scope, $location, uow) {
         $scope.customerResult = {};
         $scope.employeeResult = {};
         $scope.shipperResult = {};
         $scope.productResult = {};
 
-        customerService.getAll().then(function (result) {
+        uow.customerRepository.get().then(function (result) {
             $scope.customerResult = result.data;
         });
 
-        employeeService.getAll().then(function (result) {
+        uow.employeeRepository.get().then(function (result) {
             $scope.employeeResult = result.data;
         });
 
-        shipperService.getAll().then(function (result) {
+        uow.shipperRepository.get().then(function (result) {
             $scope.shipperResult = result.data;
         });
 
-        productService.getAll().then(function (result) {
+        uow.productRepository.get().then(function (result) {
             $scope.productResult = result.data;
         });
 
@@ -106,7 +118,11 @@
         };
 
         $scope.create = function () {
-            orderService.post($scope.order);
+            uow.orderRepository.post($scope.order);
         };
-    }]);
+    };
+
+    function OrderDetailsController() {
+
+    };
 })();

@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Web.Http;
 using Northwind.Core.BusinessLayer;
 using Northwind.Core.EntityLayer;
+using NorthwindWebApi2.Models;
 using NorthwindWebApi2.Services;
 
 namespace NorthwindWebApi2.Controllers
@@ -43,6 +44,7 @@ namespace NorthwindWebApi2.Controllers
             catch (Exception ex)
             {
                 result.DidError = true;
+
                 result.ErrorMessage = ex.Message;
             }
 
@@ -61,6 +63,7 @@ namespace NorthwindWebApi2.Controllers
             catch (Exception ex)
             {
                 result.DidError = true;
+
                 result.ErrorMessage = ex.Message;
             }
 
@@ -83,6 +86,7 @@ namespace NorthwindWebApi2.Controllers
             catch (Exception ex)
             {
                 result.DidError = true;
+
                 result.ErrorMessage = ex.Message;
             }
 
@@ -101,6 +105,7 @@ namespace NorthwindWebApi2.Controllers
                 if (entity == null)
                 {
                     result.DidError = true;
+
                     result.ErrorMessage = String.Format("There isn't a record with id: {0}", id); ;
                 }
                 else
@@ -120,6 +125,7 @@ namespace NorthwindWebApi2.Controllers
             catch (Exception ex)
             {
                 result.DidError = true;
+
                 result.ErrorMessage = ex.Message;
             }
 
@@ -152,6 +158,7 @@ namespace NorthwindWebApi2.Controllers
             catch (Exception ex)
             {
                 result.DidError = true;
+
                 result.ErrorMessage = ex.Message;
             }
 

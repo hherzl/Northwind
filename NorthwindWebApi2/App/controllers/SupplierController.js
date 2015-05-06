@@ -1,10 +1,18 @@
 ﻿(function () {
     "use strict";
 
-    northwindApp.controller("SupplierController", ["$log", "$scope", "$location", "$routeParams", "ngTableParams", "$filter", "SupplierService", function ($log, $scope, $location, $routeParams, ngTableParams, $filter, supplierService) {
+    angular.module("northwindApp").controller("SupplierController", SupplierController);
+    angular.module("northwindApp").controller("CreateSupplierController", CreateSupplierController);
+    angular.module("northwindApp").controller("EditSupplierController", EditSupplierController);
+
+    SupplierController.$inject = ["$log", "$scope", "$location", "$routeParams", "ngTableParams", "$filter", "UnitOfWork"];
+    CreateSupplierController.$inject = ["$scope", "$location", "UnitOfWork"];
+    EditSupplierController.$inject = ["$scope", "$location", "$routeParams", "UnitOfWork"];
+
+    function SupplierController($log, $scope, $location, $routeParams, ngTableParams, $filter, uow) {
         $scope.result = {};
 
-        supplierService.getAll().then(function (result) {
+        uow.supplierRepository.get().then(function (result) {
             $scope.result = result.data;
 
             $scope.tableParams = new ngTableParams({
@@ -22,46 +30,35 @@
                 }
             });
         });
-    }]);
 
-    northwindApp.controller("CreateSupplierController", CreateSupplierController);
-    northwindApp.controller("EditSupplierController", EditSupplierController);
-    
-    //SupplierController.$inject = ["$scope", "$location", "$routeParams", "SupplierService"];
-    CreateSupplierController.$inject = ["$scope", "$location", "SupplierService"];
-    EditSupplierController.$inject = ["$scope", "$location", "$routeParams", "SupplierService"];
+        $scope.create = function () {
+            $location.path("/supplier-create");
+        };
 
-    //function SupplierController($scope, $location, $routeParams, supplierService) {
-    //    $scope.title = "SupplierController";
-    //    $scope.suppliers = [];
+        $scope.details = function (obj) {
+            $location.path("/supplier-details/" + obj.supplierID);
+        };
 
-    //    supplierService.getAll().then(function (result) {
-    //        $scope.suppliers = result.data;
-    //    });
+        $scope.edit = function (id) {
+            $location.path("/supplier-edit/" + id);
+        };
 
-    //    $scope.create = function () {
-    //        $location.path("/supplier-create");
-    //    };
+        $scope.delete = function (id) {
+            $location.path("/supplier-delete/" + id);
+        };
+    };
 
-    //    $scope.details = function (id) {
-    //        $location.path("/supplier-details/" + id);
-    //    };
-
-    //    $scope.edit = function (id) {
-    //        $location.path("/supplier-edit/" + id);
-    //    };
-
-    //    $scope.delete = function (id) {
-    //        $location.path("/supplier-delete/" + id);
-    //    };
-    //};
-
-    function CreateSupplierController($scope, $location, supplierService) {
+    function CreateSupplierController($scope, $location, uow) {
         $scope.model = {};
 
         $scope.create = function () {
-            supplierService.create($scope.model);
-            $location.path("/suppliers");
+            uow.supplierRepository.post($scope.result.model).then(function (result) {
+                if (result.data.didError) {
+
+                } else {
+                    $location.path("/suppliers");
+                }
+            });
         };
 
         $scope.cancel = function () {
@@ -69,11 +66,11 @@
         };
     };
 
-    function EditSupplierController($scope, $location, $routeParams, supplierService) {
-        $scope.model = {};
+    function EditSupplierController($scope, $location, $routeParams, uow) {
+        $scope.result = {};
 
-        supplierService.get($routeParams.id).then(function (result) {
-            $scope.model = result.data;
+        uow.supplierRepository.get($routeParams.id).then(function (result) {
+            $scope.result = result.data;
         });
 
         $scope.edit = function (id) {
@@ -81,13 +78,13 @@
         };
 
         $scope.update = function () {
-            supplierService.update($scope.model);
+            uow.supplierRepository.put($scope.result.model.supplierID, $scope.result.model);
 
             $location.path("/suppliers");
         };
 
         $scope.delete = function () {
-            supplierService.delete($scope.model);
+            uow.supplierRepository.delete($scope.result.model.supplierID, $scope.result.model);
 
             $location.path("/suppliers");
         };

@@ -1,17 +1,17 @@
 ﻿(function () {
     "use strict";
 
-    northwindApp.service("OrderService", ["$log", "$http", function ($log, $http) {
-        var baseUrl = "/api/";
+    angular.module("northwindApp").service("OrderService", OrderService);
 
-        var url = baseUrl + "Order";
+    OrderService.$inject = ["$log", "$http", "UrlBuilderService"];
 
-        this.getAll = function () {
-            return $http.get(url);
+    function OrderService($log, $http, urlBuilder) {
+        var url = urlBuilder.getUrl("Order");
+
+        var svc = this;
+
+        svc.get = function (id) {
+            return id ? $http.get(url + id) : $http.get(url);
         };
-
-        this.post = function (entity) {
-            return $http.post(url, entity);
-        };
-    }]);
+    };
 })();

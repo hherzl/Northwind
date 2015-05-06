@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data.Entity;
-using Northwind.Core.DataLayer.Contracts;
 using Northwind.Core.DataLayer.Operations;
 using Northwind.Core.DataLayer.Repositories;
 
@@ -8,6 +7,7 @@ namespace Northwind.Core.BusinessLayer
 {
     public class SalesUow : ISalesUow
     {
+        protected Boolean m_disposed;
         private DbContext m_dbContext;
         private ISupplierRepository m_supplierRepository;
         private ICategoryRepository m_categoryRepository;
@@ -17,11 +17,31 @@ namespace Northwind.Core.BusinessLayer
         private IEmployeeRepository m_employeeRepository;
         private IOrderRepository m_orderRepository;
         private IOrderDetailRepository m_orderDetailRepository;
-        protected Boolean Disposed;
+        private IRegionRepository m_regionRepository;
 
         public SalesUow(DbContext dbContext)
         {
             m_dbContext = dbContext;
+        }
+
+        protected virtual void Dispose(Boolean disposing)
+        {
+            if (!m_disposed)
+            {
+                if (disposing)
+                {
+                    m_dbContext.Dispose();
+                }
+            }
+
+            m_disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+
+            GC.SuppressFinalize(this);
         }
 
         public void CommitChanges()
@@ -96,24 +116,12 @@ namespace Northwind.Core.BusinessLayer
             }
         }
 
-        protected virtual void Dispose(Boolean disposing)
+        public IRegionRepository RegionRepository
         {
-            if (!Disposed)
+            get
             {
-                if (disposing)
-                {
-                    m_dbContext.Dispose();
-                }
+                return m_regionRepository ?? (m_regionRepository = new RegionRepository(m_dbContext));
             }
-
-            Disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-
-            GC.SuppressFinalize(this);
         }
     }
 }

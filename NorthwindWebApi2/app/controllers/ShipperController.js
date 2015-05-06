@@ -5,14 +5,14 @@
     angular.module("northwindApp").controller("CreateShipperController", CreateShipperController);
     angular.module("northwindApp").controller("EditShipperController", EditShipperController);
 
-    ShipperController.$inject = ["$scope", "$location", "$routeParams", "ngTableParams", "$filter", "ShipperService", "TranslationService"];
-    CreateShipperController.$inject = ["$scope", "$location", "ShipperService", "TranslationService"];
-    EditShipperController.$inject = ["$scope", "$location", "$routeParams", "ShipperService", "TranslationService"];
+    ShipperController.$inject = ["$scope", "$location", "$routeParams", "ngTableParams", "$filter", "UnitOfWork", "TranslationService"];
+    CreateShipperController.$inject = ["$scope", "$location", "UnitOfWork", "TranslationService"];
+    EditShipperController.$inject = ["$scope", "$location", "$routeParams", "UnitOfWork", "TranslationService"];
 
-    function ShipperController($scope, $location, $routeParams, ngTableParams, $filter, shipperService, translationService) {
+    function ShipperController($scope, $location, $routeParams, ngTableParams, $filter, uow, translationService) {
         $scope.result = [];
 
-        shipperService.getAll().then(function (result) {
+        uow.shipperRepository.get().then(function (result) {
             $scope.result = result.data;
 
             $scope.tableParams = new ngTableParams({
@@ -50,13 +50,13 @@
         };
     };
 
-    function CreateShipperController($scope, $location, shipperService, translationService) {
-        $scope.model = {};
+    function CreateShipperController($scope, $location, uow, translationService) {
+        $scope.result = {};
 
         translationService.setResource($scope);
 
         $scope.create = function () {
-            shipperService.create($scope.model);
+            uow.shipperRepository.create($scope.result.model);
 
             $location.path("/shipper");
         };
@@ -66,11 +66,11 @@
         };
     };
 
-    function EditShipperController($scope, $location, $routeParams, shipperService, translationService) {
-        $scope.model = {};
+    function EditShipperController($scope, $location, $routeParams, uow, translationService) {
+        $scope.result = {};
 
-        shipperService.get($routeParams.id).then(function (result) {
-            $scope.model = result.data;
+        uow.shipperRepository.get($routeParams.id).then(function (result) {
+            $scope.result = result.data;
         });
 
         translationService.setResource($scope);
@@ -80,13 +80,13 @@
         };
 
         $scope.update = function () {
-            shipperService.update($scope.model);
+            uow.shipperRepository.put($scope.result.model.shipperID, $scope.result.model);
 
             $location.path("/shipper");
         };
 
         $scope.delete = function () {
-            shipperService.delete($scope.model);
+            uow.shipperRepository.delete($scope.result.model.shipperID, $scope.result.model);
 
             $location.path("/shipper");
         };

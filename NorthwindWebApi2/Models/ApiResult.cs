@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NorthwindWebApi2
+namespace NorthwindWebApi2.Models
 {
     public class ApiResult
     {

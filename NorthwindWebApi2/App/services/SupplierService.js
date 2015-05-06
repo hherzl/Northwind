@@ -1,29 +1,29 @@
 ﻿(function () {
     "use strict";
 
-    northwindApp.service("SupplierService", ["$log", "$http", function ($log, $http) {
-        var baseUrl = "/api/";
+    angular.module("northwindApp").service("SupplierService", SupplierService);
 
-        var url = baseUrl + "Supplier/";
+    SupplierService.$inject = ["$log", "$http", "UrlBuilderService"];
 
-        this.getAll = function () {
-            return $http.get(url);
+    function SupplierService($log, $http, urlBuilder) {
+        var url = urlBuilder.getUrl("Supplier");
+
+        var svc = this;
+
+        svc.get = function (id) {
+            return id ? $http.get(url + id) : $http.get(url);
         };
 
-        this.get = function (id) {
-            return $http.get(url + id);
-        };
-
-        this.create = function (entity) {
+        svc.post = function (entity) {
             return $http.post(url, entity);
         };
 
-        this.update = function (entity) {
-            return $http.put(url + entity.supplierID, entity);
+        svc.put = function (id, entity) {
+            return $http.put(url + id, entity);
         };
 
-        this.delete = function (entity) {
-            return $http.delete(url + entity.supplierID, entity);
+        svc.delete = function (id, entity) {
+            return $http.delete(url + id, entity);
         };
-    }]);
+    };
 })();

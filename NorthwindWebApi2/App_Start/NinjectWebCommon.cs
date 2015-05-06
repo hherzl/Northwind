@@ -10,6 +10,7 @@ namespace NorthwindWebApi2.App_Start
 
     using Ninject;
     using Ninject.Web.Common;
+
     using NorthwindWebApi2.Services;
 
     public static class NinjectWebCommon 

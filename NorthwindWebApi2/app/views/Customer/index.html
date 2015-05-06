@@ -1,4 +1,4 @@
-﻿<H2>Customers</H2>
+﻿<h2>Customers</h2>
 
 <div class="alert alert-danger" role="alert" ng-show="result.didError">
     {{ result.errorMessage }}
@@ -30,9 +30,9 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a ng-click="edit(customer.customerID)">Edit</a></li>
-                    <li><a ng-click="details(customer.customerID)">Details</a></li>
-                    <li><a ng-click="delete(customer.customerID)">Delete</a></li>
+                    <li><a ng-click="edit(customer)">Edit</a></li>
+                    <li><a ng-click="details(customer)">Details</a></li>
+                    <li><a ng-click="delete(customer)">Delete</a></li>
                 </ul>
             </div>
         </td>

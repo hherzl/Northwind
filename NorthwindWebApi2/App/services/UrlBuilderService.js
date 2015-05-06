@@ -1,11 +1,21 @@
 ﻿(function () {
     "use strict";
 
-    northwindApp.service("UrlBuilderService", [function () {
+    angular.module("northwindApp").service("UrlBuilderService", UrlBuilderService);
+
+    UrlBuilderService.$inject = [];
+
+    function UrlBuilderService() {
+        var svc = this;
+
         var baseUrl = "/api";
 
-        this.getUrl = function (value) {
+        svc.baseUrl = function () {
+            return baseUrl;
+        };
+
+        svc.getUrl = function (value) {
             return baseUrl + "/" + value + "/";
         };
-    }]);
+    };
 })();
