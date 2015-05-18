@@ -144,11 +144,29 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Administration\AdministrationAreaRegistration.cs" />
+    <Compile Include="Areas\Administration\Controllers\CategoryController.cs" />
+    <Compile Include="Areas\Administration\Controllers\CustomerController.cs" />
+    <Compile Include="Areas\Administration\Controllers\EmployeeController.cs" />
+    <Compile Include="Areas\Administration\Controllers\OrderController.cs" />
+    <Compile Include="Areas\Administration\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Administration\Controllers\RegionController.cs" />
+    <Compile Include="Areas\Administration\Controllers\ShipperController.cs" />
+    <Compile Include="Areas\Administration\Controllers\SupplierController.cs" />
+    <Compile Include="Areas\Administration\Models\CategoryModel.cs" />
+    <Compile Include="Areas\Administration\Models\CustomerModel.cs" />
+    <Compile Include="Areas\Administration\Models\EmployeeModel.cs" />
+    <Compile Include="Areas\Administration\Models\OrderModel.cs" />
+    <Compile Include="Areas\Administration\Models\ProductModel.cs" />
+    <Compile Include="Areas\Administration\Models\RegionModel.cs" />
+    <Compile Include="Areas\Administration\Models\SupplierModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IUowService.cs" />
+    <Compile Include="Services\UowService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -167,6 +185,7 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Areas\Administration\Views\web.config" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -201,11 +220,26 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Administration\Views\Category\" />
+    <Folder Include="Areas\Administration\Views\Customer\" />
+    <Folder Include="Areas\Administration\Views\Employee\" />
+    <Folder Include="Areas\Administration\Views\Order\" />
+    <Folder Include="Areas\Administration\Views\Product\" />
+    <Folder Include="Areas\Administration\Views\Region\" />
+    <Folder Include="Areas\Administration\Views\Shared\" />
+    <Folder Include="Areas\Administration\Views\Shipper\" />
+    <Folder Include="Areas\Administration\Views\Supplier\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NorthwindMvc5.Resources\NorthwindMvc5.Resources.csproj">
+      <Project>{363570b1-2058-4171-91c3-81f712998394}</Project>
+      <Name>NorthwindMvc5.Resources</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
