@@ -9,11 +9,11 @@ using NorthwindWebApi2.Services;
 
 namespace NorthwindWebApi2.Controllers
 {
-    public class RegionController : ApiController
+    public class CategorySaleFor1997Controller : ApiController
     {
         protected ISalesUow Uow;
 
-        public RegionController(IUowService service)
+        public CategorySaleFor1997Controller(IUowService service)
         {
             Uow = service.GetSalesUow();
         }
@@ -28,16 +28,18 @@ namespace NorthwindWebApi2.Controllers
             base.Dispose(disposing);
         }
 
-        // GET: api/Region
+        // GET: api/CategorySaleFor1997
         public HttpResponseMessage Get()
         {
             var result = new ApiResult();
 
             try
             {
-                result.Model = Uow.RegionRepository
+                var list = Uow.CategorySaleFor1997Repository
                     .GetAll()
                     .ToList();
+
+                result.Model = list;
             }
             catch (Exception ex)
             {
@@ -47,27 +49,6 @@ namespace NorthwindWebApi2.Controllers
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, result);
-        }
-
-        // GET: api/Region/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST: api/Region
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT: api/Region/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE: api/Region/5
-        public void Delete(int id)
-        {
         }
     }
 }

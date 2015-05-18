@@ -58,7 +58,31 @@ namespace NorthwindWebApi2.Controllers
 
             try
             {
-                result.Model = Uow.ProductRepository.Get(new Product() { ProductID = id });
+                result.Model = Uow
+                    .ProductRepository
+                    .Get(new Product() { ProductID = id });
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+
+                result.ErrorMessage = ex.Message;
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
+        }
+
+        // GET: api/Product/GetTenMostExpensiveProducts
+        public HttpResponseMessage GetTenMostExpensiveProducts()
+        {
+            var result = new ApiResult();
+
+            try
+            {
+                result.Model = Uow
+                    .ProductRepository
+                    .GetTenMostExpensiveProducts()
+                    .ToList();
             }
             catch (Exception ex)
             {

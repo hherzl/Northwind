@@ -36,11 +36,16 @@ namespace NorthwindWebApi2.Controllers
 
             try
             {
-                result.Model = Uow.CustomerRepository.GetAll().OrderByDescending(item => item.CustomerID).ToList();
+                result.Model = Uow
+                    .CustomerRepository
+                    .GetAll()
+                    .OrderByDescending(item => item.CustomerID)
+                    .ToList();
             }
             catch (Exception ex)
             {
                 result.DidError = true;
+
                 result.ErrorMessage = ex.Message;
             }
 
@@ -59,6 +64,7 @@ namespace NorthwindWebApi2.Controllers
             catch (Exception ex)
             {
                 result.DidError = true;
+
                 result.ErrorMessage = ex.Message;
             }
 
@@ -83,6 +89,7 @@ namespace NorthwindWebApi2.Controllers
             catch (Exception ex)
             {
                 result.DidError = true;
+
                 result.ErrorMessage = ex.Message;
             }
 
@@ -123,6 +130,7 @@ namespace NorthwindWebApi2.Controllers
             catch (Exception ex)
             {
                 result.DidError = true;
+
                 result.ErrorMessage = ex.Message;
             }
 
@@ -132,7 +140,9 @@ namespace NorthwindWebApi2.Controllers
         // DELETE: api/Customer/5
         public HttpResponseMessage Delete(String id)
         {
-            var entity = Uow.CustomerRepository.Get(new Customer { CustomerID = id });
+            var entity = Uow
+                .CustomerRepository
+                .Get(new Customer { CustomerID = id });
 
             if (entity == null)
             {
@@ -150,6 +160,7 @@ namespace NorthwindWebApi2.Controllers
             catch (Exception ex)
             {
                 result.DidError = true;
+
                 result.ErrorMessage = ex.Message;
             }
 

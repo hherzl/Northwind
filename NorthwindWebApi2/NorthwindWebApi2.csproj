@@ -158,6 +158,7 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\CategorySaleFor1997Controller.cs" />
     <Compile Include="Controllers\RegionController.cs" />
     <Compile Include="Models\ApiResult.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
