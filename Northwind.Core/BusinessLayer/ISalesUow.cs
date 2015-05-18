@@ -23,5 +23,7 @@ namespace Northwind.Core.BusinessLayer
         IOrderDetailRepository OrderDetailRepository { get; }
 
         IRegionRepository RegionRepository { get; }
+
+        ICategorySaleFor1997Repository CategorySaleFor1997Repository { get; }
     }
 }

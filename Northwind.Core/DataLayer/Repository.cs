@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Northwind.Core.DataLayer
 {
-    public class Repository<E> : IRepository<E> where E : class
+    public abstract class Repository<E> : IRepository<E> where E : class
     {
         protected DbContext DbContext;
         protected DbSet<E> DbSet;

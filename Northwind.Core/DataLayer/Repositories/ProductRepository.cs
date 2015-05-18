@@ -14,6 +14,30 @@ namespace Northwind.Core.DataLayer.Repositories
         {
         }
 
+        public IQueryable<ProductDetail> GetDetails()
+        {
+            return from product in GetAll()
+                   join category in DbContext.Set<Category>() on product.CategoryID equals category.CategoryID
+                   join supplier in DbContext.Set<Supplier>() on product.SupplierID equals supplier.SupplierID
+                   where product.Discontinued == false
+                   select new ProductDetail()
+                   {
+                       ProductID = product.ProductID,
+                       ProductName = product.ProductName,
+                       CategoryName = category.CategoryName,
+                       CompanyName = supplier.CompanyName,
+                       QuantityPerUnit = product.QuantityPerUnit,
+                       UnitPrice = product.UnitPrice
+                   };
+        }
+
+        public IEnumerable<TenMostExpensiveProduct> GetTenMostExpensiveProducts()
+        {
+            return DbContext
+                .Database
+                .SqlQuery<TenMostExpensiveProduct>(" exec [Ten Most Expensive Products] ");
+        }
+
         public override IQueryable<Product> GetAll()
         {
             return DbSet;
@@ -35,23 +59,6 @@ namespace Northwind.Core.DataLayer.Repositories
             }
 
             base.Add(entity);
-        }
-
-        public IQueryable<ProductDetail> GetDetails()
-        {
-            return from product in GetAll()
-                join category in DbContext.Set<Category>() on product.CategoryID equals category.CategoryID
-                join supplier in DbContext.Set<Supplier>() on product.SupplierID equals supplier.SupplierID
-                where product.Discontinued == false
-                select new ProductDetail()
-                {
-                    ProductID = product.ProductID,
-                    ProductName = product.ProductName,
-                    CategoryName = category.CategoryName,
-                    CompanyName = supplier.CompanyName,
-                    QuantityPerUnit = product.QuantityPerUnit,
-                    UnitPrice = product.UnitPrice
-                };
         }
     }
 }

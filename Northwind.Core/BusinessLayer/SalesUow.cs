@@ -18,6 +18,7 @@ namespace Northwind.Core.BusinessLayer
         private IOrderRepository m_orderRepository;
         private IOrderDetailRepository m_orderDetailRepository;
         private IRegionRepository m_regionRepository;
+        private ICategorySaleFor1997Repository m_categorySaleFor1997Repository;
 
         public SalesUow(DbContext dbContext)
         {
@@ -121,6 +122,14 @@ namespace Northwind.Core.BusinessLayer
             get
             {
                 return m_regionRepository ?? (m_regionRepository = new RegionRepository(m_dbContext));
+            }
+        }
+
+        public ICategorySaleFor1997Repository CategorySaleFor1997Repository
+        {
+            get
+            {
+                return m_categorySaleFor1997Repository ?? (m_categorySaleFor1997Repository = new CategorySaleFor1997Repository(m_dbContext));
             }
         }
     }

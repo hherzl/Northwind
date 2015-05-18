@@ -1,5 +1,9 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
+using Northwind.Core.DataLayer.Contracts;
 using Northwind.Core.DataLayer.Operations;
 using Northwind.Core.EntityLayer;
 
@@ -10,6 +14,20 @@ namespace Northwind.Core.DataLayer.Repositories
         public CustomerRepository(DbContext dbContext)
             : base(dbContext)
         {
+        }
+
+        public IEnumerable<CustOrderHist> GetCustOrderHist(String customerID)
+        {
+            var sql = "exec [CustOrderHist] @CustomerID ";
+
+            var parameters = new SqlParameter[]
+            {
+                new SqlParameter("@CustomerID", customerID)
+            };
+
+            return DbContext
+                .Database
+                .SqlQuery<CustOrderHist>(sql, parameters);
         }
 
         public override Customer Get(Customer entity)
