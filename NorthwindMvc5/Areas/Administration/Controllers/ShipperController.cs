@@ -3,14 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Northwind.Core.BusinessLayer;
+using NorthwindMvc5.Services;
 
 namespace NorthwindMvc5.Areas.Administration.Controllers
 {
     public class ShipperController : Controller
     {
-        public ShipperController()
-        {
+        protected ISalesUow Uow;
 
+        public ShipperController(IUowService service)
+        {
+            Uow = service.GetSalesUow();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (Uow != null)
+            {
+                Uow.Dispose();
+            }
+
+            base.Dispose(disposing);
         }
 
         // GET: Administration/Shipper
@@ -20,7 +34,7 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         }
 
         // GET: Administration/Shipper/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(Int32 id)
         {
             return View();
         }
@@ -48,14 +62,14 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         }
 
         // GET: Administration/Shipper/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(Int32 id)
         {
             return View();
         }
 
         // POST: Administration/Shipper/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Int32 id, FormCollection collection)
         {
             try
             {
@@ -70,14 +84,14 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         }
 
         // GET: Administration/Shipper/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(Int32 id)
         {
             return View();
         }
 
         // POST: Administration/Shipper/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(Int32 id, FormCollection collection)
         {
             try
             {

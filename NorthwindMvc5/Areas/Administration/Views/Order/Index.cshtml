@@ -1,0 +1,129 @@
+﻿@model PagedList.IPagedList<Northwind.Core.DataLayer.Contracts.OrderSummary>
+
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<br />
+
+<div class="container">
+    <div class="row">
+        @using (Html.BeginForm("Index", "Order", FormMethod.Get, new { @class = "form-inline", role = "form" }))
+        {
+            <div class="form-group">
+                <input type="text" name="orderID" size="5" class="form-control" placeholder="Order #" value="@ViewBag.OrderID" />
+            </div>
+            <div class="form-group">
+                <input type="text" name="customer" class="form-control" placeholder="Customer" value="@ViewBag.Customer" />
+            </div>
+            <div class="form-group">
+                <input type="text" name="employee" class="form-control" placeholder="Employee" value="@ViewBag.Employee" />
+            </div>
+            <div class="form-group">
+                <input type="text" name="shipper" class="form-control" placeholder="Shipper" value="@ViewBag.Shipper" />
+            </div>
+            <div class="form-group">
+                <select id="pageSize" name="pageSize" class="form-control list-box tri-state">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary glyphicon glyphicon-search" />
+            </div>
+        }
+    </div>
+</div>
+
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("#", "Index",
+                new
+                {
+                    pageNumber = ViewBag.PageNumber,
+                    pageSize = ViewBag.PageSize,
+                    sortName = ViewBag.OrderSortName
+                })
+        </th>
+        <th>
+            Customer
+        </th>
+        <th>
+            Employee
+        </th>
+        <th>
+            Shipper
+        </th>
+        <th>
+            Lines
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.OrderID
+            </td>
+            <td>
+                @item.Customer
+            </td>
+            <td>
+                @item.Employee
+            </td>
+            <td>
+                @item.Shipper
+            </td>
+            <td>
+                @item.Lines
+            </td>
+            <td>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("Edit", "Edit", new { id = item.OrderID })</li>
+                        <li>@Html.ActionLink("Details", "Details", new { id = item.OrderID })</li>
+                        <li>@Html.ActionLink("Delete", "Delete", new { id = item.OrderID })</li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, pageNumber => Url.Action("Index",
+    new
+    {
+        pageNumber,
+        pageSize = ViewBag.PageSize,
+        sortName = ViewBag.SortName
+    }))
+
+@section scripts {
+    <script>
+        $(function () {
+            $("#pageSize").val("@ViewBag.PageSize");
+        });
+    </script>
+}

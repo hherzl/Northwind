@@ -13,10 +13,12 @@ namespace Northwind.Core.DataLayer.Contracts
 
         public DateTime? OrderDate { get; set; }
 
-        public Int32? Lines { get; set; }
-
         public String Customer { get; set; }
 
+        public String Employee { get; set; }
+
         public String Shipper { get; set; }
+
+        public Int32 Lines { get; set; }
     }
 }

@@ -24,16 +24,18 @@ namespace Northwind.Core.DataLayer.Repositories
 
         public IQueryable<OrderSummary> GetSummaries()
         {
-            return from order in GetAll()
+            return from order in DbContext.Set<Order>()
                    join customer in DbContext.Set<Customer>() on order.CustomerID equals customer.CustomerID
+                   join employee in DbContext.Set<Employee>() on order.EmployeeID equals employee.EmployeeID
                    join shipper in DbContext.Set<Shipper>() on order.ShipVia equals shipper.ShipperID
                    select new OrderSummary()
                    {
                        OrderID = order.OrderID,
                        OrderDate = order.OrderDate,
-                       Lines = order.OrderDetails.Count(),
                        Customer = customer.CompanyName,
-                       Shipper = shipper.CompanyName
+                       Employee = employee.FirstName + " " + employee.LastName,
+                       Shipper = shipper.CompanyName,
+                       Lines = order.OrderDetails.Count()
                    };
         }
     }

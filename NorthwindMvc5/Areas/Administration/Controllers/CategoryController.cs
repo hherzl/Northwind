@@ -20,7 +20,7 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         }
 
         // GET: Administration/Category/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(Int32 id)
         {
             return View();
         }
@@ -48,14 +48,14 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         }
 
         // GET: Administration/Category/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(Int32 id)
         {
             return View();
         }
 
         // POST: Administration/Category/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Int32 id, FormCollection collection)
         {
             try
             {
@@ -70,14 +70,14 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         }
 
         // GET: Administration/Category/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(Int32 id)
         {
             return View();
         }
 
         // POST: Administration/Category/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(Int32 id, FormCollection collection)
         {
             try
             {

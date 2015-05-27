@@ -70,6 +70,14 @@
       <HintPath>..\packages\Ninject.Web.WebApi.3.2.4.0\lib\net45-full\Ninject.Web.WebApi.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -174,6 +182,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -190,6 +199,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Areas\Administration\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Administration\Views\Order\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Order\Details.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -229,10 +242,8 @@
     <Folder Include="Areas\Administration\Views\Category\" />
     <Folder Include="Areas\Administration\Views\Customer\" />
     <Folder Include="Areas\Administration\Views\Employee\" />
-    <Folder Include="Areas\Administration\Views\Order\" />
     <Folder Include="Areas\Administration\Views\Product\" />
     <Folder Include="Areas\Administration\Views\Region\" />
-    <Folder Include="Areas\Administration\Views\Shared\" />
     <Folder Include="Areas\Administration\Views\Shipper\" />
     <Folder Include="Areas\Administration\Views\Supplier\" />
     <Folder Include="Models\" />
@@ -242,6 +253,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Northwind.Core\Northwind.Core.csproj">
+      <Project>{39a1790f-bb81-4a18-a060-c664560ed028}</Project>
+      <Name>Northwind.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NorthwindMvc5.Resources\NorthwindMvc5.Resources.csproj">
       <Project>{363570b1-2058-4171-91c3-81f712998394}</Project>
       <Name>NorthwindMvc5.Resources</Name>

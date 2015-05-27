@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Northwind.Core.BusinessLayer;
 
 namespace NorthwindMvc5.Services
 {
     public interface IUowService
     {
-
+        ISalesUow GetSalesUow();
     }
 }
