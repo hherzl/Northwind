@@ -1,5 +1,5 @@
-﻿using Northwind.Core.BusinessLayer;
-using Northwind.Core.DataLayer;
+﻿using Northwind.Core.DataLayer;
+using Northwind.Core.DataLayer.OperationContracts;
 
 namespace NorthwindMvc5.Services
 {
@@ -7,9 +7,7 @@ namespace NorthwindMvc5.Services
     {
         public ISalesUow GetSalesUow()
         {
-            var dbContext = new SalesDbContext();
-
-            return new SalesUow(dbContext);
+            return new SalesUow(new SalesDbContext());
         }
     }
 }

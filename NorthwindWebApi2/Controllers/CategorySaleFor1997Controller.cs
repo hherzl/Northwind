@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using Northwind.Core.BusinessLayer;
+using Northwind.Core.DataLayer.OperationContracts;
 using NorthwindWebApi2.Models;
 using NorthwindWebApi2.Services;
 

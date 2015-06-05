@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Northwind.Core.BusinessLayer;
 using Northwind.Core.DataLayer;
+using Northwind.Core.DataLayer.OperationContracts;
 using Northwind.Core.EntityLayer;
 
 namespace Northwind.Core.Tests

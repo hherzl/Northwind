@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Northwind.Core.BusinessLayer;
+using Northwind.Core.DataLayer.OperationContracts;
 using NorthwindMvc5.Services;
 
 namespace NorthwindMvc5.Areas.Administration.Controllers
@@ -17,7 +14,7 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
             Uow = service.GetSalesUow();
         }
 
-        protected override void Dispose(bool disposing)
+        protected override void Dispose(Boolean disposing)
         {
             if (Uow != null)
             {

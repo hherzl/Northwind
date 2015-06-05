@@ -1,4 +1,4 @@
-﻿using Northwind.Core.BusinessLayer;
+﻿using Northwind.Core.DataLayer.OperationContracts;
 
 namespace NorthwindMvc5.Services
 {

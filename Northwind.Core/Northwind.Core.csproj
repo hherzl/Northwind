@@ -30,11 +30,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -48,49 +50,49 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessLayer\ISalesUow.cs" />
-    <Compile Include="BusinessLayer\IUow.cs" />
-    <Compile Include="BusinessLayer\OrderExtension.cs" />
-    <Compile Include="BusinessLayer\SalesUow.cs" />
+    <Compile Include="DataLayer\OperationContracts\ISalesUow.cs" />
+    <Compile Include="DataLayer\OperationContracts\IUow.cs" />
+    <Compile Include="DataLayer\OrderExtension.cs" />
+    <Compile Include="DataLayer\SalesUow.cs" />
     <Compile Include="DataLayer\Configurations\CategoryConfiguration.cs" />
     <Compile Include="DataLayer\Configurations\CategorySaleFor1997Configuration.cs" />
     <Compile Include="DataLayer\Configurations\CustomerConfiguration.cs" />
-    <Compile Include="DataLayer\Contracts\CustOrderHist.cs" />
-    <Compile Include="DataLayer\Contracts\EmployeeDetail.cs" />
-    <Compile Include="DataLayer\Contracts\TenMostExpensiveProduct.cs" />
-    <Compile Include="DataLayer\DbContextConfiguration.cs" />
+    <Compile Include="DataLayer\DataContracts\CustOrderHist.cs" />
+    <Compile Include="DataLayer\DataContracts\EmployeeDetail.cs" />
+    <Compile Include="DataLayer\DataContracts\TenMostExpensiveProduct.cs" />
+    <Compile Include="DataLayer\Configurations\DbContextConfiguration.cs" />
     <Compile Include="DataLayer\Configurations\EmployeeConfiguration.cs" />
-    <Compile Include="DataLayer\IEntityConfiguration.cs" />
+    <Compile Include="DataLayer\Configurations\IEntityConfiguration.cs" />
     <Compile Include="DataLayer\Configurations\OrderConfiguration.cs" />
     <Compile Include="DataLayer\Configurations\OrderDetailConfiguration.cs" />
     <Compile Include="DataLayer\Configurations\ProductConfiguration.cs" />
     <Compile Include="DataLayer\Configurations\RegionConfiguration.cs" />
     <Compile Include="DataLayer\Configurations\ShipperConfiguration.cs" />
     <Compile Include="DataLayer\Configurations\SupplierConfiguration.cs" />
-    <Compile Include="DataLayer\Contracts\OrderSummary.cs" />
-    <Compile Include="DataLayer\Operations\ICategoryRepository.cs" />
-    <Compile Include="DataLayer\Operations\ICategorySaleFor1997Repository.cs" />
-    <Compile Include="DataLayer\Operations\ICustomerRepository.cs" />
-    <Compile Include="DataLayer\Operations\IEmployeeRepository.cs" />
-    <Compile Include="DataLayer\Operations\IOrderDetail.cs" />
-    <Compile Include="DataLayer\Operations\IOrderDetailRepository.cs" />
-    <Compile Include="DataLayer\Operations\IOrderRepository.cs" />
-    <Compile Include="DataLayer\Operations\IProductRepository.cs" />
-    <Compile Include="DataLayer\Operations\IShipperRepository.cs" />
-    <Compile Include="DataLayer\Operations\ISupplierRepository.cs" />
-    <Compile Include="DataLayer\Contracts\ProductDetail.cs" />
-    <Compile Include="DataLayer\IRepository.cs" />
-    <Compile Include="DataLayer\Repositories\CategoryRepository.cs" />
-    <Compile Include="DataLayer\Repositories\CategorySaleFor1997Repository.cs" />
-    <Compile Include="DataLayer\Repositories\CustomerRepository.cs" />
-    <Compile Include="DataLayer\Repositories\EmployeeRepository.cs" />
-    <Compile Include="DataLayer\Operations\IRegionRepository.cs" />
-    <Compile Include="DataLayer\Repositories\OrderDetailRepository.cs" />
-    <Compile Include="DataLayer\Repositories\OrderRepository.cs" />
-    <Compile Include="DataLayer\Repositories\ProductRepository.cs" />
-    <Compile Include="DataLayer\Repositories\RegionRepository.cs" />
-    <Compile Include="DataLayer\Repositories\ShipperRepository.cs" />
-    <Compile Include="DataLayer\Repositories\SupplierRepository.cs" />
+    <Compile Include="DataLayer\DataContracts\OrderSummary.cs" />
+    <Compile Include="DataLayer\OperationContracts\ICategoryRepository.cs" />
+    <Compile Include="DataLayer\OperationContracts\ICategorySaleFor1997Repository.cs" />
+    <Compile Include="DataLayer\OperationContracts\ICustomerRepository.cs" />
+    <Compile Include="DataLayer\OperationContracts\IEmployeeRepository.cs" />
+    <Compile Include="DataLayer\OperationContracts\IOrderDetail.cs" />
+    <Compile Include="DataLayer\OperationContracts\IOrderDetailRepository.cs" />
+    <Compile Include="DataLayer\OperationContracts\IOrderRepository.cs" />
+    <Compile Include="DataLayer\OperationContracts\IProductRepository.cs" />
+    <Compile Include="DataLayer\OperationContracts\IShipperRepository.cs" />
+    <Compile Include="DataLayer\OperationContracts\ISupplierRepository.cs" />
+    <Compile Include="DataLayer\DataContracts\ProductDetail.cs" />
+    <Compile Include="DataLayer\OperationContracts\IRepository.cs" />
+    <Compile Include="DataLayer\CategoryRepository.cs" />
+    <Compile Include="DataLayer\CategorySaleFor1997Repository.cs" />
+    <Compile Include="DataLayer\CustomerRepository.cs" />
+    <Compile Include="DataLayer\EmployeeRepository.cs" />
+    <Compile Include="DataLayer\OperationContracts\IRegionRepository.cs" />
+    <Compile Include="DataLayer\OrderDetailRepository.cs" />
+    <Compile Include="DataLayer\OrderRepository.cs" />
+    <Compile Include="DataLayer\ProductRepository.cs" />
+    <Compile Include="DataLayer\RegionRepository.cs" />
+    <Compile Include="DataLayer\ShipperRepository.cs" />
+    <Compile Include="DataLayer\SupplierRepository.cs" />
     <Compile Include="DataLayer\Repository.cs" />
     <Compile Include="DataLayer\SalesDbContext.cs" />
     <Compile Include="EntityLayer\Category.cs" />
