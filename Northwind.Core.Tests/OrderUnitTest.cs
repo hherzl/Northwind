@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Northwind.Core.DataLayer;
 using Northwind.Core.DataLayer.OperationContracts;
@@ -30,9 +30,9 @@ namespace Northwind.Core.Tests
             header.ShipPostalCode = "12345";
             header.ShipCountry = "USA";
 
-            var details = new List<OrderDetail>();
+            header.OrderDetails = new Collection<OrderDetail>();
 
-            details.Add(
+            header.OrderDetails.Add(
                 new OrderDetail()
                 {
                     OrderID = header.OrderID,
@@ -42,7 +42,7 @@ namespace Northwind.Core.Tests
                     Discount = 0.0f
                 });
 
-            details.Add(
+            header.OrderDetails.Add(
                 new OrderDetail()
                 {
                     OrderID = header.OrderID,
@@ -52,7 +52,7 @@ namespace Northwind.Core.Tests
                     Discount = 0.0f
                 });
 
-            details.Add(
+            header.OrderDetails.Add(
                 new OrderDetail()
                 {
                     OrderID = header.OrderID,
@@ -62,7 +62,7 @@ namespace Northwind.Core.Tests
                     Discount = 0.0f
                 });
 
-            details.Add(
+            header.OrderDetails.Add(
                 new OrderDetail()
                 {
                     OrderID = header.OrderID,
@@ -76,7 +76,7 @@ namespace Northwind.Core.Tests
 
             var uow = new SalesUow(dbContext) as ISalesUow;
 
-            uow.CreateOrder(header, details.ToArray());
+            uow.CreateOrder(header);
 
             Console.WriteLine("Order #: {0}", header.OrderID);
 

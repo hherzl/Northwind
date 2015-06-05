@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Transactions;
 using Northwind.Core.DataLayer.OperationContracts;
-using Northwind.Core.DataLayer;
+using Northwind.Core.EntityLayer;
 
 namespace Northwind.Core.DataLayer
 {
@@ -132,6 +133,32 @@ namespace Northwind.Core.DataLayer
             get
             {
                 return m_categorySaleFor1997Repository ?? (m_categorySaleFor1997Repository = new CategorySaleFor1997Repository(m_dbContext));
+            }
+        }
+
+        public void CreateOrder(Order entity)
+        {
+            using (var transaction = new TransactionScope())
+            {
+                OrderRepository.Add(entity);
+
+                foreach (var detail in entity.OrderDetails)
+                {
+                    detail.OrderID = entity.OrderID;
+
+                    OrderDetailRepository.Add(detail);
+
+                    var product = ProductRepository.Get(new Product() { ProductID = detail.ProductID });
+
+                    product.UnitsInStock -= detail.Quantity;
+                    product.UnitsOnOrder += detail.Quantity;
+
+                    ProductRepository.Update(product);
+                }
+
+                CommitChanges();
+
+                transaction.Complete();
             }
         }
     }

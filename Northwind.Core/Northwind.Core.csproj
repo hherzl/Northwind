@@ -52,7 +52,6 @@
   <ItemGroup>
     <Compile Include="DataLayer\OperationContracts\ISalesUow.cs" />
     <Compile Include="DataLayer\OperationContracts\IUow.cs" />
-    <Compile Include="DataLayer\OrderExtension.cs" />
     <Compile Include="DataLayer\SalesUow.cs" />
     <Compile Include="DataLayer\Configurations\CategoryConfiguration.cs" />
     <Compile Include="DataLayer\Configurations\CategorySaleFor1997Configuration.cs" />

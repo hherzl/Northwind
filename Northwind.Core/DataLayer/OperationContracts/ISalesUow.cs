@@ -1,4 +1,6 @@
-﻿namespace Northwind.Core.DataLayer.OperationContracts
+﻿using Northwind.Core.EntityLayer;
+
+namespace Northwind.Core.DataLayer.OperationContracts
 {
     public interface ISalesUow : IUow
     {
@@ -21,5 +23,7 @@
         IRegionRepository RegionRepository { get; }
 
         ICategorySaleFor1997Repository CategorySaleFor1997Repository { get; }
+
+        void CreateOrder(Order entity);
     }
 }

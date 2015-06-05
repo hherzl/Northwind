@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Northwind.Core.DataLayer;
 using Northwind.Core.DataLayer.OperationContracts;
 using Northwind.Core.EntityLayer;
 using NorthwindWebApi2.Models;
@@ -81,7 +80,7 @@ namespace NorthwindWebApi2.Controllers
 
             try
             {
-                Uow.CreateOrder(value, value.OrderDetails.ToArray());
+                Uow.CreateOrder(value);
 
                 result.Model = value;
             }
