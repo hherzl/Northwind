@@ -5,12 +5,11 @@ namespace NorthwindWebApi2.App_Start
 {
     using System;
     using System.Web;
-
+    using System.Web.Http;
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
-
     using Ninject;
     using Ninject.Web.Common;
-
+    using Ninject.Web.WebApi;
     using NorthwindWebApi2.Services;
 
     public static class NinjectWebCommon 
@@ -48,6 +47,9 @@ namespace NorthwindWebApi2.App_Start
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
                 RegisterServices(kernel);
+
+                GlobalConfiguration.Configuration.DependencyResolver = new NinjectDependencyResolver(kernel);
+
                 return kernel;
             }
             catch

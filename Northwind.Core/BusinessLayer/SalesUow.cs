@@ -45,12 +45,14 @@ namespace Northwind.Core.BusinessLayer
             GC.SuppressFinalize(this);
         }
 
-        public void CommitChanges()
+        public Int32 CommitChanges()
         {
             if (m_dbContext.ChangeTracker.HasChanges())
             {
-                m_dbContext.SaveChanges();
+                return m_dbContext.SaveChanges();
             }
+
+            return 0;
         }
 
         public ISupplierRepository SupplierRepository

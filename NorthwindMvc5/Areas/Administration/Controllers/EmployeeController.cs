@@ -3,14 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Northwind.Core.BusinessLayer;
+using NorthwindMvc5.Services;
 
 namespace NorthwindMvc5.Areas.Administration.Controllers
 {
     public class EmployeeController : Controller
     {
-        public EmployeeController()
-        {
+        protected ISalesUow Uow;
 
+        public EmployeeController(IUowService service)
+        {
+            Uow = service.GetSalesUow();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (Uow != null)
+            {
+                Uow.Dispose();
+            }
+
+            base.Dispose(disposing);
         }
 
         // GET: Administration/Employee

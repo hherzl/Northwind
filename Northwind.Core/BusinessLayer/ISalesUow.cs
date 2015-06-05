@@ -4,8 +4,6 @@ namespace Northwind.Core.BusinessLayer
 {
     public interface ISalesUow : IUow
     {
-        void CommitChanges();
-
         ISupplierRepository SupplierRepository { get; }
 
         ICategoryRepository CategoryRepository { get; }
