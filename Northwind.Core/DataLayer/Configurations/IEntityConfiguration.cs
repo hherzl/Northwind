@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity.ModelConfiguration.Configuration;
 
-namespace Northwind.Core.DataLayer.Configurations
+namespace Northwind.Core.DataLayer.Mapping
 {
     public interface IEntityConfiguration
     {

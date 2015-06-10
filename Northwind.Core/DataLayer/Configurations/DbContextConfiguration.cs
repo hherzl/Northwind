@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 
-namespace Northwind.Core.DataLayer.Configurations
+namespace Northwind.Core.DataLayer.Mapping
 {
     public class DbContextConfiguration
     {

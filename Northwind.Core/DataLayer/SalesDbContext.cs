@@ -4,7 +4,7 @@ using System.ComponentModel.Composition.Hosting;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Reflection;
-using Northwind.Core.DataLayer.Configurations;
+using Northwind.Core.DataLayer.Mapping;
 
 namespace Northwind.Core.DataLayer
 {

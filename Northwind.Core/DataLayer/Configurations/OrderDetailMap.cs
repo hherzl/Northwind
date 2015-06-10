@@ -3,26 +3,26 @@ using System.Data.Entity.ModelConfiguration;
 using System.Data.Entity.ModelConfiguration.Configuration;
 using Northwind.Core.EntityLayer;
 
-namespace Northwind.Core.DataLayer.Configurations
+namespace Northwind.Core.DataLayer.Mapping
 {
     [Export(typeof(IEntityConfiguration))]
-    public class OrderDetailConfiguration : EntityTypeConfiguration<OrderDetail>, IEntityConfiguration
+    public class OrderDetailMap : EntityTypeConfiguration<OrderDetail>, IEntityConfiguration
     {
-        public OrderDetailConfiguration()
+        public OrderDetailMap()
         {
             ToTable("Order Details");
 
             HasKey(p => new { p.OrderID, p.ProductID });
 
-            Property(p => p.OrderID).HasColumnName("OrderID").HasColumnType("int").IsRequired();
+            Property(p => p.OrderID).HasColumnType("int").IsRequired();
 
-            Property(p => p.ProductID).HasColumnName("ProductID").HasColumnType("int").IsRequired();
+            Property(p => p.ProductID).HasColumnType("int").IsRequired();
 
-            Property(p => p.UnitPrice).HasColumnName("UnitPrice").HasColumnType("money").IsRequired();
+            Property(p => p.UnitPrice).HasColumnType("money").IsRequired();
 
-            Property(p => p.Quantity).HasColumnName("Quantity").HasColumnType("smallint").IsRequired();
+            Property(p => p.Quantity).HasColumnType("smallint").IsRequired();
 
-            Property(p => p.Discount).HasColumnName("Discount").HasColumnType("real").IsRequired();
+            Property(p => p.Discount).HasColumnType("real").IsRequired();
 
             HasRequired(p => p.FkOrderDetailsOrders).WithMany(p => p.OrderDetails).HasForeignKey(p => p.OrderID).WillCascadeOnDelete(false);
 

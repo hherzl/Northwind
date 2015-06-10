@@ -3,20 +3,20 @@ using System.Data.Entity.ModelConfiguration;
 using System.Data.Entity.ModelConfiguration.Configuration;
 using Northwind.Core.EntityLayer;
 
-namespace Northwind.Core.DataLayer.Configurations
+namespace Northwind.Core.DataLayer.Mapping
 {
     [Export(typeof(IEntityConfiguration))]
-    public class RegionConfiguration : EntityTypeConfiguration<Region>, IEntityConfiguration
+    public class RegionMap : EntityTypeConfiguration<Region>, IEntityConfiguration
     {
-        public RegionConfiguration()
+        public RegionMap()
         {
             ToTable("Region");
 
             HasKey(p => new { p.RegionID });
 
-            Property(p => p.RegionID).HasColumnName("RegionID").HasColumnType("int").IsRequired();
+            Property(p => p.RegionID).HasColumnType("int").IsRequired();
 
-            Property(p => p.RegionDescription).HasColumnName("RegionDescription").HasColumnType("nchar").HasMaxLength(100).IsRequired();
+            Property(p => p.RegionDescription).HasColumnType("nchar").HasMaxLength(100).IsRequired();
         }
 
         public void AddConfiguration(ConfigurationRegistrar registrar)
