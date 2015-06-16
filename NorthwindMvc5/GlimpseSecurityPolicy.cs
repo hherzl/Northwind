@@ -4,7 +4,7 @@
 using Glimpse.AspNet.Extensions;
 using Glimpse.Core.Extensibility;
 
-namespace NorthwindWebApi2
+namespace NorthwindMvc5
 {
     public class GlimpseSecurityPolicy:IRuntimePolicy
     {
