@@ -10,6 +10,11 @@ namespace Northwind.Core.EntityLayer
 
         }
 
+        public Customer(String customerID)
+        {
+            CustomerID = customerID;
+        }
+
         public String CustomerID { get; set; }
 
         public String CompanyName { get; set; }

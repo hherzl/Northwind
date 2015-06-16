@@ -9,6 +9,11 @@ namespace Northwind.Core.EntityLayer
         {
 
         }
+
+        public Product(Int32? productID)
+        {
+            ProductID = productID;
+        }
         
         public Int32? ProductID { get; set; }
         

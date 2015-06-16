@@ -13,9 +13,13 @@ namespace Northwind.Core.DataLayer.DataContracts
 
         public String ProductName { get; set; }
 
-        public String CategoryName { get; set; }
+        public Int32? SupplierID { get; set; }
 
         public String CompanyName { get; set; }
+
+        public Int32? CategoryID { get; set; }
+
+        public String CategoryName { get; set; }
 
         public String QuantityPerUnit { get; set; }
 

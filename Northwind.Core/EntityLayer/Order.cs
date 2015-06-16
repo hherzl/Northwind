@@ -10,6 +10,11 @@ namespace Northwind.Core.EntityLayer
 
         }
 
+        public Order(Int32? orderID)
+        {
+            OrderID = orderID;
+        }
+
         public Int32? OrderID { get; set; }
 
         public String CustomerID { get; set; }

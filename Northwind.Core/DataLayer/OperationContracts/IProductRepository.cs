@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Northwind.Core.DataLayer.DataContracts;
 using Northwind.Core.EntityLayer;
@@ -7,7 +8,7 @@ namespace Northwind.Core.DataLayer.OperationContracts
 {
     public interface IProductRepository : IRepository<Product>
     {
-        IQueryable<ProductDetail> GetDetails();
+        IQueryable<ProductDetail> GetDetails(String productName, Int32? supplierID, Int32? categoryID);
 
         IEnumerable<TenMostExpensiveProduct> GetTenMostExpensiveProducts();
     }

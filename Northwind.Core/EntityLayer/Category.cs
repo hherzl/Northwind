@@ -10,6 +10,11 @@ namespace Northwind.Core.EntityLayer
 
         }
 
+        public Category(Int32? categoryID)
+        {
+            CategoryID = categoryID;
+        }
+
         public Int32? CategoryID { get; set; }
 
         public String CategoryName { get; set; }

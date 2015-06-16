@@ -14,16 +14,12 @@ namespace Northwind.Core.DataLayer
             : base("SalesConnection")
         {
             Configuration.ProxyCreationEnabled = false;
-
-            Database.Log = (s) => Debug.WriteLine(s);
         }
 
         public SalesDbContext(String nameOrConnectionString)
             : base(nameOrConnectionString)
         {
             Configuration.ProxyCreationEnabled = false;
-
-            Database.Log = (s) => Debug.WriteLine(s);
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

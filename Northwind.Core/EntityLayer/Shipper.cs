@@ -10,6 +10,11 @@ namespace Northwind.Core.EntityLayer
 
         }
 
+        public Shipper(Int32? shipperID)
+        {
+            ShipperID = shipperID;
+        }
+
         public Int32? ShipperID { get; set; }
 
         public String CompanyName { get; set; }

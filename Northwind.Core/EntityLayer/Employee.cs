@@ -10,6 +10,11 @@ namespace Northwind.Core.EntityLayer
 
         }
 
+        public Employee(Int32? employeeID)
+        {
+            EmployeeID = employeeID;
+        }
+
         public Int32? EmployeeID { get; set; }
 
         public String LastName { get; set; }
@@ -37,7 +42,7 @@ namespace Northwind.Core.EntityLayer
         public String HomePhone { get; set; }
 
         public String Extension { get; set; }
-        
+
         public Byte[] Photo { get; set; }
 
         public String Notes { get; set; }
