@@ -1,15 +1,12 @@
-﻿using System;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Transactions;
-using Northwind.Core.DataLayer.OperationContracts;
+using Northwind.Core.DataLayer.Contracts;
 using Northwind.Core.EntityLayer;
 
 namespace Northwind.Core.DataLayer
 {
-    public class SalesUow : ISalesUow
+    public class SalesUow : Uow, ISalesUow
     {
-        protected Boolean m_disposed;
-        private DbContext m_dbContext;
         private ISupplierRepository m_supplierRepository;
         private ICategoryRepository m_categoryRepository;
         private IProductRepository m_productRepository;
@@ -22,38 +19,8 @@ namespace Northwind.Core.DataLayer
         private ICategorySaleFor1997Repository m_categorySaleFor1997Repository;
 
         public SalesUow(DbContext dbContext)
+            : base(dbContext)
         {
-            m_dbContext = dbContext;
-        }
-
-        protected virtual void Dispose(Boolean disposing)
-        {
-            if (!m_disposed)
-            {
-                if (disposing)
-                {
-                    m_dbContext.Dispose();
-                }
-            }
-
-            m_disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-
-            GC.SuppressFinalize(this);
-        }
-
-        public Int32 CommitChanges()
-        {
-            if (m_dbContext.ChangeTracker.HasChanges())
-            {
-                return m_dbContext.SaveChanges();
-            }
-
-            return 0;
         }
 
         public ISupplierRepository SupplierRepository

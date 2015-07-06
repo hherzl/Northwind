@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity;
 using System.Linq;
-using Northwind.Core.DataLayer.OperationContracts;
+using Northwind.Core.DataLayer.Contracts;
 using Northwind.Core.EntityLayer;
 
 namespace Northwind.Core.DataLayer
@@ -16,6 +16,12 @@ namespace Northwind.Core.DataLayer
         {
             return DbSet
                 .FirstOrDefault(item => item.ShipperID == entity.ShipperID);
+        }
+
+        public override System.Threading.Tasks.Task<Shipper> GetAsync(Shipper entity)
+        {
+            return DbSet
+                .FirstOrDefaultAsync(item => item.ShipperID == entity.ShipperID);
         }
     }
 }

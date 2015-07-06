@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using Northwind.Core.DataLayer.Contracts;
 using Northwind.Core.DataLayer.DataContracts;
-using Northwind.Core.DataLayer.OperationContracts;
 using Northwind.Core.EntityLayer;
 
 namespace Northwind.Core.DataLayer
@@ -24,15 +24,15 @@ namespace Northwind.Core.DataLayer
                 where product.Discontinued == false
                 select new ProductDetail()
                     {
-                       ProductID = product.ProductID,
-                       ProductName = product.ProductName,
-                       SupplierID = supplier.SupplierID,
-                       CompanyName = supplier.CompanyName,
-                       CategoryID = category.CategoryID,
-                       CategoryName = category.CategoryName,
-                       QuantityPerUnit = product.QuantityPerUnit,
-                       UnitPrice = product.UnitPrice
-                   };
+                        ProductID = product.ProductID,
+                        ProductName = product.ProductName,
+                        SupplierID = supplier.SupplierID,
+                        CompanyName = supplier.CompanyName,
+                        CategoryID = category.CategoryID,
+                        CategoryName = category.CategoryName,
+                        QuantityPerUnit = product.QuantityPerUnit,
+                        UnitPrice = product.UnitPrice
+                    };
 
             if (!String.IsNullOrEmpty(productName))
             {
@@ -43,8 +43,8 @@ namespace Northwind.Core.DataLayer
             {
                 query = query.Where(item => item.SupplierID == supplierID);
             }
-            
-            if ( categoryID.HasValue)
+
+            if (categoryID.HasValue)
             {
                 query = query.Where(item => item.CategoryID == categoryID);
             }
@@ -57,11 +57,6 @@ namespace Northwind.Core.DataLayer
             return DbContext
                 .Database
                 .SqlQuery<TenMostExpensiveProduct>(" exec [Ten Most Expensive Products] ");
-        }
-
-        public override IQueryable<Product> GetAll()
-        {
-            return DbSet;
         }
 
         public override Product Get(Product entity)

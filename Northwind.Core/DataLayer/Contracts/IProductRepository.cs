@@ -4,7 +4,7 @@ using System.Linq;
 using Northwind.Core.DataLayer.DataContracts;
 using Northwind.Core.EntityLayer;
 
-namespace Northwind.Core.DataLayer.OperationContracts
+namespace Northwind.Core.DataLayer.Contracts
 {
     public interface IProductRepository : IRepository<Product>
     {

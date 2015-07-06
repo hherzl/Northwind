@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Northwind.Core.DataLayer
 {
@@ -22,6 +23,11 @@ namespace Northwind.Core.DataLayer
         }
 
         public virtual E Get(E entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Task<E> GetAsync(E entity)
         {
             throw new NotImplementedException();
         }

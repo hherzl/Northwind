@@ -3,7 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Northwind.Core.DataLayer.DataContracts;
-using Northwind.Core.DataLayer.OperationContracts;
+using Northwind.Core.DataLayer.Contracts;
 using Northwind.Core.EntityLayer;
 
 namespace Northwind.Core.DataLayer
