@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
-using Northwind.Core.DataLayer.OperationContracts;
+using System.Linq;
+using Northwind.Core.DataLayer.Contracts;
 using NorthwindMvc5.Services;
 
 namespace NorthwindMvc5.Areas.Administration.Controllers
@@ -27,7 +28,9 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         // GET: Administration/Product
         public ActionResult Index()
         {
-            return View();
+            var model = Uow.ProductRepository.GetAll().ToList();
+
+            return View(model);
         }
 
         // GET: Administration/Product/Details/5

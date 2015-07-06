@@ -224,6 +224,7 @@
     <Content Include="Areas\Administration\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Administration\Views\Order\Index.cshtml" />
     <Content Include="Areas\Administration\Views\Order\Details.cshtml" />
+    <Content Include="Areas\Administration\Views\Product\Index.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -263,7 +264,6 @@
     <Folder Include="Areas\Administration\Views\Category\" />
     <Folder Include="Areas\Administration\Views\Customer\" />
     <Folder Include="Areas\Administration\Views\Employee\" />
-    <Folder Include="Areas\Administration\Views\Product\" />
     <Folder Include="Areas\Administration\Views\Region\" />
     <Folder Include="Areas\Administration\Views\Shipper\" />
     <Folder Include="Areas\Administration\Views\Supplier\" />

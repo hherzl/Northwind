@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using Northwind.Core.DataLayer.OperationContracts;
+using Northwind.Core.DataLayer.Contracts;
 using Northwind.Core.EntityLayer;
 using NorthwindMvc5.Services;
 using PagedList;

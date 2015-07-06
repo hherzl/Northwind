@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
-using Northwind.Core.DataLayer.OperationContracts;
+using Northwind.Core.DataLayer.Contracts;
 using NorthwindMvc5.Services;
 
 namespace NorthwindMvc5.Areas.Administration.Controllers
