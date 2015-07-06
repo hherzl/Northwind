@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Northwind.Core.DataLayer;
-using Northwind.Core.DataLayer.OperationContracts;
+using Northwind.Core.DataLayer.Contracts;
 using Northwind.Core.EntityLayer;
 
 namespace Northwind.Core.Tests
