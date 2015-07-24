@@ -1,0 +1,91 @@
+﻿<h2>Details</h2>
+
+<div>
+    <h4>Order</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Order ID</dt>
+        <dd>{{ result.model.orderID }}</dd>
+
+        <dt>Customer</dt>
+        <dd>{{ result.model.customerID }}</dd>
+
+        <dt>Employee</dt>
+        <dd>{{ result.model.employeeID }}</dd>
+
+        <dt>Order date</dt>
+        <dd>{{ result.model.orderDate }}</dd>
+
+        <dt>Required date</dt>
+        <dd>{{ result.model.requiredDate }}</dd>
+
+        <dt>Shipped date</dt>
+        <dd>{{ result.model.shippedDate }}</dd>
+
+        <dt>Ship via</dt>
+        <dd>{{ result.model.shipVia }}</dd>
+
+        <dt>Freight</dt>
+        <dd>{{ result.model.freight }}</dd>
+
+        <dt>Ship name</dt>
+        <dd>{{ result.model.shipName }}</dd>
+
+        <dt>Ship address</dt>
+        <dd>{{ result.model.shipAddress }}</dd>
+
+        <dt>Ship city</dt>
+        <dd>{{ result.model.shipCity }}</dd>
+
+        <dt>Ship region</dt>
+        <dd>{{ result.model.shipRegion }}</dd>
+
+        <dt>Ship postal code</dt>
+        <dd>{{ result.model.shipPostalCode }}</dd>
+
+        <dt>Ship country</dt>
+        <dd>{{ result.model.shipCountry }}</dd>
+    </dl>
+
+    <br />
+
+    <table class="table table-bordered table-hover">
+        <tr>
+            <th>Product</th>
+            <th>Unit price</th>
+            <th>Quantity</th>
+            <th>Discount</th>
+            <th>Total</th>
+        </tr>
+        <tr ng-repeat="summary in result.model.orderSummaries">
+            <td>
+                {{ summary.productName }}
+            </td>
+            <td class="text-right">
+                {{ summary.unitPrice | currency }}
+            </td>
+            <td class="text-right">
+                {{ summary.quantity }}
+            </td>
+            <td class="text-right">
+                {{ summary.discount }}
+            </td>
+            <td class ="text-right">
+                {{ summary.total | currency }}
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="text-right">
+                {{ result.model.total() | currency }}
+            </td>
+        </tr>
+    </table>
+</div>
+
+<p>
+    <a ng-click="back()">Back to list</a>
+</p>
