@@ -30,46 +30,46 @@ namespace Northwind.Core.Tests
             header.ShipPostalCode = "12345";
             header.ShipCountry = "USA";
 
-            header.OrderDetails = new Collection<OrderDetail>();
+            header.OrderSummaries = new Collection<OrderDetailSummary>();
 
-            header.OrderDetails.Add(
-                new OrderDetail()
+            header.OrderSummaries.Add(
+                new OrderDetailSummary()
                 {
                     OrderID = header.OrderID,
                     ProductID = 1,
                     UnitPrice = 9.99m,
                     Quantity = 3,
-                    Discount = 0.0f
+                    Discount = 0.0m
                 });
 
-            header.OrderDetails.Add(
-                new OrderDetail()
+            header.OrderSummaries.Add(
+                new OrderDetailSummary()
                 {
                     OrderID = header.OrderID,
                     ProductID = 10,
                     UnitPrice = 19.99m,
                     Quantity = 2,
-                    Discount = 0.0f
+                    Discount = 0.0m
                 });
 
-            header.OrderDetails.Add(
-                new OrderDetail()
+            header.OrderSummaries.Add(
+                new OrderDetailSummary()
                 {
                     OrderID = header.OrderID,
                     ProductID = 20,
                     UnitPrice = 29.99m,
                     Quantity = 1,
-                    Discount = 0.0f
+                    Discount = 0.0m
                 });
 
-            header.OrderDetails.Add(
-                new OrderDetail()
+            header.OrderSummaries.Add(
+                new OrderDetailSummary()
                 {
                     OrderID = header.OrderID,
                     ProductID = 25,
                     UnitPrice = 39.99m,
                     Quantity = 1,
-                    Discount = 0.0f
+                    Discount = 0.0m
                 });
 
             var dbContext = new SalesDbContext();
