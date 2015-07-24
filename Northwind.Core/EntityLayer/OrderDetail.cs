@@ -19,8 +19,8 @@ namespace Northwind.Core.EntityLayer
         
         public Single? Discount { get; set; }
 
-        public virtual Order FkOrderDetailsOrders { get; set; }
+        //public virtual Order FkOrderDetailsOrders { get; set; }
 
-        public virtual Product FkOrderDetailsProducts { get; set; }
+        //public virtual Product FkOrderDetailsProducts { get; set; }
     }
 }

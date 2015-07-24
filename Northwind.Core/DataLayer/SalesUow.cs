@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
+using System.Threading.Tasks;
 using System.Transactions;
 using Northwind.Core.DataLayer.Contracts;
 using Northwind.Core.EntityLayer;
@@ -27,7 +29,7 @@ namespace Northwind.Core.DataLayer
         {
             get
             {
-                return m_supplierRepository ?? (m_supplierRepository = new SupplierRepository(m_dbContext));
+                return m_supplierRepository ?? (m_supplierRepository = new SupplierRepository(DatabaseContext));
             }
         }
 
@@ -35,7 +37,7 @@ namespace Northwind.Core.DataLayer
         {
             get
             {
-                return m_categoryRepository ?? (m_categoryRepository = new CategoryRepository(m_dbContext));
+                return m_categoryRepository ?? (m_categoryRepository = new CategoryRepository(DatabaseContext));
             }
         }
 
@@ -43,7 +45,7 @@ namespace Northwind.Core.DataLayer
         {
             get
             {
-                return m_productRepository ?? (m_productRepository = new ProductRepository(m_dbContext));
+                return m_productRepository ?? (m_productRepository = new ProductRepository(DatabaseContext));
             }
         }
 
@@ -51,7 +53,7 @@ namespace Northwind.Core.DataLayer
         {
             get
             {
-                return m_shipperRepository ?? (m_shipperRepository = new ShipperRepository(m_dbContext));
+                return m_shipperRepository ?? (m_shipperRepository = new ShipperRepository(DatabaseContext));
             }
         }
 
@@ -59,7 +61,7 @@ namespace Northwind.Core.DataLayer
         {
             get
             {
-                return m_customerRepository ?? (m_customerRepository = new CustomerRepository(m_dbContext));
+                return m_customerRepository ?? (m_customerRepository = new CustomerRepository(DatabaseContext));
             }
         }
 
@@ -67,7 +69,7 @@ namespace Northwind.Core.DataLayer
         {
             get
             {
-                return m_employeeRepository ?? (m_employeeRepository = new EmployeeRepository(m_dbContext));
+                return m_employeeRepository ?? (m_employeeRepository = new EmployeeRepository(DatabaseContext));
             }
         }
 
@@ -75,7 +77,7 @@ namespace Northwind.Core.DataLayer
         {
             get
             {
-                return m_orderRepository ?? (m_orderRepository = new OrderRepository(m_dbContext));
+                return m_orderRepository ?? (m_orderRepository = new OrderRepository(DatabaseContext));
             }
         }
 
@@ -83,7 +85,7 @@ namespace Northwind.Core.DataLayer
         {
             get
             {
-                return m_orderDetailRepository ?? (m_orderDetailRepository = new OrderDetailRepository(m_dbContext));
+                return m_orderDetailRepository ?? (m_orderDetailRepository = new OrderDetailRepository(DatabaseContext));
             }
         }
 
@@ -91,7 +93,7 @@ namespace Northwind.Core.DataLayer
         {
             get
             {
-                return m_regionRepository ?? (m_regionRepository = new RegionRepository(m_dbContext));
+                return m_regionRepository ?? (m_regionRepository = new RegionRepository(DatabaseContext));
             }
         }
 
@@ -99,7 +101,7 @@ namespace Northwind.Core.DataLayer
         {
             get
             {
-                return m_categorySaleFor1997Repository ?? (m_categorySaleFor1997Repository = new CategorySaleFor1997Repository(m_dbContext));
+                return m_categorySaleFor1997Repository ?? (m_categorySaleFor1997Repository = new CategorySaleFor1997Repository(DatabaseContext));
             }
         }
 
@@ -107,11 +109,32 @@ namespace Northwind.Core.DataLayer
         {
             using (var transaction = new TransactionScope())
             {
-                OrderRepository.Add(entity);
+                var header = new Order();
 
-                foreach (var detail in entity.OrderDetails)
+                header.CustomerID = entity.CustomerID;
+                header.EmployeeID = entity.EmployeeID;
+                header.OrderDate = DateTime.Now;
+                header.ShipVia = entity.ShipVia;
+                header.ShipName = entity.ShipName;
+                header.ShipAddress = entity.ShipAddress;
+                header.ShipCity = entity.ShipCity;
+                header.ShipRegion = entity.ShipRegion;
+                header.ShipPostalCode = entity.ShipPostalCode;
+                header.ShipCountry = entity.ShipCountry;
+
+                OrderRepository.Add(header);
+
+                CommitChanges();
+
+                foreach (var summary in entity.OrderSummaries)
                 {
-                    detail.OrderID = entity.OrderID;
+                    var detail = new OrderDetail();
+
+                    detail.OrderID = header.OrderID;
+                    detail.ProductID = summary.ProductID;
+                    detail.Quantity = summary.Quantity;
+                    detail.UnitPrice = summary.UnitPrice;
+                    detail.Discount = (Single)summary.Discount;
 
                     OrderDetailRepository.Add(detail);
 
@@ -124,6 +147,8 @@ namespace Northwind.Core.DataLayer
                 }
 
                 CommitChanges();
+
+                entity.OrderID = header.OrderID;
 
                 transaction.Complete();
             }

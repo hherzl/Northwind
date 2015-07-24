@@ -1,9 +1,7 @@
-﻿using System;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
-using Northwind.Core.DataLayer.DataContracts;
 using Northwind.Core.DataLayer.Contracts;
+using Northwind.Core.DataLayer.DataContracts;
 using Northwind.Core.EntityLayer;
 
 namespace Northwind.Core.DataLayer
@@ -13,13 +11,6 @@ namespace Northwind.Core.DataLayer
         public OrderRepository(DbContext dbContext)
             : base(dbContext)
         {
-        }
-
-        public async Task<Order> Get(Int32? orderID)
-        {
-            return await DbSet
-                .Include(p => p.OrderDetails.Select(od => od.FkOrderDetailsProducts))
-                .FirstOrDefaultAsync(item => item.OrderID == orderID);
         }
 
         public IQueryable<OrderSummary> GetSummaries()
@@ -35,8 +26,16 @@ namespace Northwind.Core.DataLayer
                        Customer = customer.CompanyName,
                        Employee = employee.FirstName + " " + employee.LastName,
                        Shipper = shipper.CompanyName,
-                       Lines = order.OrderDetails.Count()
+                       Lines = order.OrderSummaries.Count(),
+                       Total = order.OrderSummaries.Sum(item => item.Total)
                    };
+        }
+
+        public override Order Get(Order entity)
+        {
+            return DbSet
+                .Include(p => p.OrderSummaries)
+                .FirstOrDefault(item => item.OrderID == entity.OrderID);
         }
     }
 }

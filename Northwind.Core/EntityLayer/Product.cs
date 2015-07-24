@@ -14,9 +14,9 @@ namespace Northwind.Core.EntityLayer
         {
             ProductID = productID;
         }
-        
+
         public Int32? ProductID { get; set; }
-        
+
         public String ProductName { get; set; }
 
         public Int32? SupplierID { get; set; }
@@ -38,7 +38,5 @@ namespace Northwind.Core.EntityLayer
         public virtual Category FkProductsCategories { get; set; }
 
         public virtual Supplier FkProductsSuppliers { get; set; }
-
-        //public virtual Collection<OrderDetail> OrderDetails { get; set; }
     }
 }

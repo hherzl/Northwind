@@ -50,8 +50,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataLayer\Contracts\IOrderDetailSummaryRepository.cs" />
     <Compile Include="DataLayer\Contracts\ISalesUow.cs" />
     <Compile Include="DataLayer\Contracts\IUow.cs" />
+    <Compile Include="DataLayer\Mapping\OrderDetailSummaryMap.cs" />
+    <Compile Include="DataLayer\OrderDetailSummaryRepository.cs" />
     <Compile Include="DataLayer\SalesUow.cs" />
     <Compile Include="DataLayer\Mapping\CategoryMap.cs" />
     <Compile Include="DataLayer\Mapping\CategorySaleFor1997Map.cs" />
@@ -101,17 +104,21 @@
     <Compile Include="EntityLayer\Employee.cs" />
     <Compile Include="EntityLayer\Order.cs" />
     <Compile Include="EntityLayer\OrderDetail.cs" />
+    <Compile Include="EntityLayer\OrderDetailSummary.cs" />
     <Compile Include="EntityLayer\Product.cs" />
     <Compile Include="EntityLayer\Region.cs" />
     <Compile Include="EntityLayer\Shipper.cs" />
     <Compile Include="EntityLayer\Supplier.cs" />
+    <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="DataLayer\Scripts\Views.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

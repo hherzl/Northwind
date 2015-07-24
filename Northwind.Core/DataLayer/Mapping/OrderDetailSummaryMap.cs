@@ -6,11 +6,11 @@ using Northwind.Core.EntityLayer;
 namespace Northwind.Core.DataLayer.Mapping
 {
     [Export(typeof(IEntityConfiguration))]
-    public class OrderDetailMap : EntityTypeConfiguration<OrderDetail>, IEntityConfiguration
+    public class OrderDetailSummaryMap : EntityTypeConfiguration<OrderDetailSummary>, IEntityConfiguration
     {
-        public OrderDetailMap()
+        public OrderDetailSummaryMap()
         {
-            ToTable("Order Details");
+            ToTable("OrderDetailSummary");
 
             HasKey(p => new { p.OrderID, p.ProductID });
 
@@ -18,11 +18,15 @@ namespace Northwind.Core.DataLayer.Mapping
 
             Property(p => p.ProductID).HasColumnType("int").IsRequired();
 
-            Property(p => p.UnitPrice).HasColumnType("money").IsRequired();
+            Property(p => p.ProductName).HasColumnType("varchar").IsOptional();
 
-            Property(p => p.Quantity).HasColumnType("smallint").IsRequired();
+            Property(p => p.UnitPrice).HasColumnType("decimal").IsOptional();
 
-            Property(p => p.Discount).HasColumnType("real").IsRequired();
+            Property(p => p.Quantity).HasColumnType("int").IsOptional();
+
+            Property(p => p.Discount).HasColumnType("decimal").IsOptional();
+
+            Property(p => p.Total).HasColumnType("decimal").IsOptional();
         }
 
         public void AddConfiguration(ConfigurationRegistrar registrar)

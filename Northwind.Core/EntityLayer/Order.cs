@@ -49,6 +49,6 @@ namespace Northwind.Core.EntityLayer
 
         public virtual Shipper FkOrdersShippers { get; set; }
 
-        public virtual Collection<OrderDetail> OrderDetails { get; set; }
+        public virtual Collection<OrderDetailSummary> OrderSummaries { get; set; }
     }
 }

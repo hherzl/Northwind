@@ -1,38 +1,32 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Northwind.Core.DataLayer
 {
-    public abstract class Repository<E> : IRepository<E> where E : class
+    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         protected DbContext DbContext;
-        protected DbSet<E> DbSet;
+        protected DbSet<TEntity> DbSet;
 
         public Repository(DbContext dbContext)
         {
             DbContext = dbContext;
 
-            DbSet = DbContext.Set<E>();
+            DbSet = DbContext.Set<TEntity>();
         }
 
-        public virtual IQueryable<E> GetAll()
+        public virtual IQueryable<TEntity> GetAll()
         {
             return DbSet;
         }
 
-        public virtual E Get(E entity)
+        public virtual TEntity Get(TEntity entity)
         {
             throw new NotImplementedException();
         }
 
-        public virtual Task<E> GetAsync(E entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual void Add(E entity)
+        public virtual void Add(TEntity entity)
         {
             var dbEntityEntry = DbContext.Entry(entity);
 
@@ -46,7 +40,7 @@ namespace Northwind.Core.DataLayer
             }
         }
 
-        public virtual void Update(E entity)
+        public virtual void Update(TEntity entity)
         {
             var dbEntityEntry = DbContext.Entry(entity);
 
@@ -58,7 +52,7 @@ namespace Northwind.Core.DataLayer
             dbEntityEntry.State = EntityState.Modified;
         }
 
-        public virtual void Remove(E entity)
+        public virtual void Remove(TEntity entity)
         {
             DbSet.Remove(entity);
         }

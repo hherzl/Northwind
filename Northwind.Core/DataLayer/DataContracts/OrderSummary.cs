@@ -20,5 +20,7 @@ namespace Northwind.Core.DataLayer.DataContracts
         public String Shipper { get; set; }
 
         public Int32 Lines { get; set; }
+
+        public Decimal? Total { get; set; }
     }
 }

@@ -17,11 +17,5 @@ namespace Northwind.Core.DataLayer
             return DbSet
                 .FirstOrDefault(item => item.ShipperID == entity.ShipperID);
         }
-
-        public override System.Threading.Tasks.Task<Shipper> GetAsync(Shipper entity)
-        {
-            return DbSet
-                .FirstOrDefaultAsync(item => item.ShipperID == entity.ShipperID);
-        }
     }
 }
