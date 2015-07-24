@@ -1,22 +1,19 @@
 ﻿using System;
-using System.Data.Entity;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Northwind.Core.DataLayer.Contracts;
-using Northwind.Core.EntityLayer;
 using NorthwindWebApi2.Models;
 using NorthwindWebApi2.Services;
 
 namespace NorthwindWebApi2.Controllers
 {
-    public class OrderController : ApiController
+    public class MarketingController : ApiController
     {
         protected ISalesUow Uow;
 
-        public OrderController(IUowService service)
+        public MarketingController(IUowService service)
         {
             Uow = service.GetSalesUow();
         }
@@ -31,31 +28,10 @@ namespace NorthwindWebApi2.Controllers
             base.Dispose(disposing);
         }
 
-        // GET: api/Order
-        public async Task<HttpResponseMessage> Get()
-        {
-            var result = new ApiResponse();
-
-            try
-            {
-                result.Model = await Uow
-                    .OrderRepository
-                    .GetSummaries()
-                    .OrderByDescending(item => item.OrderDate)
-                    .ToListAsync();
-            }
-            catch (Exception ex)
-            {
-                result.DidError = true;
-
-                result.ErrorMessage = ex.Message;
-            }
-
-            return Request.CreateResponse(HttpStatusCode.OK, result);
-        }
-
-        // GET: api/Order/5
-        public async Task<HttpResponseMessage> Get(Int32 id)
+        // GET: api/Marketin/TenMostExpensiveProducts
+        [HttpGet]
+        [Route("api/Marketing/TenMostExpensiveProducts")]
+        public async Task<HttpResponseMessage> TenMostExpensiveProducts()
         {
             var result = new ApiResponse();
 
@@ -63,9 +39,7 @@ namespace NorthwindWebApi2.Controllers
             {
                 result.Model = await Task.Run(() =>
                 {
-                    return Uow
-                        .OrderRepository
-                        .Get(new Order(id));
+                    return Uow.ProductRepository.GetTenMostExpensiveProducts();
                 });
             }
             catch (Exception ex)
@@ -78,19 +52,19 @@ namespace NorthwindWebApi2.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
-        // POST: api/Order
-        public async Task<HttpResponseMessage> Post([FromBody]Order value)
+        // GET: api/Marketin/CustOrderHist/ABCDE
+        [HttpGet]
+        [Route("api/Marketing/CustOrderHist/{customerId}")]
+        public async Task<HttpResponseMessage> CustOrderHist(String customerId)
         {
             var result = new ApiResponse();
 
             try
             {
-                await Task.Run(() =>
+                result.Model = await Task.Run(() =>
                 {
-                    Uow.CreateOrder(value);
+                    return Uow.CustomerRepository.GetCustOrderHist(customerId);
                 });
-
-                result.Model = value;
             }
             catch (Exception ex)
             {
@@ -100,11 +74,6 @@ namespace NorthwindWebApi2.Controllers
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, result);
-        }
-
-        // DELETE: api/Order/5
-        public void Delete(Int32 id)
-        {
         }
     }
 }

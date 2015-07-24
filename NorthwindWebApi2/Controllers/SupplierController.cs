@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
-using Northwind.Core.DataLayer;
-using Northwind.Core.DataLayer.OperationContracts;
+using Northwind.Core.DataLayer.Contracts;
 using Northwind.Core.EntityLayer;
 using NorthwindWebApi2.Models;
 using NorthwindWebApi2.Services;
@@ -31,17 +32,22 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // GET: api/Supplier
-        public HttpResponseMessage Get()
+        public async Task<HttpResponseMessage> Get()
         {
-            var result = new ApiResult();
+            var result = new ApiResponse();
 
             try
             {
-                result.Model = Uow.SupplierRepository.GetAll().OrderByDescending(item => item.SupplierID).ToList();
+                result.Model = await Uow
+                    .SupplierRepository
+                    .GetAll()
+                    .OrderByDescending(item => item.SupplierID)
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
                 result.DidError = true;
+
                 result.ErrorMessage = ex.Message;
             }
 
@@ -49,13 +55,16 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // GET: api/Supplier/5
-        public HttpResponseMessage Get(Int32 id)
+        public async Task<HttpResponseMessage> Get(Int32 id)
         {
-            var result = new ApiResult();
+            var result = new ApiResponse();
 
             try
             {
-                result.Model = Uow.SupplierRepository.Get(new Supplier { SupplierID = id });
+                result.Model = await Task.Run(() =>
+                {
+                    return Uow.SupplierRepository.Get(new Supplier(id));
+                });
             }
             catch (Exception ex)
             {
@@ -68,15 +77,15 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // POST: api/Supplier
-        public HttpResponseMessage Post([FromBody]Supplier value)
+        public async Task<HttpResponseMessage> Post([FromBody]Supplier value)
         {
-            var result = new ApiResult();
+            var result = new ApiResponse();
 
             try
             {
                 Uow.SupplierRepository.Add(value);
 
-                Uow.CommitChanges();
+                await Uow.CommitChangesAsync();
 
                 result.Model = value;
             }
@@ -91,16 +100,16 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // PUT: api/Supplier/5
-        public HttpResponseMessage Put(Int32 id, [FromBody]Supplier value)
+        public async Task<HttpResponseMessage> Put(Int32 id, [FromBody]Supplier value)
         {
-            var entity = Uow.SupplierRepository.Get(new Supplier { SupplierID = id });
+            var entity = Uow.SupplierRepository.Get(new Supplier(id));
 
             if (entity == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Error");
             }
 
-            var result = new ApiResult();
+            var result = new ApiResponse();
 
             try
             {
@@ -118,7 +127,7 @@ namespace NorthwindWebApi2.Controllers
 
                 Uow.SupplierRepository.Update(entity);
 
-                Uow.CommitChanges();
+                await Uow.CommitChangesAsync();
             }
             catch (Exception ex)
             {
@@ -131,20 +140,33 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // DELETE: api/Supplier/5
-        public HttpResponseMessage Delete(Int32 id)
+        public async Task<HttpResponseMessage> Delete(Int32 id)
         {
-            var entity = Uow.SupplierRepository.Get(new Supplier { SupplierID = id });
+            var result = new ApiResponse();
 
-            if (entity == null)
+            try
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound, "Error");
+                var entity = Uow.SupplierRepository.Get(new Supplier(id));
+
+                if (entity == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Error");
+                }
+
+                Uow.SupplierRepository.Remove(entity);
+
+                await Uow.CommitChangesAsync();
+
+                result.Message = "Delete was successfully!";
+            }
+            catch (Exception ex)
+            {
+                result.DidError = true;
+
+                result.ErrorMessage = ex.Message;
             }
 
-            Uow.SupplierRepository.Remove(entity);
-
-            Uow.CommitChanges();
-
-            return Request.CreateResponse(HttpStatusCode.OK, "Delete was successfully!");
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
     }
 }

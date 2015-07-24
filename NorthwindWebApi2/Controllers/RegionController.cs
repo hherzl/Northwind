@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Linq;
+using System.Data.Entity;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Northwind.Core.DataLayer;
-using Northwind.Core.DataLayer.OperationContracts;
+using Northwind.Core.DataLayer.Contracts;
 using NorthwindWebApi2.Models;
 using NorthwindWebApi2.Services;
 
@@ -30,15 +31,15 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // GET: api/Region
-        public HttpResponseMessage Get()
+        public async Task<HttpResponseMessage> Get()
         {
-            var result = new ApiResult();
+            var result = new ApiResponse();
 
             try
             {
-                result.Model = Uow.RegionRepository
+                result.Model = await Uow.RegionRepository
                     .GetAll()
-                    .ToList();
+                    .ToListAsync();
             }
             catch (Exception ex)
             {

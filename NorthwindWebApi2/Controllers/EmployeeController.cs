@@ -2,9 +2,10 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
+using Northwind.Core.DataLayer.Contracts;
 using Northwind.Core.DataLayer.DataContracts;
-using Northwind.Core.DataLayer.OperationContracts;
 using Northwind.Core.EntityLayer;
 using NorthwindWebApi2.Models;
 using NorthwindWebApi2.Services;
@@ -20,7 +21,7 @@ namespace NorthwindWebApi2.Controllers
             Uow = service.GetSalesUow();
         }
 
-        protected override void Dispose(bool disposing)
+        protected override void Dispose(Boolean disposing)
         {
             if (Uow != null)
             {
@@ -31,23 +32,23 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // GET: api/Employee
-        public HttpResponseMessage Get()
+        public async Task<HttpResponseMessage> Get()
         {
-            var result = new ApiResult();
+            var result = new ApiResponse();
 
             try
             {
-                result.Model = Uow.EmployeeRepository
-                    .GetAll()
-                    .ToList()
-                    .Select(item =>
+                result.Model = await Task.Run(() =>
+                {
+                    return Uow.EmployeeRepository.GetAll().Select(item =>
                         new EmployeeDetail()
                         {
                             EmployeeID = item.EmployeeID,
                             FullName = item.FirstName + " " + item.LastName,
                             Title = item.Title,
                             TitleOfCourtesy = item.TitleOfCourtesy
-                        });
+                        }).ToList();
+                });
             }
             catch (Exception ex)
             {
@@ -60,14 +61,16 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // GET: api/Employee/5
-        public HttpResponseMessage Get(Int32 id)
+        public async Task<HttpResponseMessage> Get(Int32 id)
         {
-            var result = new ApiResult();
+            var result = new ApiResponse();
 
             try
             {
-                result.Model = Uow.EmployeeRepository
-                    .Get(new Employee() { EmployeeID = id });
+                result.Model = await Task.Run(() =>
+                {
+                    return Uow.EmployeeRepository.Get(new Employee(id));
+                });
             }
             catch (Exception ex)
             {

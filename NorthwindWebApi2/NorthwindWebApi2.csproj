@@ -51,26 +51,10 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Glimpse.Ado">
-      <HintPath>..\packages\Glimpse.Ado.1.7.3\lib\net45\Glimpse.Ado.dll</HintPath>
-    </Reference>
-    <Reference Include="Glimpse.AspNet, Version=1.9.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Glimpse.AspNet.1.9.2\lib\net45\Glimpse.AspNet.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Glimpse.Core">
-      <HintPath>..\packages\Glimpse.1.8.6\lib\net45\Glimpse.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Glimpse.EF6">
-      <HintPath>..\packages\Glimpse.EF6.1.6.5\lib\net45\Glimpse.EF6.dll</HintPath>
-    </Reference>
-    <Reference Include="Glimpse.Mvc5">
-      <HintPath>..\packages\Glimpse.Mvc5.1.5.3\lib\net45\Glimpse.Mvc5.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
@@ -96,6 +80,10 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.3\lib\net45\System.Web.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -107,6 +95,10 @@
     </Reference>
     <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.3\lib\net45\System.Web.Http.Cors.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -161,7 +153,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="app\views\Region\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
@@ -194,9 +185,8 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\CategorySaleFor1997Controller.cs" />
+    <Compile Include="Controllers\MarketingController.cs" />
     <Compile Include="Controllers\RegionController.cs" />
-    <Compile Include="GlimpseSecurityPolicy.cs" />
-    <Compile Include="Models\ApiResult.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
@@ -213,95 +203,22 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\IApiResponse.cs" />
+    <Compile Include="Models\ApiResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IUowService.cs" />
     <Compile Include="Services\UowService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app\app.js" />
-    <Content Include="app\controllers\CategoryController.js" />
-    <Content Include="app\controllers\CustomerController.js" />
-    <Content Include="app\controllers\HomeController.js" />
-    <Content Include="app\controllers\OrderController.js" />
-    <Content Include="app\controllers\ProductController.js" />
-    <Content Include="app\controllers\RegionController.js" />
-    <Content Include="app\controllers\ShipperController.js" />
-    <Content Include="app\controllers\SupplierController.js" />
-    <Content Include="app\index.html" />
-    <Content Include="app\services\CategoryService.js" />
-    <Content Include="app\services\CustomerService.js" />
-    <Content Include="app\services\EmployeeService.js" />
-    <Content Include="app\services\OrderService.js" />
-    <Content Include="app\services\ProductService.js" />
-    <Content Include="app\services\RegionService.js" />
-    <Content Include="app\services\ShipperService.js" />
-    <Content Include="app\services\SupplierService.js" />
-    <Content Include="app\services\TranslationService.js" />
-    <Content Include="app\services\UnitOfWork.js" />
-    <Content Include="app\services\UrlBuilderService.js" />
-    <Content Include="app\views\Category\index.html" />
-    <Content Include="app\views\Customer\create.html" />
-    <Content Include="app\views\Customer\delete.html" />
-    <Content Include="app\views\Customer\details.html" />
-    <Content Include="app\views\Customer\edit.html" />
-    <Content Include="app\views\Customer\index.html" />
-    <Content Include="app\views\Employee\index.html" />
-    <Content Include="app\views\home.html" />
-    <Content Include="app\views\Order\create.html" />
-    <Content Include="app\views\Order\details.html" />
-    <Content Include="app\views\Order\index.html" />
-    <Content Include="app\views\Product\create.html" />
-    <Content Include="app\views\Product\delete.html" />
-    <Content Include="app\views\Product\details.html" />
-    <Content Include="app\views\Product\edit.html" />
-    <Content Include="app\views\Product\index.html" />
-    <Content Include="app\views\Shipper\create.html" />
-    <Content Include="app\views\Shipper\delete.html" />
-    <Content Include="app\views\Shipper\details.html" />
-    <Content Include="app\views\Shipper\edit.html" />
-    <Content Include="app\views\Shipper\index.html" />
-    <Content Include="app\views\Supplier\create.html" />
-    <Content Include="app\views\Supplier\delete.html" />
-    <Content Include="app\views\Supplier\details.html" />
-    <Content Include="app\views\Supplier\edit.html" />
-    <Content Include="app\views\Supplier\index.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\ng-table.css" />
-    <Content Include="Content\ng-table.min.css" />
-    <Content Include="Content\toaster.css" />
-    <Content Include="Content\toaster.min.css" />
-    <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Icon.png" />
-    <Content Include="Scripts\angular-animate.js" />
-    <Content Include="Scripts\angular-animate.min.js" />
-    <Content Include="Scripts\angular-cookies.js" />
-    <Content Include="Scripts\angular-cookies.min.js" />
-    <Content Include="Scripts\angular-mocks.js" />
-    <Content Include="Scripts\angular-resource.js" />
-    <Content Include="Scripts\angular-resource.min.js" />
-    <Content Include="app\translations\app_en.json" />
-    <Content Include="app\translations\app_es.json" />
-    <Content Include="Scripts\angular-route.js" />
-    <Content Include="Scripts\angular-route.min.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
-    <Content Include="Scripts\angular.js" />
-    <Content Include="Scripts\angular.min.js" />
-    <Content Include="Scripts\angular.min.js.map" />
-    <Content Include="Scripts\angular-animate.min.js.map" />
-    <Content Include="Scripts\angular-cookies.min.js.map" />
-    <Content Include="Scripts\angular-resource.min.js.map" />
-    <Content Include="Scripts\angular-route.min.js.map" />
-    <Content Include="Content\toaster.scss" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -327,7 +244,6 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
-    <Content Include="Content\ng-table.less" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -335,15 +251,11 @@
     <Content Include="Scripts\jquery-2.1.4.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\ng-table.js" />
-    <Content Include="Scripts\ng-table.min.js" />
     <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\toaster.js" />
-    <Content Include="Scripts\toaster.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -362,7 +274,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\jquery-2.1.4.min.map" />
-    <Content Include="Scripts\ng-table.min.js.map" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Northwind.Core\Northwind.Core.csproj">

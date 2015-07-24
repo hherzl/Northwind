@@ -2,8 +2,9 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
-using Northwind.Core.DataLayer.OperationContracts;
+using Northwind.Core.DataLayer.Contracts;
 using NorthwindWebApi2.Models;
 using NorthwindWebApi2.Services;
 
@@ -29,17 +30,16 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // GET: api/CategorySaleFor1997
-        public HttpResponseMessage Get()
+        public async Task<HttpResponseMessage> Get()
         {
-            var result = new ApiResult();
+            var result = new ApiResponse();
 
             try
             {
-                var list = Uow.CategorySaleFor1997Repository
-                    .GetAll()
-                    .ToList();
-
-                result.Model = list;
+                result.Model = await Task.Run(() =>
+                {
+                    return Uow.CategorySaleFor1997Repository.GetAll().ToList();
+                });
             }
             catch (Exception ex)
             {

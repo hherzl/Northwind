@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Linq;
+using System.Data.Entity;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
-using Northwind.Core.DataLayer.OperationContracts;
+using Northwind.Core.DataLayer.Contracts;
 using Northwind.Core.EntityLayer;
 using NorthwindWebApi2.Models;
 using NorthwindWebApi2.Services;
@@ -30,126 +31,130 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // GET: api/Shipper
-        public HttpResponseMessage Get()
+        public async Task<HttpResponseMessage> Get()
         {
-            var result = new ApiResult();
+            var response = new ApiResponse();
 
             try
             {
-                result.Model = Uow.ShipperRepository.GetAll().OrderByDescending(item => item.ShipperID).ToList();
+                response.Model = await Uow
+                    .ShipperRepository
+                    .GetAll()
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
-                result.DidError = true;
-                result.ErrorMessage = ex.Message;
+                response.DidError = true;
+
+                response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, result);
+            return Request.CreateResponse(HttpStatusCode.OK, response);
         }
 
         // GET: api/Shipper/5
-        public HttpResponseMessage Get(Int32 id)
+        public async Task<HttpResponseMessage> Get(Int32 id)
         {
-            var result = new ApiResult();
+            var response = new ApiResponse();
 
             try
             {
-                result.Model = Uow.ShipperRepository.Get(new Shipper() { ShipperID = id });
+                response.Model = await Task.Run(() => { return Uow.ShipperRepository.Get(new Shipper(id)); });
             }
             catch (Exception ex)
             {
-                result.DidError = true;
+                response.DidError = true;
 
-                result.ErrorMessage = ex.Message;
+                response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, result);
+            return Request.CreateResponse(HttpStatusCode.OK, response);
         }
 
         // POST: api/Shipper
-        public HttpResponseMessage Post([FromBody]Shipper value)
+        public async Task<HttpResponseMessage> Post([FromBody]Shipper value)
         {
-            var result = new ApiResult();
+            var response = new ApiResponse();
 
             try
             {
                 Uow.ShipperRepository.Add(value);
 
-                Uow.CommitChanges();
+                await Uow.CommitChangesAsync();
 
-                result.Model = value;
+                response.Model = value;
             }
             catch (Exception ex)
             {
-                result.DidError = true;
+                response.DidError = true;
 
-                result.ErrorMessage = ex.Message;
+                response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, result);
+            return Request.CreateResponse(HttpStatusCode.OK, response);
         }
 
         // PUT: api/Shipper/5
-        public HttpResponseMessage Put(Int32 id, [FromBody]Shipper value)
+        public async Task<HttpResponseMessage> Put(Int32 id, [FromBody]Shipper value)
         {
-            var entity = Uow.ShipperRepository.Get(new Shipper() { ShipperID = id });
-
-            if (entity == null)
-            {
-                return Request.CreateResponse(HttpStatusCode.NotFound, "Error");
-            }
-
-            var result = new ApiResult();
+            var response = new ApiResponse();
 
             try
             {
+                var entity = Uow.ShipperRepository.Get(new Shipper(id));
+
+                if (entity == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Error");
+                }
+
                 entity.CompanyName = value.CompanyName;
                 entity.Phone = value.Phone;
 
                 Uow.ShipperRepository.Update(entity);
 
-                Uow.CommitChanges();
+                await Uow.CommitChangesAsync();
 
-                result.Model = value;
+                response.Model = value;
             }
             catch (Exception ex)
             {
-                result.DidError = true;
+                response.DidError = true;
 
-                result.ErrorMessage = ex.Message;
+                response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, result);
+            return Request.CreateResponse(HttpStatusCode.OK, response);
         }
 
         // DELETE: api/Shipper/5
-        public HttpResponseMessage Delete(Int32 id)
+        public async Task<HttpResponseMessage> Delete(Int32 id)
         {
-            var entity = Uow.ShipperRepository.Get(new Shipper() { ShipperID = id });
-
-            if (entity == null)
-            {
-                return Request.CreateResponse(HttpStatusCode.NotFound, "Error");
-            }
-
-            var result = new ApiResult();
+            var response = new ApiResponse();
 
             try
             {
+                var entity = Uow.ShipperRepository.Get(new Shipper(id));
+
+                if (entity == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Error");
+                }
+
                 Uow.ShipperRepository.Remove(entity);
 
-                Uow.CommitChanges();
+                await Uow.CommitChangesAsync();
 
-                result.Model = entity;
+                response.Model = entity;
             }
             catch (Exception ex)
             {
-                result.DidError = true;
+                response.DidError = true;
 
-                result.ErrorMessage = ex.Message;
+                response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, result);
+            return Request.CreateResponse(HttpStatusCode.OK, response);
         }
     }
 }

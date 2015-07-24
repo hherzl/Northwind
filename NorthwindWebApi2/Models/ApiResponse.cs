@@ -2,13 +2,13 @@
 
 namespace NorthwindWebApi2.Models
 {
-    public class ApiResult
+    public class ApiResponse : IApiResponse
     {
-        public ApiResult()
+        public ApiResponse()
         {
 
         }
-
+        
         public Object Model { get; set; }
 
         public String Message { get; set; }

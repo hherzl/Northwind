@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
-using Northwind.Core.DataLayer.OperationContracts;
+using Northwind.Core.DataLayer.Contracts;
 using Northwind.Core.EntityLayer;
 using NorthwindWebApi2.Models;
 using NorthwindWebApi2.Services;
@@ -30,20 +32,16 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // GET: api/Category
-        public HttpResponseMessage Get()
+        public async Task<HttpResponseMessage> Get()
         {
-            var result = new ApiResult();
+            var result = new ApiResponse();
 
             try
             {
-                var list = Uow.CategoryRepository
+                result.Model = await Uow.CategoryRepository
                     .GetAll()
                     .OrderByDescending(item => item.CategoryID)
-                    .ToList();
-
-                list.ForEach(i => i.Picture = null);
-
-                result.Model = list;
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -56,13 +54,16 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // GET: api/Category/5
-        public HttpResponseMessage Get(Int32 id)
+        public async Task<HttpResponseMessage> Get(Int32 id)
         {
-            var result = new ApiResult();
+            var result = new ApiResponse();
 
             try
             {
-                result.Model = Uow.CategoryRepository.Get(new Category() { CategoryID = id });
+                result.Model = await Task.Run(() =>
+                {
+                    return Uow.CategoryRepository.Get(new Category(id));
+                });
             }
             catch (Exception ex)
             {
@@ -75,18 +76,21 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // POST: api/Category
-        public void Post([FromBody]string value)
+        public void Post([FromBody]Category value)
         {
+
         }
 
         // PUT: api/Category/5
-        public void Put(int id, [FromBody]string value)
+        public void Put(Int32 id, [FromBody]Category value)
         {
+
         }
 
         // DELETE: api/Category/5
-        public void Delete(int id)
+        public void Delete(Int32 id)
         {
+
         }
     }
 }

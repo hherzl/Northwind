@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
-using Northwind.Core.DataLayer;
-using Northwind.Core.DataLayer.OperationContracts;
+using Northwind.Core.DataLayer.Contracts;
 using Northwind.Core.EntityLayer;
 using NorthwindWebApi2.Models;
 using NorthwindWebApi2.Services;
@@ -31,17 +31,20 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // GET: api/Customer
-        public HttpResponseMessage Get()
+        public async Task<HttpResponseMessage> Get()
         {
-            var result = new ApiResult();
+            var result = new ApiResponse();
 
             try
             {
-                result.Model = Uow
-                    .CustomerRepository
-                    .GetAll()
-                    .OrderByDescending(item => item.CustomerID)
-                    .ToList();
+                result.Model = await Task.Run(() =>
+                {
+                    return Uow
+                        .CustomerRepository
+                        .GetAll()
+                        .OrderByDescending(item => item.CustomerID)
+                        .ToList();
+                });
             }
             catch (Exception ex)
             {
@@ -54,13 +57,18 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // GET: api/Customer/5
-        public HttpResponseMessage Get(String id)
+        public async Task<HttpResponseMessage> Get(String id)
         {
-            var result = new ApiResult();
+            var result = new ApiResponse();
 
             try
             {
-                result.Model = Uow.CustomerRepository.Get(new Customer { CustomerID = id });
+                result.Model = await Task.Run(() =>
+                {
+                    return Uow
+                        .CustomerRepository
+                        .Get(new Customer(id));
+                });
             }
             catch (Exception ex)
             {
@@ -73,17 +81,18 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // POST: api/Customer
-        public HttpResponseMessage Post([FromBody]Customer value)
+        public async Task<HttpResponseMessage> Post([FromBody]Customer value)
         {
-            var result = new ApiResult();
+            var result = new ApiResponse();
 
             try
             {
+
                 value.CustomerID = value.CompanyName.Substring(0, 5).ToUpper();
 
                 Uow.CustomerRepository.Add(value);
 
-                Uow.CommitChanges();
+                await Uow.CommitChangesAsync();
 
                 result.Message = "The data was saved successfully!";
             }
@@ -98,9 +107,9 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // PUT: api/Customer/5
-        public HttpResponseMessage Put(String id, [FromBody]Customer value)
+        public async Task<HttpResponseMessage> Put(String id, [FromBody]Customer value)
         {
-            var entity = Uow.CustomerRepository.Get(new Customer { CustomerID = id });
+            var entity = Uow.CustomerRepository.Get(new Customer(id));
 
             if (entity == null)
             {
@@ -118,13 +127,13 @@ namespace NorthwindWebApi2.Controllers
             entity.Phone = value.Phone;
             entity.Fax = value.Fax;
 
-            var result = new ApiResult();
+            var result = new ApiResponse();
 
             try
             {
                 Uow.CustomerRepository.Update(entity);
 
-                Uow.CommitChanges();
+                await Uow.CommitChangesAsync();
 
                 result.Message = "The changes was saved successfully!";
             }
@@ -139,24 +148,22 @@ namespace NorthwindWebApi2.Controllers
         }
 
         // DELETE: api/Customer/5
-        public HttpResponseMessage Delete(String id)
+        public async Task<HttpResponseMessage> Delete(String id)
         {
-            var entity = Uow
-                .CustomerRepository
-                .Get(new Customer { CustomerID = id });
+            var entity = Uow.CustomerRepository.Get(new Customer(id));
 
             if (entity == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "Error");
             }
 
-            var result = new ApiResult();
+            var result = new ApiResponse();
 
             try
             {
                 Uow.CustomerRepository.Remove(entity);
 
-                Uow.CommitChanges();
+                await Uow.CommitChangesAsync();
             }
             catch (Exception ex)
             {
