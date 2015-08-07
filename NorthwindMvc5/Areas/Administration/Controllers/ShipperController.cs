@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Northwind.Core.DataLayer.Contracts;
+using Northwind.Core.EntityLayer;
+using NorthwindMvc5.Areas.Administration.Models;
 using NorthwindMvc5.Services;
 
 namespace NorthwindMvc5.Areas.Administration.Controllers
@@ -25,15 +29,27 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         }
 
         // GET: Administration/Shipper
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            var model = await Task.Run(() =>
+            {
+                return Uow.ShipperRepository.GetAll().ToList();
+            });
+
+            return View(model);
         }
 
         // GET: Administration/Shipper/Details/5
-        public ActionResult Details(Int32 id)
+        public async Task<ActionResult> Details(Int32 id)
         {
-            return View();
+            var entity = await Task.Run(() =>
+            {
+                return Uow.ShipperRepository.Get(new Shipper(id));
+            });
+
+            var model = new ShipperModel(entity);
+
+            return View(model);
         }
 
         // GET: Administration/Shipper/Create
@@ -44,11 +60,18 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
 
         // POST: Administration/Shipper/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public async Task<ActionResult> Create(ShipperModel model)
         {
             try
             {
-                // TODO: Add insert logic here
+                var entity = new Shipper();
+
+                entity.CompanyName = model.CompanyName;
+                entity.Phone = model.Phone;
+
+                Uow.ShipperRepository.Add(entity);
+
+                await Uow.CommitChangesAsync();
 
                 return RedirectToAction("Index");
             }
@@ -59,18 +82,33 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         }
 
         // GET: Administration/Shipper/Edit/5
-        public ActionResult Edit(Int32 id)
+        public async Task<ActionResult> Edit(Int32 id)
         {
-            return View();
+            var entity = await Task.Run(() =>
+            {
+                return Uow.ShipperRepository.Get(new Shipper(id));
+            });
+
+            var model = new ShipperModel(entity);
+
+            return View(model);
         }
 
         // POST: Administration/Shipper/Edit/5
         [HttpPost]
-        public ActionResult Edit(Int32 id, FormCollection collection)
+        public async Task<ActionResult> Edit(Int32 id, ShipperModel model)
         {
             try
             {
-                // TODO: Add update logic here
+                var entity = await Task.Run(() =>
+                {
+                    return Uow.ShipperRepository.Get(new Shipper(id));
+                });
+
+                entity.CompanyName = model.CompanyName;
+                entity.Phone = model.Phone;
+
+                await Uow.CommitChangesAsync();
 
                 return RedirectToAction("Index");
             }
@@ -81,18 +119,32 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         }
 
         // GET: Administration/Shipper/Delete/5
-        public ActionResult Delete(Int32 id)
+        public async Task<ActionResult> Delete(Int32 id)
         {
-            return View();
+            var entity = await Task.Run(() =>
+            {
+                return Uow.ShipperRepository.Get(new Shipper(id));
+            });
+
+            var model = new ShipperModel(entity);
+
+            return View(model);
         }
 
         // POST: Administration/Shipper/Delete/5
         [HttpPost]
-        public ActionResult Delete(Int32 id, FormCollection collection)
+        public async Task<ActionResult> Delete(Int32 id, FormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
+                var entity = await Task.Run(() =>
+                {
+                    return Uow.ShipperRepository.Get(new Shipper(id));
+                });
+
+                Uow.ShipperRepository.Remove(entity);
+
+                await Uow.CommitChangesAsync();
 
                 return RedirectToAction("Index");
             }

@@ -190,6 +190,7 @@
     <Compile Include="Areas\Administration\Models\OrderModel.cs" />
     <Compile Include="Areas\Administration\Models\ProductModel.cs" />
     <Compile Include="Areas\Administration\Models\RegionModel.cs" />
+    <Compile Include="Areas\Administration\Models\ShipperModel.cs" />
     <Compile Include="Areas\Administration\Models\SupplierModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
@@ -227,6 +228,12 @@
     <Content Include="Areas\Administration\Views\Order\Index.cshtml" />
     <Content Include="Areas\Administration\Views\Order\Details.cshtml" />
     <Content Include="Areas\Administration\Views\Product\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Category\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Shipper\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Shipper\Details.cshtml" />
+    <Content Include="Areas\Administration\Views\Shipper\Delete.cshtml" />
+    <Content Include="Areas\Administration\Views\Shipper\Edit.cshtml" />
+    <Content Include="Areas\Administration\Views\Shipper\Create.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -263,13 +270,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Administration\Views\Category\" />
     <Folder Include="Areas\Administration\Views\Customer\" />
     <Folder Include="Areas\Administration\Views\Employee\" />
     <Folder Include="Areas\Administration\Views\Region\" />
-    <Folder Include="Areas\Administration\Views\Shipper\" />
     <Folder Include="Areas\Administration\Views\Supplier\" />
     <Folder Include="Models\" />
+    <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
