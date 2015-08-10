@@ -228,12 +228,16 @@
     <Content Include="Areas\Administration\Views\Order\Index.cshtml" />
     <Content Include="Areas\Administration\Views\Order\Details.cshtml" />
     <Content Include="Areas\Administration\Views\Product\Index.cshtml" />
-    <Content Include="Areas\Administration\Views\Category\Index.cshtml" />
     <Content Include="Areas\Administration\Views\Shipper\Index.cshtml" />
     <Content Include="Areas\Administration\Views\Shipper\Details.cshtml" />
     <Content Include="Areas\Administration\Views\Shipper\Delete.cshtml" />
     <Content Include="Areas\Administration\Views\Shipper\Edit.cshtml" />
     <Content Include="Areas\Administration\Views\Shipper\Create.cshtml" />
+    <Content Include="Areas\Administration\Views\Category\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Category\Details.cshtml" />
+    <Content Include="Areas\Administration\Views\Category\Create.cshtml" />
+    <Content Include="Areas\Administration\Views\Category\Edit.cshtml" />
+    <Content Include="Areas\Administration\Views\Category\Delete.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
