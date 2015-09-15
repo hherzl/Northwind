@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Northwind.Core.DataLayer.Contracts;
+using Northwind.Core.EntityLayer;
+using NorthwindMvc5.Areas.Administration.Models;
 using NorthwindMvc5.Services;
 
 namespace NorthwindMvc5.Areas.Administration.Controllers
@@ -25,30 +29,49 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         }
 
         // GET: Administration/Customer
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            var model = await Task.Run(() =>
+            {
+                return Uow.CustomerRepository.GetAll().ToList();
+            });
+
+            return View(model);
         }
 
         // GET: Administration/Customer/Details/5
-        public ActionResult Details(Int32 id)
+        public async Task<ActionResult> Details(String id)
         {
-            return View();
+            var entity = await Task.Run(() =>
+            {
+                return Uow.CustomerRepository.Get(new Customer() { CustomerID = id });
+            });
+
+            var model = new CustomerModel(entity);
+
+            return View(model);
         }
 
         // GET: Administration/Customer/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            return View();
+            return await Task.Run(() =>
+            {
+                return View();
+            });
         }
 
         // POST: Administration/Customer/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public async Task<ActionResult> Create(CustomerModel model)
         {
             try
             {
-                // TODO: Add insert logic here
+                var entity = new Customer();
+
+                Uow.CustomerRepository.Add(entity);
+
+                await Uow.CommitChangesAsync();
 
                 return RedirectToAction("Index");
             }
@@ -59,17 +82,29 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         }
 
         // GET: Administration/Customer/Edit/5
-        public ActionResult Edit(Int32 id)
+        public async Task<ActionResult> Edit(String id)
         {
-            return View();
+            var entity = await Task.Run(() =>
+            {
+                return Uow.CustomerRepository.Get(new Customer() { CustomerID = id });
+            });
+
+            var model = new CustomerModel(entity);
+
+            return View(model);
         }
 
         // POST: Administration/Customer/Edit/5
         [HttpPost]
-        public ActionResult Edit(Int32 id, FormCollection collection)
+        public async Task<ActionResult> Edit(String id, CustomerModel model)
         {
             try
             {
+                var entity = await Task.Run(() =>
+                {
+                    return Uow.CustomerRepository.Get(new Customer() { CustomerID = id });
+                });
+
                 // TODO: Add update logic here
 
                 return RedirectToAction("Index");
@@ -81,17 +116,29 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         }
 
         // GET: Administration/Customer/Delete/5
-        public ActionResult Delete(Int32 id)
+        public async Task<ActionResult> Delete(String id)
         {
-            return View();
+            var entity = await Task.Run(() =>
+            {
+                return Uow.CustomerRepository.Get(new Customer() { CustomerID = id });
+            });
+
+            var model = new CustomerModel(entity);
+
+            return View(model);
         }
 
         // POST: Administration/Customer/Delete/5
         [HttpPost]
-        public ActionResult Delete(Int32 id, FormCollection collection)
+        public async Task<ActionResult> Delete(String id, CustomerModel model)
         {
             try
             {
+                var entity = await Task.Run(() =>
+                {
+                    return Uow.CustomerRepository.Get(new Customer() { CustomerID = id });
+                });
+
                 // TODO: Add delete logic here
 
                 return RedirectToAction("Index");

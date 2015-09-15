@@ -238,6 +238,26 @@
     <Content Include="Areas\Administration\Views\Category\Create.cshtml" />
     <Content Include="Areas\Administration\Views\Category\Edit.cshtml" />
     <Content Include="Areas\Administration\Views\Category\Delete.cshtml" />
+    <Content Include="Areas\Administration\Views\Customer\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Customer\Details.cshtml" />
+    <Content Include="Areas\Administration\Views\Customer\Create.cshtml" />
+    <Content Include="Areas\Administration\Views\Customer\Edit.cshtml" />
+    <Content Include="Areas\Administration\Views\Customer\Delete.cshtml" />
+    <Content Include="Areas\Administration\Views\Supplier\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Supplier\Details.cshtml" />
+    <Content Include="Areas\Administration\Views\Supplier\Create.cshtml" />
+    <Content Include="Areas\Administration\Views\Supplier\Edit.cshtml" />
+    <Content Include="Areas\Administration\Views\Supplier\Delete.cshtml" />
+    <Content Include="Areas\Administration\Views\Employee\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Employee\Details.cshtml" />
+    <Content Include="Areas\Administration\Views\Employee\Create.cshtml" />
+    <Content Include="Areas\Administration\Views\Employee\Edit.cshtml" />
+    <Content Include="Areas\Administration\Views\Employee\Delete.cshtml" />
+    <Content Include="Areas\Administration\Views\Region\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Region\Details.cshtml" />
+    <Content Include="Areas\Administration\Views\Region\Create.cshtml" />
+    <Content Include="Areas\Administration\Views\Region\Edit.cshtml" />
+    <Content Include="Areas\Administration\Views\Region\Delete.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -274,10 +294,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Administration\Views\Customer\" />
-    <Folder Include="Areas\Administration\Views\Employee\" />
-    <Folder Include="Areas\Administration\Views\Region\" />
-    <Folder Include="Areas\Administration\Views\Supplier\" />
     <Folder Include="Models\" />
     <Folder Include="Uploads\" />
   </ItemGroup>

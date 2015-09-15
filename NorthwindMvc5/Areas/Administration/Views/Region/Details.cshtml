@@ -1,0 +1,26 @@
+﻿@model NorthwindMvc5.Areas.Administration.Models.RegionModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>RegionModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RegionDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RegionDescription)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.RegionID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
