@@ -19,8 +19,8 @@ namespace Northwind.Core.DataLayer
         {
             var query =
                 from product in GetAll()
-                join supplier in DbContext.Set<Supplier>() on product.SupplierID equals supplier.SupplierID
-                join category in DbContext.Set<Category>() on product.CategoryID equals category.CategoryID
+                join supplier in DbCtx.Set<Supplier>() on product.SupplierID equals supplier.SupplierID
+                join category in DbCtx.Set<Category>() on product.CategoryID equals category.CategoryID
                 where product.Discontinued == false
                 select new ProductDetail()
                     {
@@ -54,7 +54,7 @@ namespace Northwind.Core.DataLayer
 
         public IEnumerable<TenMostExpensiveProduct> GetTenMostExpensiveProducts()
         {
-            return DbContext
+            return DbCtx
                 .Database
                 .SqlQuery<TenMostExpensiveProduct>(" exec [Ten Most Expensive Products] ");
         }

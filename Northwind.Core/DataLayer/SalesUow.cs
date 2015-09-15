@@ -29,7 +29,7 @@ namespace Northwind.Core.DataLayer
         {
             get
             {
-                return m_supplierRepository ?? (m_supplierRepository = new SupplierRepository(DatabaseContext));
+                return m_supplierRepository ?? (m_supplierRepository = new SupplierRepository(DbCtx));
             }
         }
 
@@ -37,7 +37,7 @@ namespace Northwind.Core.DataLayer
         {
             get
             {
-                return m_categoryRepository ?? (m_categoryRepository = new CategoryRepository(DatabaseContext));
+                return m_categoryRepository ?? (m_categoryRepository = new CategoryRepository(DbCtx));
             }
         }
 
@@ -45,7 +45,7 @@ namespace Northwind.Core.DataLayer
         {
             get
             {
-                return m_productRepository ?? (m_productRepository = new ProductRepository(DatabaseContext));
+                return m_productRepository ?? (m_productRepository = new ProductRepository(DbCtx));
             }
         }
 
@@ -53,7 +53,7 @@ namespace Northwind.Core.DataLayer
         {
             get
             {
-                return m_shipperRepository ?? (m_shipperRepository = new ShipperRepository(DatabaseContext));
+                return m_shipperRepository ?? (m_shipperRepository = new ShipperRepository(DbCtx));
             }
         }
 
@@ -61,7 +61,7 @@ namespace Northwind.Core.DataLayer
         {
             get
             {
-                return m_customerRepository ?? (m_customerRepository = new CustomerRepository(DatabaseContext));
+                return m_customerRepository ?? (m_customerRepository = new CustomerRepository(DbCtx));
             }
         }
 
@@ -69,7 +69,7 @@ namespace Northwind.Core.DataLayer
         {
             get
             {
-                return m_employeeRepository ?? (m_employeeRepository = new EmployeeRepository(DatabaseContext));
+                return m_employeeRepository ?? (m_employeeRepository = new EmployeeRepository(DbCtx));
             }
         }
 
@@ -77,7 +77,7 @@ namespace Northwind.Core.DataLayer
         {
             get
             {
-                return m_orderRepository ?? (m_orderRepository = new OrderRepository(DatabaseContext));
+                return m_orderRepository ?? (m_orderRepository = new OrderRepository(DbCtx));
             }
         }
 
@@ -85,7 +85,7 @@ namespace Northwind.Core.DataLayer
         {
             get
             {
-                return m_orderDetailRepository ?? (m_orderDetailRepository = new OrderDetailRepository(DatabaseContext));
+                return m_orderDetailRepository ?? (m_orderDetailRepository = new OrderDetailRepository(DbCtx));
             }
         }
 
@@ -93,7 +93,7 @@ namespace Northwind.Core.DataLayer
         {
             get
             {
-                return m_regionRepository ?? (m_regionRepository = new RegionRepository(DatabaseContext));
+                return m_regionRepository ?? (m_regionRepository = new RegionRepository(DbCtx));
             }
         }
 
@@ -101,7 +101,7 @@ namespace Northwind.Core.DataLayer
         {
             get
             {
-                return m_categorySaleFor1997Repository ?? (m_categorySaleFor1997Repository = new CategorySaleFor1997Repository(DatabaseContext));
+                return m_categorySaleFor1997Repository ?? (m_categorySaleFor1997Repository = new CategorySaleFor1997Repository(DbCtx));
             }
         }
 

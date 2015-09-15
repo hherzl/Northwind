@@ -6,14 +6,14 @@ namespace Northwind.Core.DataLayer
 {
     public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        protected DbContext DbContext;
+        protected DbContext DbCtx;
         protected DbSet<TEntity> DbSet;
 
         public Repository(DbContext dbContext)
         {
-            DbContext = dbContext;
+            DbCtx = dbContext;
 
-            DbSet = DbContext.Set<TEntity>();
+            DbSet = DbCtx.Set<TEntity>();
         }
 
         public virtual IQueryable<TEntity> GetAll()
@@ -23,12 +23,12 @@ namespace Northwind.Core.DataLayer
 
         public virtual TEntity Get(TEntity entity)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(String.Format("There is not implementation for 'Get' operation in '{0}' repostory", typeof(IRepository<TEntity>).FullName));
         }
 
         public virtual void Add(TEntity entity)
         {
-            var dbEntityEntry = DbContext.Entry(entity);
+            var dbEntityEntry = DbCtx.Entry(entity);
 
             if (dbEntityEntry.State != EntityState.Detached)
             {
@@ -42,7 +42,7 @@ namespace Northwind.Core.DataLayer
 
         public virtual void Update(TEntity entity)
         {
-            var dbEntityEntry = DbContext.Entry(entity);
+            var dbEntityEntry = DbCtx.Entry(entity);
 
             if (dbEntityEntry.State == EntityState.Detached)
             {
@@ -54,7 +54,17 @@ namespace Northwind.Core.DataLayer
 
         public virtual void Remove(TEntity entity)
         {
-            DbSet.Remove(entity);
+            var dbEntityEntry = DbCtx.Entry(entity);
+
+            if (dbEntityEntry.State == EntityState.Deleted)
+            {
+                DbSet.Attach(entity);
+                DbSet.Remove(entity);
+            }
+            else
+            {
+                dbEntityEntry.State = EntityState.Deleted;
+            }
         }
     }
 }

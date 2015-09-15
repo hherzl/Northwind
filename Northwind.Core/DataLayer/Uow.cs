@@ -7,11 +7,11 @@ namespace Northwind.Core.DataLayer
     public abstract class Uow
     {
         protected Boolean Disposed;
-        protected DbContext DatabaseContext;
+        protected DbContext DbCtx;
 
         public Uow(DbContext dbContext)
         {
-            DatabaseContext = dbContext;
+            DbCtx = dbContext;
         }
 
         protected virtual void Dispose(Boolean disposing)
@@ -20,7 +20,7 @@ namespace Northwind.Core.DataLayer
             {
                 if (disposing)
                 {
-                    DatabaseContext.Dispose();
+                    DbCtx.Dispose();
                 }
             }
 
@@ -36,9 +36,9 @@ namespace Northwind.Core.DataLayer
 
         public Int32 CommitChanges()
         {
-            if (DatabaseContext.ChangeTracker.HasChanges())
+            if (DbCtx.ChangeTracker.HasChanges())
             {
-                return DatabaseContext.SaveChanges();
+                return DbCtx.SaveChanges();
             }
 
             return 0;
@@ -46,9 +46,9 @@ namespace Northwind.Core.DataLayer
 
         public Task<Int32> CommitChangesAsync()
         {
-            if (DatabaseContext.ChangeTracker.HasChanges())
+            if (DbCtx.ChangeTracker.HasChanges())
             {
-                return DatabaseContext.SaveChangesAsync();
+                return DbCtx.SaveChangesAsync();
             }
             else
             {

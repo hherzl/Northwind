@@ -25,7 +25,7 @@ namespace Northwind.Core.DataLayer
                 new SqlParameter("@CustomerID", customerID)
             };
 
-            return DbContext
+            return DbCtx
                 .Database
                 .SqlQuery<CustOrderHist>(sql, parameters);
         }
