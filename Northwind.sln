@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AD6D4E
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorthwindWebApi2.Tests", "NorthwindWebApi2.Tests\NorthwindWebApi2.Tests.csproj", "{55E0A2F1-255F-45A7-A20B-201085D1DD9D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{2D783B15-18A6-4969-B35B-0A4D256B194F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D783B15-18A6-4969-B35B-0A4D256B194F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D783B15-18A6-4969-B35B-0A4D256B194F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55E0A2F1-255F-45A7-A20B-201085D1DD9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55E0A2F1-255F-45A7-A20B-201085D1DD9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55E0A2F1-255F-45A7-A20B-201085D1DD9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55E0A2F1-255F-45A7-A20B-201085D1DD9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
