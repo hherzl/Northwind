@@ -24,5 +24,7 @@ namespace Northwind.Core.DataLayer.DataContracts
         public String QuantityPerUnit { get; set; }
 
         public Decimal? UnitPrice { get; set; }
+
+        public Boolean? Discontinued { get; set; }
     }
 }

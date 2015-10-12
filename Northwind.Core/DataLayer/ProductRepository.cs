@@ -15,7 +15,7 @@ namespace Northwind.Core.DataLayer
         {
         }
 
-        public IQueryable<ProductDetail> GetDetails(String productName, Int32? supplierID, Int32? categoryID)
+        public IEnumerable<ProductDetail> GetDetails(String productName, Int32? supplierID, Int32? categoryID)
         {
             var query =
                 from product in GetAll()
@@ -31,7 +31,8 @@ namespace Northwind.Core.DataLayer
                         CategoryID = category.CategoryID,
                         CategoryName = category.CategoryName,
                         QuantityPerUnit = product.QuantityPerUnit,
-                        UnitPrice = product.UnitPrice
+                        UnitPrice = product.UnitPrice,
+                        Discontinued = product.Discontinued
                     };
 
             if (!String.IsNullOrEmpty(productName))

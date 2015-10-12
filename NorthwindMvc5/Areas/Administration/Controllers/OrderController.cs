@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Northwind.Core.DataLayer.Contracts;
 using Northwind.Core.EntityLayer;
+using NorthwindMvc5.Areas.Administration.Models;
 using NorthwindMvc5.Services;
 using PagedList;
 
@@ -25,11 +27,6 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
             }
 
             base.Dispose(disposing);
-        }
-
-        public OrderController()
-        {
-
         }
 
         // GET: Administration/Order
@@ -82,48 +79,43 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         }
 
         // GET: Administration/Order/Details/5
-        public ActionResult Details(Int32 id)
+        public async Task<ActionResult> Details(Int32 id)
         {
-            var model = Uow.OrderRepository.Get(new Order() { OrderID = id });
+            var entity = await Task.Run(() =>
+                {
+                    return Uow.OrderRepository.Get(new Order(id));
+                });
+
+            var model = new OrderModel(entity);
 
             return View(model);
         }
 
-        // GET: Administration/Order/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Administration/Order/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         // GET: Administration/Order/Edit/5
-        public ActionResult Edit(Int32 id)
+        public async Task<ActionResult> Edit(Int32 id)
         {
-            return View();
+            var entity = await Task.Run(() =>
+            {
+                return Uow.OrderRepository.Get(new Order(id));
+            });
+
+            var model = new OrderModel(entity);
+
+            return View(model);
         }
 
         // POST: Administration/Order/Edit/5
         [HttpPost]
-        public ActionResult Edit(Int32 id, FormCollection collection)
+        public async Task<ActionResult> Edit(Int32 id, OrderModel model)
         {
             try
             {
-                // TODO: Add update logic here
+                var entity = await Task.Run(() =>
+                {
+                    return Uow.OrderRepository.Get(new Order(id));
+                });
+
+                await Uow.CommitChangesAsync();
 
                 return RedirectToAction("Index");
             }
@@ -134,18 +126,32 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         }
 
         // GET: Administration/Order/Delete/5
-        public ActionResult Delete(Int32 id)
+        public async Task<ActionResult> Delete(Int32 id)
         {
-            return View();
+            var entity = await Task.Run(() =>
+            {
+                return Uow.OrderRepository.Get(new Order(id));
+            });
+
+            var model = new OrderModel(entity);
+
+            return View(model);
         }
 
         // POST: Administration/Order/Delete/5
         [HttpPost]
-        public ActionResult Delete(Int32 id, FormCollection collection)
+        public async Task<ActionResult> Delete(Int32 id, FormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
+                var entity = await Task.Run(() =>
+                {
+                    return Uow.OrderRepository.Get(new Order(id));
+                });
+
+                Uow.OrderRepository.Remove(entity);
+
+                await Uow.CommitChangesAsync();
 
                 return RedirectToAction("Index");
             }

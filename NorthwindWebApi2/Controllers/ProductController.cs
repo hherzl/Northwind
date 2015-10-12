@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -38,11 +37,14 @@ namespace NorthwindWebApi2.Controllers
 
             try
             {
-                result.Model = await Uow
-                    .ProductRepository
-                    .GetDetails(productName, supplierID, categoryID)
-                    .OrderByDescending(item => item.ProductID)
-                    .ToListAsync();
+                result.Model = await Task.Run(() =>
+                {
+                    return Uow
+                        .ProductRepository
+                        .GetDetails(productName, supplierID, categoryID)
+                        .OrderByDescending(item => item.ProductID)
+                        .ToList();
+                });
             }
             catch (Exception ex)
             {
@@ -61,7 +63,12 @@ namespace NorthwindWebApi2.Controllers
 
             try
             {
-                result.Model = await Task.Run(() => { return Uow.ProductRepository.Get(new Product(id)); });
+                result.Model = await Task.Run(() =>
+                {
+                    return Uow
+                        .ProductRepository
+                        .Get(new Product(id));
+                });
             }
             catch (Exception ex)
             {
@@ -73,7 +80,7 @@ namespace NorthwindWebApi2.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
-        
+
 
         // POST: api/Product
         public async Task<HttpResponseMessage> Post([FromBody]Product value)

@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace Northwind.Core.EntityLayer
 {
-    public class Employee : Object
+    public partial class Employee : Object
     {
         public Employee()
         {

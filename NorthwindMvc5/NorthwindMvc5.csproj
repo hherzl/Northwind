@@ -258,6 +258,12 @@
     <Content Include="Areas\Administration\Views\Region\Create.cshtml" />
     <Content Include="Areas\Administration\Views\Region\Edit.cshtml" />
     <Content Include="Areas\Administration\Views\Region\Delete.cshtml" />
+    <Content Include="Areas\Administration\Views\Order\Delete.cshtml" />
+    <Content Include="Areas\Administration\Views\Order\Edit.cshtml" />
+    <Content Include="Areas\Administration\Views\Product\Details.cshtml" />
+    <Content Include="Areas\Administration\Views\Product\Create.cshtml" />
+    <Content Include="Areas\Administration\Views\Product\Edit.cshtml" />
+    <Content Include="Areas\Administration\Views\Product\Delete.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

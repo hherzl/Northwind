@@ -104,6 +104,7 @@
     <Compile Include="EntityLayer\CategorySaleFor1997.cs" />
     <Compile Include="EntityLayer\Customer.cs" />
     <Compile Include="EntityLayer\Employee.cs" />
+    <Compile Include="EntityLayer\Employee.partial.cs" />
     <Compile Include="EntityLayer\Order.cs" />
     <Compile Include="EntityLayer\OrderDetail.cs" />
     <Compile Include="EntityLayer\OrderDetailSummary.cs" />

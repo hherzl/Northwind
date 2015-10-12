@@ -1,13 +1,14 @@
 ﻿@model NorthwindMvc5.Areas.Administration.Models.OrderModel
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Delete";
 }
 
-<h2>Details</h2>
+<h2>Delete</h2>
 
+<h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>Order</h4>
+    <h4>OrderModel</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -15,7 +16,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Entity.FkOrdersCustomers.CompanyName)
+            @Html.DisplayFor(model => model.CustomerID)
         </dd>
 
         <dt>
@@ -23,7 +24,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Entity.FkOrdersEmployees.FullName)
+            @Html.DisplayFor(model => model.EmployeeID)
         </dd>
 
         <dt>
@@ -31,7 +32,7 @@
         </dt>
 
         <dd>
-            @Model.OrderDate.Value.ToShortDateString()
+            @Html.DisplayFor(model => model.OrderDate)
         </dd>
 
         <dt>
@@ -39,7 +40,7 @@
         </dt>
 
         <dd>
-            @Model.RequiredDate.Value.ToShortDateString()
+            @Html.DisplayFor(model => model.RequiredDate)
         </dd>
 
         <dt>
@@ -47,7 +48,7 @@
         </dt>
 
         <dd>
-            @(Model.ShippedDate.HasValue ? Model.ShippedDate.Value.ToShortDateString() : "")
+            @Html.DisplayFor(model => model.ShippedDate)
         </dd>
 
         <dt>
@@ -55,7 +56,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Entity.FkOrdersShippers.CompanyName)
+            @Html.DisplayFor(model => model.ShipVia)
         </dd>
 
         <dt>
@@ -115,47 +116,13 @@
         </dd>
 
     </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.OrderID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
 
-<table class="table">
-    <tr>
-        <th>Product</th>
-        <th>Unit price</th>
-        <th>Quantity</th>
-        <th>Discount</th>
-        <th>Total</th>
-    </tr>
-    @foreach (var item in Model.Entity.OrderSummaries)
-    {
-        <tr>
-            <td>
-                @item.ProductName
-            </td>
-            <td class="text-right">
-                @item.UnitPrice.Value.ToString("C2")
-            </td>
-            <td class="text-right">
-                @item.Quantity
-            </td>
-            <td class="text-right">
-                @item.Discount
-            </td>
-            <td class="text-right">
-                @item.Total.Value.ToString("C2")
-            </td>
-        </tr>
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
     }
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td class="text-right">
-            @Model.Entity.OrderSummaries.Sum(item => item.Total).Value.ToString("C2")
-        </td>
-    </tr>
-</table>
+</div>

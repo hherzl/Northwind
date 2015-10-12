@@ -33,7 +33,7 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         {
             var model = await Task.Run(() =>
             {
-                return Uow.ProductRepository.GetAll().ToList();
+                return Uow.ProductRepository.GetDetails(String.Empty, null, null).ToList();
             });
 
             return View(model);

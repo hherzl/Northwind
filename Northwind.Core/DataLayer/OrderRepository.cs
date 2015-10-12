@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using Northwind.Core.DataLayer.Contracts;
 using Northwind.Core.DataLayer.DataContracts;
@@ -13,7 +14,7 @@ namespace Northwind.Core.DataLayer
         {
         }
 
-        public IQueryable<OrderSummary> GetSummaries()
+        public IEnumerable<OrderSummary> GetSummaries()
         {
             return from order in DbCtx.Set<Order>()
                    join customer in DbCtx.Set<Customer>() on order.CustomerID equals customer.CustomerID
@@ -34,6 +35,9 @@ namespace Northwind.Core.DataLayer
         public override Order Get(Order entity)
         {
             return DbSet
+                .Include(p => p.FkOrdersCustomers)
+                .Include(p => p.FkOrdersEmployees)
+                .Include(p => p.FkOrdersShippers)
                 .Include(p => p.OrderSummaries)
                 .FirstOrDefault(item => item.OrderID == entity.OrderID);
         }
