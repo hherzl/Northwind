@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorthwindMvc5", "NorthwindMvc5\NorthwindMvc5.csproj", "{241AA447-2080-494A-B3D1-256441E010F6}"
 EndProject
@@ -25,6 +25,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AD6D4E
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorthwindWebApi2.Tests", "NorthwindWebApi2.Tests\NorthwindWebApi2.Tests.csproj", "{55E0A2F1-255F-45A7-A20B-201085D1DD9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorthwindApi", "NorthwindApi\NorthwindApi.csproj", "{902AF055-39E6-4471-AED5-1EA54F41D9E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorthwindApi.Tests", "NorthwindApi.Tests\NorthwindApi.Tests.csproj", "{7F9FEC6F-5E39-47B2-953E-2704BFBF1A9F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,6 +68,14 @@ Global
 		{55E0A2F1-255F-45A7-A20B-201085D1DD9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55E0A2F1-255F-45A7-A20B-201085D1DD9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55E0A2F1-255F-45A7-A20B-201085D1DD9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{902AF055-39E6-4471-AED5-1EA54F41D9E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{902AF055-39E6-4471-AED5-1EA54F41D9E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{902AF055-39E6-4471-AED5-1EA54F41D9E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{902AF055-39E6-4471-AED5-1EA54F41D9E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F9FEC6F-5E39-47B2-953E-2704BFBF1A9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F9FEC6F-5E39-47B2-953E-2704BFBF1A9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F9FEC6F-5E39-47B2-953E-2704BFBF1A9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F9FEC6F-5E39-47B2-953E-2704BFBF1A9F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
