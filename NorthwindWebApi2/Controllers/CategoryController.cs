@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -38,10 +37,14 @@ namespace NorthwindWebApi2.Controllers
 
             try
             {
-                result.Model = await Uow.CategoryRepository
-                    .GetAll()
-                    .OrderByDescending(item => item.CategoryID)
-                    .ToListAsync();
+                result.Model = await Task.Run(() =>
+                    {
+                        return Uow
+                            .CategoryRepository
+                            .GetAll()
+                            .OrderByDescending(item => item.CategoryID)
+                            .ToList();
+                    });
             }
             catch (Exception ex)
             {

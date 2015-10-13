@@ -1,10 +1,10 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace Northwind.Core.DataLayer
 {
     public interface IRepository<TEntity> where TEntity : class
     {
-        IQueryable<TEntity> GetAll();
+        IEnumerable<TEntity> GetAll();
 
         TEntity Get(TEntity entity);
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
@@ -16,7 +17,7 @@ namespace Northwind.Core.DataLayer
             DbSet = DbCtx.Set<TEntity>();
         }
 
-        public virtual IQueryable<TEntity> GetAll()
+        public virtual IEnumerable<TEntity> GetAll()
         {
             return DbSet;
         }

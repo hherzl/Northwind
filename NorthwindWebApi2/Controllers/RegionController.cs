@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Data.Entity;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -37,9 +37,13 @@ namespace NorthwindWebApi2.Controllers
 
             try
             {
-                result.Model = await Uow.RegionRepository
-                    .GetAll()
-                    .ToListAsync();
+                result.Model = await Task.Run(() =>
+                    {
+                        return Uow
+                            .RegionRepository
+                            .GetAll()
+                            .ToList();
+                    });
             }
             catch (Exception ex)
             {

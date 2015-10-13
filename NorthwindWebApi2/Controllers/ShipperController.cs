@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Data.Entity;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -37,10 +37,13 @@ namespace NorthwindWebApi2.Controllers
 
             try
             {
-                response.Model = await Uow
-                    .ShipperRepository
-                    .GetAll()
-                    .ToListAsync();
+                response.Model = await Task.Run(() =>
+                {
+                    return Uow
+                        .ShipperRepository
+                        .GetAll()
+                        .ToList();
+                });
             }
             catch (Exception ex)
             {
@@ -59,7 +62,10 @@ namespace NorthwindWebApi2.Controllers
 
             try
             {
-                response.Model = await Task.Run(() => { return Uow.ShipperRepository.Get(new Shipper(id)); });
+                response.Model = await Task.Run(() =>
+                {
+                    return Uow.ShipperRepository.Get(new Shipper(id));
+                });
             }
             catch (Exception ex)
             {
