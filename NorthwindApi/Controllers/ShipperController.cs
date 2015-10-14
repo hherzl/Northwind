@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Northwind.Core.DataLayer.Contracts;
@@ -18,42 +20,88 @@ namespace NorthwindApi.Controllers
             Uow = service.GetSalesUow();
         }
 
-        // GET: api/Shipper
-        public async Task<IEnumerable<Shipper>> Get()
+        protected override void Dispose(bool disposing)
         {
-            return await Task.Run(() =>
+            if (Uow != null)
+            {
+                Uow.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
+
+        // GET: api/Shipper
+        public async Task<HttpResponseMessage> Get()
+        {
+            var list = await Task.Run(() =>
                 {
                     return Uow
                         .ShipperRepository
                         .GetAll()
                         .ToList();
                 });
+
+            return Request.CreateResponse(HttpStatusCode.OK, list);
         }
 
         // GET: api/Shipper/5
-        public async Task<Shipper> Get(Int32 id)
+        public async Task<HttpResponseMessage> Get(Int32 id)
         {
-            return await Task.Run(() =>
+            var entity = await Task.Run(() =>
                 {
                     return Uow
                         .ShipperRepository
                         .Get(new Shipper(id));
                 });
+
+            return Request.CreateResponse(HttpStatusCode.OK, entity);
         }
 
         // POST: api/Shipper
-        public void Post([FromBody]Shipper value)
+        public async Task<HttpResponseMessage> Post([FromBody]Shipper value)
         {
+            Uow.ShipperRepository.Add(value);
+
+            await Uow.CommitChangesAsync();
+
+            return Request.CreateResponse(HttpStatusCode.OK, value.ShipperID);
         }
 
         // PUT: api/Shipper/5
-        public void Put(Int32 id, [FromBody]Shipper value)
+        public async Task<HttpResponseMessage> Put(Int32 id, [FromBody]Shipper value)
         {
+            var entity = Uow.ShipperRepository.Get(new Shipper(id));
+
+            if (entity == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+
+            entity.CompanyName = value.CompanyName;
+            entity.Phone = value.Phone;
+
+            Uow.ShipperRepository.Update(entity);
+
+            await Uow.CommitChangesAsync();
+
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         // DELETE: api/Shipper/5
-        public void Delete(Int32 id)
+        public async Task<HttpResponseMessage> Delete(Int32 id)
         {
+            var entity = Uow.ShipperRepository.Get(new Shipper(id));
+
+            if (entity == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+
+            Uow.ShipperRepository.Remove(entity);
+
+            await Uow.CommitChangesAsync();
+
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }
