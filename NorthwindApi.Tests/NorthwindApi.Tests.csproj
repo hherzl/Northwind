@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Playlists\ShipperTestPlaylist.playlist" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Northwind.Core\Northwind.Core.csproj">

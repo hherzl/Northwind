@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -7,6 +6,7 @@ using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Northwind.Core.EntityLayer;
 using NorthwindApi.Controllers;
+using NorthwindApi.Responses;
 using NorthwindApi.Services;
 
 namespace NorthwindApi.Tests.Controllers
@@ -14,7 +14,8 @@ namespace NorthwindApi.Tests.Controllers
     [TestClass]
     public class ShipperControllerTest
     {
-        IUowService service;
+        private IUowService service;
+        private Int32 id;
 
         [TestInitialize]
         public void Init()
@@ -34,30 +35,11 @@ namespace NorthwindApi.Tests.Controllers
             var result = await controller.Get();
 
             // Assert
-            var value = default(IEnumerable<Shipper>);
+            var value = default(IComposedShipperResponse);
 
             result.TryGetContentValue(out value);
 
-            Assert.IsNotNull(value);
-        }
-
-        [TestMethod]
-        public async Task GetByIdAsync()
-        {
-            // Arrange
-            var controller = new ShipperController(service);
-            controller.Request = new HttpRequestMessage();
-            controller.Configuration = new HttpConfiguration();
-
-            // Act
-            var result = await controller.Get(1);
-
-            // Assert
-            var value = default(Shipper);
-
-            result.TryGetContentValue(out value);
-
-            Assert.IsNotNull(result);
+            Assert.IsNotNull(value.Model);
         }
 
         [TestMethod]
@@ -78,11 +60,33 @@ namespace NorthwindApi.Tests.Controllers
             var result = await controller.Post(model);
 
             // Assert
-            var value = default(Int32?);
+            var response = default(ISingleShipperResponse);
 
-            result.TryGetContentValue(out value);
+            result.TryGetContentValue(out response);
 
-            Assert.IsTrue(value.HasValue);
+            Assert.IsNotNull(response.Value);
+            Assert.IsTrue(response.Message == "Record added successfully");
+
+            id = response.Value.Value;
+        }
+
+        [TestMethod]
+        public async Task GetByIdAsync()
+        {
+            // Arrange
+            var controller = new ShipperController(service);
+            controller.Request = new HttpRequestMessage();
+            controller.Configuration = new HttpConfiguration();
+
+            // Act
+            var result = await controller.Get(id);
+
+            // Assert
+            var response = default(ISingleShipperResponse);
+
+            result.TryGetContentValue(out response);
+
+            Assert.IsNotNull(response.Single);
         }
 
         [TestMethod]
@@ -100,10 +104,14 @@ namespace NorthwindApi.Tests.Controllers
                 Phone = "22445 77990"
             };
 
-            var result = await controller.Put(4, model);
+            var result = await controller.Put(id, model);
 
             // Assert
-            Assert.IsTrue(result.StatusCode == HttpStatusCode.OK);
+            var value = default(ISingleShipperResponse);
+
+            result.TryGetContentValue(out value);
+
+            Assert.IsTrue(value.Message == "Record updated successfully");
         }
 
         [TestMethod]
@@ -115,10 +123,14 @@ namespace NorthwindApi.Tests.Controllers
             controller.Configuration = new HttpConfiguration();
 
             // Act
-            var result = await controller.Delete(5);
+            var result = await controller.Delete(11);
 
             // Assert
-            Assert.IsTrue(result.StatusCode == HttpStatusCode.OK);
+            var value = default(ISingleShipperResponse);
+
+            result.TryGetContentValue(out value);
+
+            Assert.IsTrue(value.Message == "Record deleted successfully");
         }
     }
 }

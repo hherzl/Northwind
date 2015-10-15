@@ -1,0 +1,7 @@
+<Playlist Version="1.0">
+	<Add Test="NorthwindApi.Tests.Controllers.ShipperControllerTest.GetAsync" />
+	<Add Test="NorthwindApi.Tests.Controllers.ShipperControllerTest.PostAsync" />
+	<Add Test="NorthwindApi.Tests.Controllers.ShipperControllerTest.GetByIdAsync" />
+	<Add Test="NorthwindApi.Tests.Controllers.ShipperControllerTest.PutAsync" />
+	<Add Test="NorthwindApi.Tests.Controllers.ShipperControllerTest.DeleteAsync" />
+</Playlist>
