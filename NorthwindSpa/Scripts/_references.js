@@ -37,3 +37,4 @@
 /// <reference path="angular-ui/ui-bootstrap.min.js" />
 /// <reference path="angular-cookies.min.js" />
 /// <reference path="../app/services/urlbuilder.js" />
+/// <reference path="../app/controllers/employeecontroller.js" />

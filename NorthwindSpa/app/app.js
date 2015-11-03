@@ -117,6 +117,16 @@
             .when("/order-details/:id", {
                 templateUrl: base + "order/details.html",
                 controller: "OrderDetailsController"
+            })
+
+            .when("/region", {
+                templateUrl: base + "region/index.html",
+                controller: "RegionController"
+            })
+
+            .when("/employee", {
+                templateUrl: base + "employee/index.html",
+                controller: "EmployeeController"
             });
     });
 })();

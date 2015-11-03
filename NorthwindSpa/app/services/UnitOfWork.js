@@ -11,10 +11,11 @@
         "CustomerService",
         "EmployeeService",
         "ShipperService",
-        "OrderService"
+        "OrderService",
+        "RegionService"
     ];
 
-    function UnitOfWork($log, supplierSvc, categorySvc, productSvc, customerSvc, employeeSvc, shipperSvc, orderSvc) {
+    function UnitOfWork($log, supplierSvc, categorySvc, productSvc, customerSvc, employeeSvc, shipperSvc, orderSvc, regionSvc) {
         var svc = this;
 
         svc.supplierRepository = supplierSvc;
@@ -30,5 +31,7 @@
         svc.shipperRepository = shipperSvc;
 
         svc.orderRepository = orderSvc;
+
+        svc.regionRepository = regionSvc;
     };
 })();

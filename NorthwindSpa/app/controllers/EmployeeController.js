@@ -1,20 +1,20 @@
 ﻿(function () {
     "use strict";
 
-    angular.module("northwindApp").controller("RegionController", RegionController);
+    angular.module("northwindApp").controller("EmployeeController", EmployeeController);
 
-    RegionController.$inject = ["$log", "$scope", "$location", "$routeParams", "toaster", "ngTableParams", "$filter", "UnitOfWork"];
+    EmployeeController.$inject = ["$log", "$scope", "$location", "$routeParams", "toaster", "ngTableParams", "$filter", "UnitOfWork"];
 
-    function RegionController($log, $scope, $location, $routeParams, toaster, ngTableParams, $filter, uow) {
+    function EmployeeController($log, $scope, $location, $routeParams, toaster, ngTableParams, $filter, uow) {
         toaster.pop("wait", "Message", "Loading Regions...");
 
         $scope.result = {};
 
-        uow.regionRepository.get().then(function (result) {
+        uow.employeeRepository.get().then(function (result) {
             $scope.result = result.data;
 
             if (!$scope.result.didError) {
-                toaster.pop("success", "Message", "Regions data was loaded successfully!");
+                toaster.pop("success", "Message", "Employees data was loaded successfully!");
             }
 
             $scope.tableParams = new ngTableParams({
@@ -34,19 +34,19 @@
         });
 
         $scope.create = function () {
-            $location.path("/region-create");
+            $location.path("/employee-create");
         };
 
         $scope.details = function (id) {
-            $location.path("/region-details/" + id);
+            $location.path("/employee-details/" + id);
         };
 
         $scope.edit = function (id) {
-            $location.path("region-edit/" + id);
+            $location.path("employee-edit/" + id);
         };
 
         $scope.delete = function (id) {
-            $location.path("/region-delete/" + id);
+            $location.path("/employee-delete/" + id);
         };
     };
 })();

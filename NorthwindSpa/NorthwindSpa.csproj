@@ -130,6 +130,7 @@
     <Content Include="app\app.js" />
     <Content Include="app\controllers\CategoryController.js" />
     <Content Include="app\controllers\CustomerController.js" />
+    <Content Include="app\controllers\EmployeeController.js" />
     <Content Include="app\controllers\HomeController.js" />
     <Content Include="app\controllers\OrderController.js" />
     <Content Include="app\controllers\ProductController.js" />
@@ -164,6 +165,7 @@
     <Content Include="app\views\product\details.html" />
     <Content Include="app\views\product\edit.html" />
     <Content Include="app\views\product\index.html" />
+    <Content Include="app\views\region\index.html" />
     <Content Include="app\views\shipper\create.html" />
     <Content Include="app\views\shipper\delete.html" />
     <Content Include="app\views\shipper\details.html" />
@@ -1000,7 +1002,6 @@
     <Content Include="Scripts\ng-table.min.js.map" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="app\views\region\" />
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
   </ItemGroup>

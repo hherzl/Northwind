@@ -11,12 +11,9 @@
 <br />
 
 <table ng-table="tableParams" class="table">
-    <tr ng-repeat="employee in $data">
-        <td data-title="'Title'" sortable="'title'">
-            {{ employee.title }}
-        </td>
-        <td data-title="'Full name'" sortable="'fullName'">
-            {{ employee.fullName }}
+    <tr ng-repeat="region in $data">
+        <td data-title="'Description'" sortable="'regionDescription'">
+            {{ region.regionDescription }}
         </td>
         <td>
             <div class="btn-group">
@@ -24,9 +21,9 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a ng-click="edit(employee)">Edit</a></li>
-                    <li><a ng-click="details(employee)">Details</a></li>
-                    <li><a ng-click="delete(employee)">Delete</a></li>
+                    <li><a ng-click="edit(region)">Edit</a></li>
+                    <li><a ng-click="details(region)">Details</a></li>
+                    <li><a ng-click="delete(region)">Delete</a></li>
                 </ul>
             </div>
         </td>
