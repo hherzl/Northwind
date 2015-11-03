@@ -15,7 +15,6 @@ namespace NorthwindApi.Tests.Controllers
     public class ShipperControllerTest
     {
         private IUowService service;
-        private Int32 id;
 
         [TestInitialize]
         public void Init()
@@ -65,9 +64,6 @@ namespace NorthwindApi.Tests.Controllers
             result.TryGetContentValue(out response);
 
             Assert.IsNotNull(response.Value);
-            Assert.IsTrue(response.Message == "Record added successfully");
-
-            id = response.Value.Value;
         }
 
         [TestMethod]
@@ -79,7 +75,7 @@ namespace NorthwindApi.Tests.Controllers
             controller.Configuration = new HttpConfiguration();
 
             // Act
-            var result = await controller.Get(id);
+            var result = await controller.Get(7);
 
             // Assert
             var response = default(ISingleShipperResponse);
@@ -104,7 +100,7 @@ namespace NorthwindApi.Tests.Controllers
                 Phone = "22445 77990"
             };
 
-            var result = await controller.Put(id, model);
+            var result = await controller.Put(8, model);
 
             // Assert
             var value = default(ISingleShipperResponse);
@@ -123,7 +119,7 @@ namespace NorthwindApi.Tests.Controllers
             controller.Configuration = new HttpConfiguration();
 
             // Act
-            var result = await controller.Delete(11);
+            var result = await controller.Delete(8);
 
             // Assert
             var value = default(ISingleShipperResponse);
