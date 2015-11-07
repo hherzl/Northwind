@@ -187,10 +187,10 @@
     <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="Models\ErrorLog.cs" />
     <Compile Include="Responses\ComposedShipperResponse.cs" />
-    <Compile Include="Responses\IComposedShipperResponse.cs" />
+    <Compile Include="Responses\IComposedViewModelResponse.cs" />
     <Compile Include="Responses\IResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Responses\ISingleShipperResponse.cs" />
+    <Compile Include="Responses\ISingleViewModelResponse.cs" />
     <Compile Include="Responses\Response.cs" />
     <Compile Include="Responses\SingleShipperResponse.cs" />
     <Compile Include="Services\IUowService.cs" />

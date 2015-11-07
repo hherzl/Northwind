@@ -1,17 +1,14 @@
-﻿using System;
-using Northwind.Core.EntityLayer;
+﻿using Northwind.Core.EntityLayer;
 
 namespace NorthwindApi.Responses
 {
-    public class SingleShipperResponse : Response, ISingleShipperResponse
+    public class SingleShipperResponse : Response, ISingleViewModelResponse<Shipper>
     {
         public SingleShipperResponse()
         {
 
         }
 
-        public Shipper Single { get; set; }
-
-        public Int32? Value { get; set; }
+        public Shipper Model { get; set; }
     }
 }

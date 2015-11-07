@@ -34,7 +34,7 @@ namespace NorthwindApi.Controllers
         // GET: api/Shipper
         public async Task<HttpResponseMessage> Get()
         {
-            var response = new ComposedShipperResponse() as IComposedShipperResponse;
+            var response = new ComposedShipperResponse() as IComposedViewModelResponse<Shipper>;
 
             try
             {
@@ -60,18 +60,18 @@ namespace NorthwindApi.Controllers
         // GET: api/Shipper/5
         public async Task<HttpResponseMessage> Get(Int32 id)
         {
-            var response = new SingleShipperResponse() as ISingleShipperResponse;
+            var response = new SingleShipperResponse() as ISingleViewModelResponse<Shipper>;
 
             try
             {
-                response.Single = await Task.Run(() =>
+                response.Model = await Task.Run(() =>
                 {
                     return Uow
                         .ShipperRepository
                         .Get(new Shipper(id));
                 });
 
-                if (response.Single == null)
+                if (response.Model == null)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound);
                 }
@@ -90,7 +90,7 @@ namespace NorthwindApi.Controllers
         // POST: api/Shipper
         public async Task<HttpResponseMessage> Post([FromBody]Shipper value)
         {
-            var response = new SingleShipperResponse() as ISingleShipperResponse;
+            var response = new SingleShipperResponse() as ISingleViewModelResponse<Shipper>;
 
             try
             {
@@ -99,7 +99,7 @@ namespace NorthwindApi.Controllers
                 if (await Uow.CommitChangesAsync() > 0)
                 {
                     response.Message = "Record added successfully";
-                    response.Value = value.ShipperID;
+                    response.Model = value;
                 }
             }
             catch (Exception ex)
@@ -116,7 +116,7 @@ namespace NorthwindApi.Controllers
         // PUT: api/Shipper/5
         public async Task<HttpResponseMessage> Put(Int32 id, [FromBody]Shipper value)
         {
-            var response = new SingleShipperResponse() as ISingleShipperResponse;
+            var response = new SingleShipperResponse() as ISingleViewModelResponse<Shipper>;
 
             try
             {
@@ -151,7 +151,7 @@ namespace NorthwindApi.Controllers
         // DELETE: api/Shipper/5
         public async Task<HttpResponseMessage> Delete(Int32 id)
         {
-            var response = new SingleShipperResponse() as ISingleShipperResponse;
+            var response = new SingleShipperResponse() as ISingleViewModelResponse<Shipper>;
 
             try
             {

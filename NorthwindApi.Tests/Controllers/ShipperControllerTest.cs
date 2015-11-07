@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -34,7 +32,7 @@ namespace NorthwindApi.Tests.Controllers
             var result = await controller.Get();
 
             // Assert
-            var value = default(IComposedShipperResponse);
+            var value = default(IComposedViewModelResponse<Shipper>);
 
             result.TryGetContentValue(out value);
 
@@ -59,11 +57,11 @@ namespace NorthwindApi.Tests.Controllers
             var result = await controller.Post(model);
 
             // Assert
-            var response = default(ISingleShipperResponse);
+            var response = default(ISingleViewModelResponse<Shipper>);
 
             result.TryGetContentValue(out response);
 
-            Assert.IsNotNull(response.Value);
+            Assert.IsNotNull(response.Model.ShipperID);
         }
 
         [TestMethod]
@@ -78,11 +76,11 @@ namespace NorthwindApi.Tests.Controllers
             var result = await controller.Get(7);
 
             // Assert
-            var response = default(ISingleShipperResponse);
+            var response = default(ISingleViewModelResponse<Shipper>);
 
             result.TryGetContentValue(out response);
 
-            Assert.IsNotNull(response.Single);
+            Assert.IsNotNull(response.Model);
         }
 
         [TestMethod]
@@ -103,7 +101,7 @@ namespace NorthwindApi.Tests.Controllers
             var result = await controller.Put(8, model);
 
             // Assert
-            var value = default(ISingleShipperResponse);
+            var value = default(ISingleViewModelResponse<Shipper>);
 
             result.TryGetContentValue(out value);
 
@@ -122,7 +120,7 @@ namespace NorthwindApi.Tests.Controllers
             var result = await controller.Delete(8);
 
             // Assert
-            var value = default(ISingleShipperResponse);
+            var value = default(ISingleViewModelResponse<Shipper>);
 
             result.TryGetContentValue(out value);
 
