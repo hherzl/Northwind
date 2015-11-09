@@ -58,15 +58,15 @@
     function CreateProductController($scope, $location, uow) {
         $scope.result = {};
 
-        $scope.suppliers = [];
-        $scope.categories = [];
+        $scope.supplierResult = {};
+        $scope.categoryResult = {};
 
         uow.supplierRepository.get().then(function (result) {
-            $scope.suppliers = result.data;
+            $scope.supplierResult = result.data;
         });
 
         uow.categoryRepository.get().then(function (result) {
-            $scope.categories = result.data;
+            $scope.categoryResult = result.data;
         });
 
         $scope.create = function () {
