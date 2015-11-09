@@ -176,6 +176,7 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Administration\AdministrationAreaRegistration.cs" />
+    <Compile Include="Areas\Administration\Controllers\BaseController.cs" />
     <Compile Include="Areas\Administration\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Administration\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Administration\Controllers\EmployeeController.cs" />
@@ -192,6 +193,7 @@
     <Compile Include="Areas\Administration\Models\RegionModel.cs" />
     <Compile Include="Areas\Administration\Models\ShipperModel.cs" />
     <Compile Include="Areas\Administration\Models\SupplierModel.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">

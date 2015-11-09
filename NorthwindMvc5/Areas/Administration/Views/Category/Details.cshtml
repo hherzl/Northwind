@@ -1,13 +1,15 @@
 ﻿@model NorthwindMvc5.Areas.Administration.Models.CategoryModel
 
+@using NorthwindMvc5.Resources;
+
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = CategoryResource.Details;
 }
 
-<h2>Details</h2>
+<h2>@CategoryResource.Details</h2>
 
 <div>
-    <h4>CategoryModel</h4>
+    <h4>@CategoryResource.Category</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -30,11 +32,11 @@
 </div>
 
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.CategoryID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink(CategoryResource.Edit, "Edit", new { id = Model.CategoryID }) |
+    @Html.ActionLink(CategoryResource.BackToList, "Index")
 </p>
 
-<h2>Upload picture</h2>
+<h2>@CategoryResource.UploadPicture</h2>
 
 <div>
     @using (Html.BeginForm("Upload", "Category", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -48,6 +50,6 @@
         
         <br />
         
-        <button type="submit" class="btn btn-primary">Upload</button>
+        <button type="submit" class="btn btn-primary">@CategoryResource.Upload</button>
     }
 </div>

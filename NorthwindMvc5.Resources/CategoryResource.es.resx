@@ -118,54 +118,54 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BackToList" xml:space="preserve">
-    <value>Back to list</value>
+    <value>Regresar a la lista</value>
   </data>
   <data name="Category" xml:space="preserve">
-    <value>Category</value>
+    <value>Categoría</value>
   </data>
   <data name="CategoryID" xml:space="preserve">
     <value>ID</value>
   </data>
   <data name="CategoryName" xml:space="preserve">
-    <value>Category name</value>
+    <value>Nombre de categoría</value>
   </data>
   <data name="CategoryNameRequired" xml:space="preserve">
-    <value>(*) Required</value>
+    <value>(*) Requerido</value>
   </data>
   <data name="CategoryNameStringLength" xml:space="preserve">
-    <value>(?) Must be at least {1} caracters</value>
+    <value>(?) Debe tener al menos {1} caracteres</value>
   </data>
   <data name="Create" xml:space="preserve">
-    <value>Create</value>
+    <value>Crear</value>
   </data>
   <data name="CreateNew" xml:space="preserve">
-    <value>Create new</value>
+    <value>Crear nuevo</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>Delete</value>
+    <value>Eliminar</value>
   </data>
   <data name="DeleteConfirmation" xml:space="preserve">
-    <value>Are you sure you want to delete this?</value>
+    <value>¿Está seguro de eliminar este registro?</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value>Description</value>
+    <value>Descripción</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value>Details</value>
+    <value>Detalles</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>Editar</value>
   </data>
   <data name="Picture" xml:space="preserve">
-    <value>Picture</value>
+    <value>Imagen</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>Guardar</value>
   </data>
   <data name="Upload" xml:space="preserve">
-    <value>Upload</value>
+    <value>Cargar</value>
   </data>
   <data name="UploadPicture" xml:space="preserve">
-    <value>Upload picture</value>
+    <value>Cargar imagen</value>
   </data>
 </root>

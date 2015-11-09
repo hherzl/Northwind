@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Northwind.Core.EntityLayer.Category>
+﻿@model IEnumerable<NorthwindMvc5.Areas.Administration.Models.CategoryModel>
+
+@using NorthwindMvc5.Resources;
 
 @{
     ViewBag.Title = "Index";
@@ -7,7 +9,7 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink(CategoryResource.CreateNew, "Create")
 </p>
 <table class="table">
     <tr>
@@ -29,9 +31,9 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.CategoryID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.CategoryID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.CategoryID })
+            @Html.ActionLink(CategoryResource.Edit, "Edit", new { id = item.CategoryID }) |
+            @Html.ActionLink(CategoryResource.Details, "Details", new { id = item.CategoryID }) |
+            @Html.ActionLink(CategoryResource.Delete, "Delete", new { id = item.CategoryID })
         </td>
     </tr>
 }

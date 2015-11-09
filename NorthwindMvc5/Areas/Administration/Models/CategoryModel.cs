@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Northwind.Core.EntityLayer;
+using NorthwindMvc5.Resources;
 
 namespace NorthwindMvc5.Areas.Administration.Models
 {
@@ -22,16 +23,15 @@ namespace NorthwindMvc5.Areas.Administration.Models
         [Key]
         public Int32? CategoryID { get; set; }
 
-        [Display(Name = "Category name")]
-        [Required]
-        [StringLength(30)]
+        [Display(Name = "CategoryName", ResourceType = typeof(CategoryResource))]
+        [Required(ErrorMessageResourceName = "CategoryNameRequired", ErrorMessageResourceType = typeof(CategoryResource))]
+        [StringLength(30, ErrorMessageResourceName = "CategoryNameStringLength", ErrorMessageResourceType = typeof(CategoryResource))]
         public String CategoryName { get; set; }
 
-        [Display(Name = "Description")]
-        [Required]
+        [Display(Name = "Description", ResourceType = typeof(CategoryResource))]
         public String Description { get; set; }
 
-        [Display(Name = "Picture")]
+        [Display(Name = "Picture", ResourceType = typeof(CategoryResource))]
         public Byte[] Picture { get; set; }
     }
 }

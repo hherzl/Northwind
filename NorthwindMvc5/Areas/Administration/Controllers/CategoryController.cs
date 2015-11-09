@@ -11,7 +11,7 @@ using NorthwindMvc5.Services;
 
 namespace NorthwindMvc5.Areas.Administration.Controllers
 {
-    public class CategoryController : Controller
+    public class CategoryController : BaseController
     {
         protected ISalesUow Uow;
 
@@ -35,7 +35,16 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         {
             var model = await Task.Run(() =>
             {
-                return Uow.CategoryRepository.GetAll().ToList();
+                return Uow
+                    .CategoryRepository
+                    .GetAll()
+                    .Select(item => new CategoryModel()
+                    {
+                        CategoryID = item.CategoryID,
+                        CategoryName = item.CategoryName,
+                        Description = item.Description
+                    })
+                    .ToList();
             });
 
             return View(model);
