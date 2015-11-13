@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 using System.Data.Entity.ModelConfiguration.Configuration;
 using Northwind.Core.EntityLayer;
@@ -13,6 +14,8 @@ namespace Northwind.Core.DataLayer.Mapping
             ToTable("Region");
 
             HasKey(p => new { p.RegionID });
+
+            Property(p => p.RegionID).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
             Property(p => p.RegionID).HasColumnType("int").IsRequired();
 

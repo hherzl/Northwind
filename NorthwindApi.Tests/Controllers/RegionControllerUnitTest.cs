@@ -7,10 +7,10 @@ using NorthwindApi.Controllers;
 using NorthwindApi.Responses;
 using NorthwindApi.Services;
 
-namespace NorthwindApi.Tests.Controllers
+namespace NorthwindApi.Tests
 {
     [TestClass]
-    public class CategoryUnitTest
+    public class RegionUnitTest
     {
         private IUowService service;
 
@@ -24,7 +24,7 @@ namespace NorthwindApi.Tests.Controllers
         public async Task GetAsync()
         {
             // Arrange
-            var controller = new CategoryController(service);
+            var controller = new RegionController(service);
             controller.Request = new HttpRequestMessage();
             controller.Configuration = new HttpConfiguration();
 
@@ -32,7 +32,7 @@ namespace NorthwindApi.Tests.Controllers
             var result = await controller.Get();
 
             // Assert
-            var value = default(IComposedViewModelResponse<Category>);
+            var value = default(IComposedViewModelResponse<Region>);
 
             result.TryGetContentValue(out value);
 
@@ -43,40 +43,40 @@ namespace NorthwindApi.Tests.Controllers
         public async Task PostAsync()
         {
             // Arrange
-            var controller = new CategoryController(service);
+            var controller = new RegionController(service);
             controller.Request = new HttpRequestMessage();
             controller.Configuration = new HttpConfiguration();
 
             // Act
-            var model = new Category()
+            var model = new Region()
             {
-                CategoryName = "Acme Category",
-                Description = "Acme category description"
+                RegionID = 5,
+                RegionDescription = "Acme Region"
             };
 
             var result = await controller.Post(model);
 
             // Assert
-            var response = default(ISingleViewModelResponse<Category>);
+            var response = default(ISingleViewModelResponse<Region>);
 
             result.TryGetContentValue(out response);
 
-            Assert.IsNotNull(response.Model.CategoryID);
+            Assert.IsNotNull(response.Model.RegionID);
         }
 
         [TestMethod]
         public async Task GetByIdAsync()
         {
             // Arrange
-            var controller = new CategoryController(service);
+            var controller = new RegionController(service);
             controller.Request = new HttpRequestMessage();
             controller.Configuration = new HttpConfiguration();
 
             // Act
-            var result = await controller.Get(7);
+            var result = await controller.Get(5);
 
             // Assert
-            var response = default(ISingleViewModelResponse<Category>);
+            var response = default(ISingleViewModelResponse<Region>);
 
             result.TryGetContentValue(out response);
 
@@ -87,21 +87,20 @@ namespace NorthwindApi.Tests.Controllers
         public async Task PutAsync()
         {
             // Arrange
-            var controller = new CategoryController(service);
+            var controller = new RegionController(service);
             controller.Request = new HttpRequestMessage();
             controller.Configuration = new HttpConfiguration();
 
             // Act
-            var model = new Category()
+            var model = new Region()
             {
-                CategoryName = "Acme 2",
-                Description = "22445 77990"
+                RegionDescription = "Acme Region 2",
             };
 
-            var result = await controller.Put(8, model);
+            var result = await controller.Put(5, model);
 
             // Assert
-            var value = default(ISingleViewModelResponse<Category>);
+            var value = default(ISingleViewModelResponse<Region>);
 
             result.TryGetContentValue(out value);
 
@@ -112,15 +111,15 @@ namespace NorthwindApi.Tests.Controllers
         public async Task DeleteAsync()
         {
             // Arrange
-            var controller = new CategoryController(service);
+            var controller = new RegionController(service);
             controller.Request = new HttpRequestMessage();
             controller.Configuration = new HttpConfiguration();
 
             // Act
-            var result = await controller.Delete(8);
+            var result = await controller.Delete(5);
 
             // Assert
-            var value = default(ISingleViewModelResponse<Category>);
+            var value = default(ISingleViewModelResponse<Region>);
 
             result.TryGetContentValue(out value);
 

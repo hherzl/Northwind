@@ -181,6 +181,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RegionController.cs" />
     <Compile Include="Controllers\ShipperController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -188,6 +189,7 @@
     <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="Models\ErrorLog.cs" />
     <Compile Include="Responses\ComposedCategoryResponse.cs" />
+    <Compile Include="Responses\ComposedRegionResponse.cs" />
     <Compile Include="Responses\ComposedShipperResponse.cs" />
     <Compile Include="Responses\IComposedViewModelResponse.cs" />
     <Compile Include="Responses\IResponse.cs" />
@@ -195,6 +197,7 @@
     <Compile Include="Responses\ISingleViewModelResponse.cs" />
     <Compile Include="Responses\Response.cs" />
     <Compile Include="Responses\SingleCategoryResponse.cs" />
+    <Compile Include="Responses\SingleRegionResponse.cs" />
     <Compile Include="Responses\SingleShipperResponse.cs" />
     <Compile Include="Services\IUowService.cs" />
     <Compile Include="Services\UowService.cs" />
