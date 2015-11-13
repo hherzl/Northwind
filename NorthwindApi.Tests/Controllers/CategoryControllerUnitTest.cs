@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Northwind.Core.EntityLayer;
 using NorthwindApi.Controllers;
 using NorthwindApi.Responses;
 using NorthwindApi.Services;
+using NorthwindApi.ViewModels;
 
 namespace NorthwindApi.Tests.Controllers
 {
@@ -32,7 +32,7 @@ namespace NorthwindApi.Tests.Controllers
             var result = await controller.Get();
 
             // Assert
-            var value = default(IComposedViewModelResponse<Category>);
+            var value = default(IComposedViewModelResponse<CategoryViewModel>);
 
             result.TryGetContentValue(out value);
 
@@ -48,7 +48,7 @@ namespace NorthwindApi.Tests.Controllers
             controller.Configuration = new HttpConfiguration();
 
             // Act
-            var model = new Category()
+            var model = new CategoryViewModel()
             {
                 CategoryName = "Acme Category",
                 Description = "Acme category description"
@@ -57,7 +57,7 @@ namespace NorthwindApi.Tests.Controllers
             var result = await controller.Post(model);
 
             // Assert
-            var response = default(ISingleViewModelResponse<Category>);
+            var response = default(ISingleViewModelResponse<CategoryViewModel>);
 
             result.TryGetContentValue(out response);
 
@@ -76,7 +76,7 @@ namespace NorthwindApi.Tests.Controllers
             var result = await controller.Get(7);
 
             // Assert
-            var response = default(ISingleViewModelResponse<Category>);
+            var response = default(ISingleViewModelResponse<CategoryViewModel>);
 
             result.TryGetContentValue(out response);
 
@@ -92,7 +92,7 @@ namespace NorthwindApi.Tests.Controllers
             controller.Configuration = new HttpConfiguration();
 
             // Act
-            var model = new Category()
+            var model = new CategoryViewModel()
             {
                 CategoryName = "Acme 2",
                 Description = "22445 77990"
@@ -101,7 +101,7 @@ namespace NorthwindApi.Tests.Controllers
             var result = await controller.Put(8, model);
 
             // Assert
-            var value = default(ISingleViewModelResponse<Category>);
+            var value = default(ISingleViewModelResponse<CategoryViewModel>);
 
             result.TryGetContentValue(out value);
 
@@ -117,10 +117,10 @@ namespace NorthwindApi.Tests.Controllers
             controller.Configuration = new HttpConfiguration();
 
             // Act
-            var result = await controller.Delete(8);
+            var result = await controller.Delete(9);
 
             // Assert
-            var value = default(ISingleViewModelResponse<Category>);
+            var value = default(ISingleViewModelResponse<CategoryViewModel>);
 
             result.TryGetContentValue(out value);
 

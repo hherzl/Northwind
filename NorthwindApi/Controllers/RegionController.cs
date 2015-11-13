@@ -9,15 +9,14 @@ using Northwind.Core.EntityLayer;
 using NorthwindApi.Helpers;
 using NorthwindApi.Responses;
 using NorthwindApi.Services;
-using NorthwindApi.ViewModels;
 
 namespace NorthwindApi.Controllers
 {
-    public class CategoryController : ApiController
+    public class RegionController : ApiController
     {
         protected ISalesUow Uow;
 
-        public CategoryController(IUowService service)
+        public RegionController(IUowService service)
         {
             Uow = service.GetSalesUow();
         }
@@ -32,19 +31,20 @@ namespace NorthwindApi.Controllers
             base.Dispose(disposing);
         }
 
-        // GET: api/Category
+        // GET: api/Region
         public async Task<HttpResponseMessage> Get()
         {
-            var response = new ComposedCategoryResponse();
+            var response = new ComposedRegionResponse() as IComposedViewModelResponse<Region>;
+
+            var foo = Uow.RegionRepository.GetAll().ToList();
 
             try
             {
                 response.Model = await Task.Run(() =>
                 {
                     return Uow
-                        .CategoryRepository
+                        .RegionRepository
                         .GetAll()
-                        .Select(item => new CategoryViewModel(item))
                         .ToList();
                 });
             }
@@ -59,16 +59,18 @@ namespace NorthwindApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, response);
         }
 
-        // GET: api/Category/5
+        // GET: api/Region/5
         public async Task<HttpResponseMessage> Get(Int32 id)
         {
-            var response = new SingleCategoryResponse();
+            var response = new SingleRegionResponse() as ISingleViewModelResponse<Region>;
 
             try
             {
                 response.Model = await Task.Run(() =>
                 {
-                    return new CategoryViewModel(Uow.CategoryRepository.Get(new Category(id)));
+                    return Uow
+                        .RegionRepository
+                        .Get(new Region(id));
                 });
 
                 if (response.Model == null)
@@ -87,21 +89,19 @@ namespace NorthwindApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, response);
         }
 
-        // POST: api/Category
-        public async Task<HttpResponseMessage> Post([FromBody]CategoryViewModel value)
+        // POST: api/Region
+        public async Task<HttpResponseMessage> Post([FromBody]Region value)
         {
-            var response = new SingleCategoryResponse();
+            var response = new SingleRegionResponse() as ISingleViewModelResponse<Region>;
 
             try
             {
-                var entity = value.ToEntity();
-
-                Uow.CategoryRepository.Add(entity);
+                Uow.RegionRepository.Add(value);
 
                 if (await Uow.CommitChangesAsync() > 0)
                 {
                     response.Message = "Record added successfully";
-                    response.Model = new CategoryViewModel(entity);
+                    response.Model = value;
                 }
             }
             catch (Exception ex)
@@ -115,24 +115,23 @@ namespace NorthwindApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, response);
         }
 
-        // PUT: api/Category/5
-        public async Task<HttpResponseMessage> Put(Int32 id, [FromBody]CategoryViewModel value)
+        // PUT: api/Region/5
+        public async Task<HttpResponseMessage> Put(Int32 id, [FromBody]Region value)
         {
-            var response = new SingleCategoryResponse();
+            var response = new SingleRegionResponse() as ISingleViewModelResponse<Region>;
 
             try
             {
-                var entity = Uow.CategoryRepository.Get(new Category(id));
+                var entity = Uow.RegionRepository.Get(new Region(id));
 
                 if (entity == null)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound);
                 }
 
-                entity.CategoryName = value.CategoryName;
-                entity.Description = value.Description;
+                entity.RegionDescription = value.RegionDescription;
 
-                Uow.CategoryRepository.Update(entity);
+                Uow.RegionRepository.Update(entity);
 
                 if (await Uow.CommitChangesAsync() > 0)
                 {
@@ -150,21 +149,21 @@ namespace NorthwindApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, response);
         }
 
-        // DELETE: api/Category/5
+        // DELETE: api/Region/5
         public async Task<HttpResponseMessage> Delete(Int32 id)
         {
-            var response = new SingleCategoryResponse();
+            var response = new SingleRegionResponse() as ISingleViewModelResponse<Region>;
 
             try
             {
-                var entity = Uow.CategoryRepository.Get(new Category(id));
+                var entity = Uow.RegionRepository.Get(new Region(id));
 
                 if (entity == null)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound);
                 }
 
-                Uow.CategoryRepository.Remove(entity);
+                Uow.RegionRepository.Remove(entity);
 
                 if (await Uow.CommitChangesAsync() > 0)
                 {

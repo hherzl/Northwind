@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
-using Northwind.Core.EntityLayer;
+using NorthwindApi.ViewModels;
 
 namespace NorthwindApi.Responses
 {
-    public class ComposedCategoryResponse: Response, IComposedViewModelResponse<Category>
+    public class ComposedCategoryResponse : Response, IComposedViewModelResponse<CategoryViewModel>
     {
         public ComposedCategoryResponse()
         {
 
         }
 
-        public IEnumerable<Category> Model { get; set; }
+        public IEnumerable<CategoryViewModel> Model { get; set; }
     }
 }

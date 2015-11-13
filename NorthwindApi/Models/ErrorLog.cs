@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 
@@ -6,6 +7,8 @@ namespace NorthwindApi.Models
 {
     public class ErrorLog
     {
+        private List<String> m_validationMessages;
+
         public ErrorLog()
         {
 
@@ -13,7 +16,27 @@ namespace NorthwindApi.Models
 
         public Int32? ID { get; set; }
 
-        public String Message { get; set; }
+        public DateTime Date { get; set; }
+
+        public String User { get; set; }
+
+        public String UrlReferrer { get; set; }
+
+        public String Url { get; set; }
+
+        public String Browser { get; set; }
+
+        public String BrowserVersion { get; set; }
+
+        public List<String> ValidationMessages
+        {
+            get
+            {
+                return m_validationMessages ?? (m_validationMessages = new List<String>());
+            }
+        }
+
+        public String Exception { get; set; }
     }
 
     public class ErrorLogDbContext : System.Data.Entity.DbContext

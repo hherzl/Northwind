@@ -1,14 +1,14 @@
-﻿using Northwind.Core.EntityLayer;
+﻿using NorthwindApi.ViewModels;
 
 namespace NorthwindApi.Responses
 {
-    public class SingleCategoryResponse : Response, ISingleViewModelResponse<Category>
+    public class SingleCategoryResponse : Response, ISingleViewModelResponse<CategoryViewModel>
     {
         public SingleCategoryResponse()
         {
 
         }
 
-        public Category Model { get; set; }
+        public CategoryViewModel Model { get; set; }
     }
 }

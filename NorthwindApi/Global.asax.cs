@@ -20,12 +20,5 @@ namespace NorthwindApi
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
-
-        protected void Application_Error()
-        {
-            var lastError = Server.GetLastError();
-
-            ExceptionHelper.Publish(lastError);
-        }
     }
 }

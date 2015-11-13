@@ -144,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Logs\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -183,10 +184,14 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RegionController.cs" />
     <Compile Include="Controllers\ShipperController.cs" />
+    <Compile Include="Filters\ExceptionHandlingAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AppSettingsHelper.cs" />
+    <Compile Include="Helpers\ErrorLogHelper.cs" />
     <Compile Include="Helpers\ExceptionHelper.cs" />
+    <Compile Include="Helpers\TextFileHelper.cs" />
     <Compile Include="Models\ErrorLog.cs" />
     <Compile Include="Responses\ComposedCategoryResponse.cs" />
     <Compile Include="Responses\ComposedRegionResponse.cs" />
@@ -201,6 +206,7 @@
     <Compile Include="Responses\SingleShipperResponse.cs" />
     <Compile Include="Services\IUowService.cs" />
     <Compile Include="Services\UowService.cs" />
+    <Compile Include="ViewModels\CategoryViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
