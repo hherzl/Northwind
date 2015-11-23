@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Northwind.Core.DataLayer;
 using Northwind.Core.DataLayer.Contracts;
 using Northwind.Core.EntityLayer;
@@ -16,9 +17,27 @@ namespace NorthwindService
             Uow = new SalesUow(new SalesDbContext());
         }
 
-        public IEnumerable<Customer> GetCustomers()
+        public async Task<IEnumerable<Customer>> GetCustomers()
         {
-            return Uow.CustomerRepository.GetAll().ToList();
+            return await Task.Run(() =>
+            {
+                return Uow.CustomerRepository.GetAll().ToList();
+            });
+        }
+
+        public async Task AddCustomer(Customer entity)
+        {
+            Uow.CustomerRepository.Add(entity);
+
+            await Uow.CommitChangesAsync();
+        }
+
+        public async Task<Customer> GetCustomer(String customerID)
+        {
+            return await Task.Run(() =>
+            {
+                return Uow.CustomerRepository.Get(new Customer { CustomerID = customerID });
+            });
         }
     }
 }
