@@ -5,12 +5,12 @@
 </div>
 
 <p>
-    <a ng-click="create()">Create new</a>
+    <a ng-click="vm.create()">Create new</a>
 </p>
 
 <br />
 
-<table class="table" ng-table="tableParams">
+<table class="table" ng-table="vm.tableParams">
     <tr ng-repeat="order in $data">
         <td data-title="'Order #'" sortable="'orderID'">
             {{ order.orderID }}
@@ -36,9 +36,9 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a ng-click="edit(order)">Edit</a></li>
-                    <li><a ng-click="details(order)">Details</a></li>
-                    <li><a ng-click="delete(order)">Delete</a></li>
+                    <li><a ng-click="vm.edit(order)">Edit</a></li>
+                    <li><a ng-click="vm.details(order)">Details</a></li>
+                    <li><a ng-click="vm.delete(order)">Delete</a></li>
                 </ul>
             </div>
         </td>

@@ -108,15 +108,18 @@
 
             .when("/order", {
                 templateUrl: base + "order/index.html",
-                controller: "OrderController"
+                controller: "OrderController",
+                controllerAs: "vm"
             })
             .when("/order-create", {
                 templateUrl: base + "order/create.html",
-                controller: "CreateOrderController"
+                controller: "CreateOrderController",
+                controllerAs: "vm"
             })
             .when("/order-details/:id", {
                 templateUrl: base + "order/details.html",
-                controller: "OrderDetailsController"
+                controller: "OrderDetailsController",
+                controllerAs: "vm"
             })
 
             .when("/region", {

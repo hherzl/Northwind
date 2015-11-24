@@ -1,7 +1,7 @@
 ﻿<h2>Create</h2>
 
-<div class="alert alert-danger" role="alert" ng-show="result.didError">
-    {{ result.errorMessage }}
+<div class="alert alert-danger" role="alert" ng-show="vm.result.didError">
+    {{ vm.result.errorMessage }}
 </div>
 
 <div class="container">
@@ -9,15 +9,15 @@
         <div class="form-horizontal">
             <div class="form-group">
                 <label class="control-label col-md-2">Customer</label>
-                <select class="form-control list-box tri-state" ng-model="order.customerID">
-                    <option ng-repeat="c in customerResult.model | orderBy: 'companyName'" value="{{ c.customerID }}">{{ c.companyName }}</option>
+                <select class="form-control list-box tri-state" ng-model="vm.order.customerID">
+                    <option ng-repeat="c in vm.customerResult.model | orderBy: 'companyName'" value="{{ c.customerID }}">{{ c.companyName }}</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-md-2">Employee</label>
-                <select class="form-control list-box tri-state" ng-model="order.employeeID">
-                    <option ng-repeat="e in employeeResult.model | orderBy: 'fullName'" value="{{ e.employeeID }}">{{ e.fullName }}</option>
+                <select class="form-control list-box tri-state" ng-model="vm.order.employeeID">
+                    <option ng-repeat="e in vm.employeeResult.model | orderBy: 'fullName'" value="{{ e.employeeID }}">{{ e.fullName }}</option>
                 </select>
             </div>
 
@@ -28,15 +28,15 @@
 
             <div class="form-group">
                 <label class="control-label col-md-2">Shipper</label>
-                <select class="form-control list-box tri-state" ng-model="order.shipVia">
-                    <option ng-repeat="s in shipperResult.model | orderBy: 'companyName'" value="{{ s.shipperID }}">{{ s.companyName }}</option>
+                <select class="form-control list-box tri-state" ng-model="vm.order.shipVia">
+                    <option ng-repeat="s in vm.shipperResult.model | orderBy: 'companyName'" value="{{ s.shipperID }}">{{ s.companyName }}</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-md-2">Product</label>
                 <select class="form-control tri-state" ng-model="product">
-                    <option ng-repeat="p in productResult.model | orderBy: 'productName'" value="{{ p.productID }}">{{ p.productName }}</option>
+                    <option ng-repeat="p in vm.productResult.model | orderBy: 'productName'" value="{{ p.productID }}">{{ p.productName }}</option>
                 </select>
             </div>
         </div>
@@ -51,7 +51,7 @@
             <label class="control-label">Ship name</label>
         </td>
         <td>
-            <input type="text" class="form-control" ng-model="order.shipName" />
+            <input type="text" class="form-control" ng-model="vm.order.shipName" />
         </td>
     </tr>
     <tr>
@@ -59,7 +59,7 @@
             <label class="control-label">Ship address</label>
         </td>
         <td>
-            <input type="text" class="form-control" ng-model="order.shipAddress" />
+            <input type="text" class="form-control" ng-model="vm.order.shipAddress" />
         </td>
     </tr>
     <tr>
@@ -67,7 +67,7 @@
             <label class="control-label">Ship city</label>
         </td>
         <td>
-            <input type="text" class="form-control" ng-model="order.shipCity" />
+            <input type="text" class="form-control" ng-model="vm.order.shipCity" />
         </td>
     </tr>
     <tr>
@@ -75,7 +75,7 @@
             <label class="control-label">Ship region</label>
         </td>
         <td>
-            <input type="text" class="form-control" ng-model="order.shipRegion" />
+            <input type="text" class="form-control" ng-model="vm.order.shipRegion" />
         </td>
     </tr>
     <tr>
@@ -83,7 +83,7 @@
             <label class="control-label">Ship postal code</label>
         </td>
         <td>
-            <input type="text" class="form-control" ng-model="order.shipPostalCode" />
+            <input type="text" class="form-control" ng-model="vm.order.shipPostalCode" />
         </td>
     </tr>
     <tr>
@@ -91,7 +91,7 @@
             <label class="control-label">Ship country</label>
         </td>
         <td>
-            <input type="text" class="form-control" ng-model="order.shipCountry" />
+            <input type="text" class="form-control" ng-model="vm.order.shipCountry" />
         </td>
     </tr>
 </table>
@@ -120,7 +120,7 @@
         </th>
         <th></th>
     </tr>
-    <tr ng-repeat="detail in order.orderSummaries">
+    <tr ng-repeat="detail in vm.order.orderSummaries">
         <td>
             {{ detail.productName }}
         </td>
@@ -142,12 +142,12 @@
         <td></td>
         <td></td>
         <td class="text-right">
-            {{ order.total() | currency }}
+            {{ vm.order.total() | currency }}
         </td>
         <td></td>
     </tr>
 </table>
 
 <div>
-    <button type="button" class="btn btn-primary" ng-click="create()" ng-disabled="order.orderDetails.length == 0">Create Order</button>
+    <button type="button" class="btn btn-primary" ng-click="create()" ng-disabled="vm.order.orderDetails.length == 0">Create Order</button>
 </div>
