@@ -52,9 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataLayer\ChangeLogRepository.cs" />
+    <Compile Include="DataLayer\Contracts\IChangeLogRepository.cs" />
     <Compile Include="DataLayer\Contracts\IOrderDetailSummaryRepository.cs" />
     <Compile Include="DataLayer\Contracts\ISalesUow.cs" />
     <Compile Include="DataLayer\Contracts\IUow.cs" />
+    <Compile Include="DataLayer\Mapping\ChangeLogMap.cs" />
     <Compile Include="DataLayer\Mapping\OrderDetailSummaryMap.cs" />
     <Compile Include="DataLayer\OrderDetailSummaryRepository.cs" />
     <Compile Include="DataLayer\SalesUow.cs" />
@@ -102,6 +105,7 @@
     <Compile Include="DataLayer\Uow.cs" />
     <Compile Include="EntityLayer\Category.cs" />
     <Compile Include="EntityLayer\CategorySaleFor1997.cs" />
+    <Compile Include="EntityLayer\ChangeLog.cs" />
     <Compile Include="EntityLayer\Customer.cs" />
     <Compile Include="EntityLayer\Employee.cs" />
     <Compile Include="EntityLayer\Employee.partial.cs" />
@@ -112,6 +116,8 @@
     <Compile Include="EntityLayer\Region.cs" />
     <Compile Include="EntityLayer\Shipper.cs" />
     <Compile Include="EntityLayer\Supplier.cs" />
+    <Compile Include="Helpers\ChangeTrackerHelper.cs" />
+    <Compile Include="Helpers\EfMetadataHelper.cs" />
     <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -120,6 +126,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DataLayer\Scripts\Tables.sql" />
     <Content Include="DataLayer\Scripts\Views.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

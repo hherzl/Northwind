@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -81,9 +82,19 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
             }
         }
 
+        public IEnumerable< SelectListItem> Suppliers
+        {
+            get
+            {
+                return Uow.SupplierRepository.GetAll().Select(item => new SelectListItem { Text = item.CompanyName, Value = item.SupplierID.ToString() }).ToList();
+            }
+        }
+
         // GET: Administration/Product/Edit/5
         public async Task<ActionResult> Edit(Int32 id)
         {
+            ViewBag.Suppliers = Suppliers;
+
             var entity = await Task.Run(() =>
             {
                 return Uow.ProductRepository.Get(new Product() { ProductID = id });
@@ -104,6 +115,13 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
                 {
                     return Uow.ProductRepository.Get(new Product() { ProductID = id });
                 });
+
+                entity.ProductName = model.ProductName;
+
+                if (model.SupplierID.HasValue)
+                {
+                    entity.SupplierID = model.SupplierID;
+                }
 
                 await Uow.CommitChangesAsync();
 

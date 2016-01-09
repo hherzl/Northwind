@@ -1,17 +1,28 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Threading.Tasks;
+using Northwind.Core.DataLayer.Contracts;
+using Northwind.Core.Helpers;
 
 namespace Northwind.Core.DataLayer
 {
     public abstract class Uow
     {
+        private IChangeLogRepository m_changeLogRepository;
         protected Boolean Disposed;
-        protected DbContext DbCtx;
+        protected DbContext Context;
 
         public Uow(DbContext dbContext)
         {
-            DbCtx = dbContext;
+            Context = dbContext;
+        }
+
+        public IChangeLogRepository ChangeLogRepository
+        {
+            get
+            {
+                return m_changeLogRepository ?? (m_changeLogRepository = new ChangeLogRepository(Context));
+            }
         }
 
         protected virtual void Dispose(Boolean disposing)
@@ -20,7 +31,7 @@ namespace Northwind.Core.DataLayer
             {
                 if (disposing)
                 {
-                    DbCtx.Dispose();
+                    Context.Dispose();
                 }
             }
 
@@ -36,9 +47,20 @@ namespace Northwind.Core.DataLayer
 
         public Int32 CommitChanges()
         {
-            if (DbCtx.ChangeTracker.HasChanges())
+            if (Context.ChangeTracker.HasChanges())
             {
-                return DbCtx.SaveChanges();
+                foreach (var entry in Context.ChangeTracker.Entries())
+                {
+                    if (entry.State == EntityState.Modified)
+                    {
+                        foreach (var change in (new ChangeTrackerHelper(Context)).GetChanges(entry))
+                        {
+                            ChangeLogRepository.Add(change);
+                        }
+                    }
+                }
+
+                return Context.SaveChanges();
             }
 
             return 0;
@@ -46,9 +68,20 @@ namespace Northwind.Core.DataLayer
 
         public Task<Int32> CommitChangesAsync()
         {
-            if (DbCtx.ChangeTracker.HasChanges())
+            if (Context.ChangeTracker.HasChanges())
             {
-                return DbCtx.SaveChangesAsync();
+                foreach (var entry in Context.ChangeTracker.Entries())
+                {
+                    if (entry.State == EntityState.Modified)
+                    {
+                        foreach (var change in (new ChangeTrackerHelper(Context)).GetChanges(entry))
+                        {
+                            ChangeLogRepository.Add(change);
+                        }
+                    }
+                }
+
+                return Context.SaveChangesAsync();
             }
             else
             {

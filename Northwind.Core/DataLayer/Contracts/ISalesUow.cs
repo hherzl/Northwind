@@ -4,6 +4,8 @@ namespace Northwind.Core.DataLayer.Contracts
 {
     public interface ISalesUow : IUow
     {
+        IChangeLogRepository ChangeLogRepository { get; }
+
         ISupplierRepository SupplierRepository { get; }
 
         ICategoryRepository CategoryRepository { get; }
