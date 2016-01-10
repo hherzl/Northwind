@@ -33,7 +33,11 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         {
             var model = await Task.Run(() =>
             {
-                return Uow.SupplierRepository.GetAll().ToList();
+                return Uow
+                    .SupplierRepository
+                    .GetAll()
+                    .Select(item => new SupplierModel(item))
+                    .ToList();
             });
 
             return View(model);
@@ -44,7 +48,7 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         {
             var entity = await Task.Run(() =>
             {
-                return Uow.SupplierRepository.Get(new Supplier() { SupplierID = id });
+                return Uow.SupplierRepository.Get(new Supplier(id));
             });
 
             var model = new SupplierModel(entity);
@@ -86,7 +90,7 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         {
             var entity = await Task.Run(() =>
             {
-                return Uow.SupplierRepository.Get(new Supplier() { SupplierID = id });
+                return Uow.SupplierRepository.Get(new Supplier(id));
             });
 
             var model = new SupplierModel(entity);
@@ -96,14 +100,28 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
 
         // POST: Administration/Supplier/Edit/5
         [HttpPost]
-        public async Task <ActionResult > Edit(Int32 id, FormCollection collection)
+        public async Task<ActionResult> Edit(Int32 id, SupplierModel model)
         {
             try
             {
                 var entity = await Task.Run(() =>
                 {
-                    return Uow.SupplierRepository.Get(new Supplier() { SupplierID = id });
+                    return Uow.SupplierRepository.Get(new Supplier(id));
                 });
+
+                entity.CompanyName = model.CompanyName;
+                entity.ContactName = model.ContactName;
+                entity.ContactTitle = model.ContactTitle;
+                entity.Address = model.Address;
+                entity.City = model.City;
+                entity.Region = model.Region;
+                entity.PostalCode = model.PostalCode;
+                entity.Country = model.Country;
+                entity.Phone = model.Phone;
+                entity.Fax = model.Fax;
+                entity.HomePage = model.HomePage;
+
+                await Uow.CommitChangesAsync();
 
                 return RedirectToAction("Index");
             }
@@ -118,7 +136,7 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         {
             var entity = await Task.Run(() =>
             {
-                return Uow.SupplierRepository.Get(new Supplier() { SupplierID = id });
+                return Uow.SupplierRepository.Get(new Supplier(id));
             });
 
             var model = new SupplierModel(entity);
@@ -134,10 +152,12 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
             {
                 var entity = await Task.Run(() =>
                 {
-                    return Uow.SupplierRepository.Get(new Supplier() { SupplierID = id });
+                    return Uow.SupplierRepository.Get(new Supplier(id));
                 });
 
                 Uow.SupplierRepository.Remove(entity);
+
+                await Uow.CommitChangesAsync();
 
                 return RedirectToAction("Index");
             }

@@ -1,13 +1,15 @@
-﻿@model IEnumerable<Northwind.Core.EntityLayer.Supplier>
+﻿@model IEnumerable<NorthwindMvc5.Areas.Administration.Models.SupplierModel>
+
+@using NorthwindMvc5.Resources
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = SupplierResource.Title;
 }
 
-<h2>Index</h2>
+<h2>@SupplierResource.Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink(SupplierResource.CreateNew, "Create")
 </p>
 <table class="table">
     <tr>
@@ -41,9 +43,9 @@
             @Html.DisplayFor(modelItem => item.Country)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.SupplierID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.SupplierID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.SupplierID })
+            @Html.ActionLink(SupplierResource.Edit, "Edit", new { id = item.SupplierID }) |
+            @Html.ActionLink(SupplierResource.Details, "Details", new { id = item.SupplierID }) |
+            @Html.ActionLink(SupplierResource.Delete, "Delete", new { id = item.SupplierID })
         </td>
     </tr>
 }
