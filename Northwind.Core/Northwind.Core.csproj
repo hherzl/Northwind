@@ -81,7 +81,6 @@
     <Compile Include="DataLayer\Contracts\ICategorySaleFor1997Repository.cs" />
     <Compile Include="DataLayer\Contracts\ICustomerRepository.cs" />
     <Compile Include="DataLayer\Contracts\IEmployeeRepository.cs" />
-    <Compile Include="DataLayer\Contracts\IOrderDetail.cs" />
     <Compile Include="DataLayer\Contracts\IOrderDetailRepository.cs" />
     <Compile Include="DataLayer\Contracts\IOrderRepository.cs" />
     <Compile Include="DataLayer\Contracts\IProductRepository.cs" />
