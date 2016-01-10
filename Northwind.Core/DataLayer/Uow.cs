@@ -8,7 +8,6 @@ namespace Northwind.Core.DataLayer
 {
     public abstract class Uow
     {
-        private IChangeLogRepository m_changeLogRepository;
         protected Boolean Disposed;
         protected DbContext Context;
 
@@ -16,6 +15,8 @@ namespace Northwind.Core.DataLayer
         {
             Context = dbContext;
         }
+
+        private IChangeLogRepository m_changeLogRepository;
 
         public IChangeLogRepository ChangeLogRepository
         {
