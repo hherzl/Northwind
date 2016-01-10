@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Northwind.Core.EntityLayer.Shipper>
+﻿@model IEnumerable<NorthwindMvc5.Areas.Administration.Models.ShipperModel>
 
 @{
     ViewBag.Title = "Index";
@@ -29,9 +29,9 @@
             @Html.DisplayFor(modelItem => item.Phone)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ShipperID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ShipperID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ShipperID })
+            @Html.ActionLink("Edit", "Edit", new { id = item.ShipperID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ShipperID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ShipperID })
         </td>
     </tr>
 }

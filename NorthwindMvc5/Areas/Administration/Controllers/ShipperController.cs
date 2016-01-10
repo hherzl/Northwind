@@ -33,7 +33,11 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         {
             var model = await Task.Run(() =>
             {
-                return Uow.ShipperRepository.GetAll().ToList();
+                return Uow
+                    .ShipperRepository
+                    .GetAll()
+                    .Select(item => new ShipperModel(item))
+                    .ToList();
             });
 
             return View(model);
