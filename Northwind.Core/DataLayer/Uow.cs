@@ -53,7 +53,7 @@ namespace Northwind.Core.DataLayer
                 {
                     if (entry.State == EntityState.Modified)
                     {
-                        foreach (var change in (new ChangeTrackerHelper(Context)).GetChanges(entry))
+                        foreach (var change in ChangeTrackerHelper.GetChanges(Context, entry))
                         {
                             ChangeLogRepository.Add(change);
                         }
@@ -74,7 +74,7 @@ namespace Northwind.Core.DataLayer
                 {
                     if (entry.State == EntityState.Modified)
                     {
-                        foreach (var change in (new ChangeTrackerHelper(Context)).GetChanges(entry))
+                        foreach (var change in ChangeTrackerHelper.GetChanges(Context, entry))
                         {
                             ChangeLogRepository.Add(change);
                         }

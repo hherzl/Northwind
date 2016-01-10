@@ -6,16 +6,9 @@ using Northwind.Core.EntityLayer;
 
 namespace Northwind.Core.Helpers
 {
-    public class ChangeTrackerHelper
+    public static class ChangeTrackerHelper
     {
-        public ChangeTrackerHelper(DbContext dbContext)
-        {
-            Context = dbContext;
-        }
-
-        public DbContext Context { get; set; }
-
-        public IEnumerable<ChangeLog> GetChanges(DbEntityEntry entry)
+        public static IEnumerable<ChangeLog> GetChanges(DbContext dbContext, DbEntityEntry entry)
         {
             foreach (var propertyName in entry.OriginalValues.PropertyNames)
             {
@@ -30,7 +23,7 @@ namespace Northwind.Core.Helpers
 
                 var type = entry.Entity.GetType();
 
-                var tableName = EfMetadataHelper.GetTableName(Context, type);
+                var tableName = EfMetadataHelper.GetTableName(dbContext, type);
 
                 if (original.ToString() != current.ToString())
                 {
