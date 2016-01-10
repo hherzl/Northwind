@@ -1,14 +1,16 @@
 ﻿@model NorthwindMvc5.Areas.Administration.Models.ProductModel
 
+@using NorthwindMvc5.Resources
+
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = ProductResource.Delete;
 }
 
-<h2>Delete</h2>
+<h2>@ProductResource.Delete</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>@ProductResource.DeleteConfirmation</h3>
 <div>
-    <h4>ProductModel</h4>
+    <h4>@ProductResource.Product</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -89,8 +91,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="@ProductResource.Delete" class="btn btn-default" /> |
+            @Html.ActionLink(ProductResource.BackToList, "Index")
         </div>
     }
 </div>

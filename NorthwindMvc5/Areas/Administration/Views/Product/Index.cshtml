@@ -1,13 +1,15 @@
-﻿@model IEnumerable<Northwind.Core.DataLayer.DataContracts.ProductDetail>
+﻿@model IEnumerable<NorthwindMvc5.Areas.Administration.Models.ProductModel>
+
+@using NorthwindMvc5.Resources
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = ProductResource.Title;
 }
 
-<h2>Index</h2>
+<h2>@ProductResource.Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink(ProductResource.CreateNew, "Create")
 </p>
 <table class="table table-responsive">
     <tr>
@@ -41,9 +43,9 @@
             @(item.Discontinued == true ? "Yes" : "No")
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.ProductID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ProductID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.ProductID })
+            @Html.ActionLink(ProductResource.Edit, "Edit", new { id = item.ProductID }) |
+            @Html.ActionLink(ProductResource.Details, "Details", new { id = item.ProductID }) |
+            @Html.ActionLink(ProductResource.Delete, "Delete", new { id = item.ProductID })
         </td>
     </tr>
 }

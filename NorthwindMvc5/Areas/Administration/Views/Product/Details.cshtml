@@ -1,13 +1,15 @@
 ﻿@model NorthwindMvc5.Areas.Administration.Models.ProductModel
 
+@using NorthwindMvc5.Resources
+
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = ProductResource.Details;
 }
 
-<h2>Details</h2>
+<h2>@ProductResource.Details</h2>
 
 <div>
-    <h4>ProductModel</h4>
+    <h4>@ProductResource.Product</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -85,6 +87,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ProductID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink(ProductResource.Edit, "Edit", new { id = Model.ProductID }) |
+    @Html.ActionLink(ProductResource.BackToList, "Index")
 </p>

@@ -34,7 +34,11 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         {
             var model = await Task.Run(() =>
             {
-                return Uow.ProductRepository.GetDetails(String.Empty, null, null).ToList();
+                return Uow
+                    .ProductRepository
+                    .GetDetails(String.Empty, null, null)
+                    .Select(item => new ProductModel(item))
+                    .ToList();
             });
 
             return View(model);
@@ -45,7 +49,7 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         {
             var entity = await Task.Run(() =>
             {
-                return Uow.ProductRepository.Get(new Product() { ProductID = id });
+                return Uow.ProductRepository.Get(new Product(id));
             });
 
             var model = new ProductModel(entity);
@@ -53,9 +57,39 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
             return View(model);
         }
 
+        public IEnumerable<SelectListItem> Suppliers
+        {
+            get
+            {
+                return Uow
+                    .SupplierRepository
+                    .GetAll()
+                    .OrderBy(item => item.CompanyName)
+                    .Select(item => new SelectListItem { Text = item.CompanyName, Value = item.SupplierID.ToString() })
+                    .ToList();
+            }
+        }
+
+        public IEnumerable<SelectListItem> Categories
+        {
+            get
+            {
+                return Uow
+                    .CategoryRepository
+                    .GetAll()
+                    .OrderBy(item => item.CategoryName)
+                    .Select(item => new SelectListItem { Text = item.CategoryName, Value = item.CategoryID.ToString() })
+                    .ToList();
+            }
+        }
+
         // GET: Administration/Product/Create
         public async Task<ActionResult> Create()
         {
+            ViewBag.Suppliers = Suppliers;
+
+            ViewBag.Categories = Categories;
+
             return await Task.Run(() =>
             {
                 return View();
@@ -82,22 +116,16 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
             }
         }
 
-        public IEnumerable< SelectListItem> Suppliers
-        {
-            get
-            {
-                return Uow.SupplierRepository.GetAll().Select(item => new SelectListItem { Text = item.CompanyName, Value = item.SupplierID.ToString() }).ToList();
-            }
-        }
-
         // GET: Administration/Product/Edit/5
         public async Task<ActionResult> Edit(Int32 id)
         {
             ViewBag.Suppliers = Suppliers;
 
+            ViewBag.Categories = Categories;
+
             var entity = await Task.Run(() =>
             {
-                return Uow.ProductRepository.Get(new Product() { ProductID = id });
+                return Uow.ProductRepository.Get(new Product(id));
             });
 
             var model = new ProductModel(entity);
@@ -113,7 +141,7 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
             {
                 var entity = await Task.Run(() =>
                 {
-                    return Uow.ProductRepository.Get(new Product() { ProductID = id });
+                    return Uow.ProductRepository.Get(new Product(id));
                 });
 
                 entity.ProductName = model.ProductName;
@@ -122,6 +150,13 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
                 {
                     entity.SupplierID = model.SupplierID;
                 }
+
+                if (model.CategoryID.HasValue)
+                {
+                    entity.CategoryID = model.CategoryID;
+                }
+
+                entity.QuantityPerUnit = model.QuantityPerUnit;
 
                 await Uow.CommitChangesAsync();
 
@@ -138,7 +173,7 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         {
             var entity = await Task.Run(() =>
             {
-                return Uow.ProductRepository.Get(new Product() { ProductID = id });
+                return Uow.ProductRepository.Get(new Product(id));
             });
 
             var model = new ProductModel(entity);
@@ -154,7 +189,7 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
             {
                 var entity = await Task.Run(() =>
                 {
-                    return Uow.ProductRepository.Get(new Product() { ProductID = id });
+                    return Uow.ProductRepository.Get(new Product(id));
                 });
 
                 Uow.ProductRepository.Remove(entity);
