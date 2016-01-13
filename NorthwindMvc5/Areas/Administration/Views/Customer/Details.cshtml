@@ -1,13 +1,15 @@
 ﻿@model NorthwindMvc5.Areas.Administration.Models.CustomerModel
 
+@using NorthwindMvc5.Resources;
+
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = CustomerResource.Details;
 }
 
-<h2>Details</h2>
+<h2>@CustomerResource.Details</h2>
 
 <div>
-    <h4>CustomerModel</h4>
+    <h4>@CustomerResource.Customer</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -93,6 +95,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.CustomerID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink(CustomerResource.Edit, "Edit", new { id = Model.CustomerID }) |
+    @Html.ActionLink(CustomerResource.BackToList, "Index")
 </p>

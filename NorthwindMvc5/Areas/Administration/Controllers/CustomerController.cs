@@ -33,7 +33,10 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         {
             var model = await Task.Run(() =>
             {
-                return Uow.CustomerRepository.GetAll().ToList();
+                return Uow
+                    .CustomerRepository
+                    .GetAll()
+                    .ToList();
             });
 
             return View(model);
@@ -44,7 +47,7 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         {
             var entity = await Task.Run(() =>
             {
-                return Uow.CustomerRepository.Get(new Customer() { CustomerID = id });
+                return Uow.CustomerRepository.Get(new Customer(id));
             });
 
             var model = new CustomerModel(entity);
@@ -86,7 +89,7 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         {
             var entity = await Task.Run(() =>
             {
-                return Uow.CustomerRepository.Get(new Customer() { CustomerID = id });
+                return Uow.CustomerRepository.Get(new Customer(id));
             });
 
             var model = new CustomerModel(entity);
@@ -102,10 +105,21 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
             {
                 var entity = await Task.Run(() =>
                 {
-                    return Uow.CustomerRepository.Get(new Customer() { CustomerID = id });
+                    return Uow.CustomerRepository.Get(new Customer(id));
                 });
 
-                // TODO: Add update logic here
+                entity.CompanyName = model.CompanyName;
+                entity.ContactName = model.ContactName;
+                entity.ContactTitle = model.ContactTitle;
+                entity.Address = model.Address;
+                entity.City = model.City;
+                entity.Region = model.Region;
+                entity.PostalCode = model.PostalCode;
+                entity.Country = model.Country;
+                entity.Phone = model.Phone;
+                entity.Fax = model.Fax;
+
+                await Uow.CommitChangesAsync();
 
                 return RedirectToAction("Index");
             }
@@ -120,7 +134,7 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         {
             var entity = await Task.Run(() =>
             {
-                return Uow.CustomerRepository.Get(new Customer() { CustomerID = id });
+                return Uow.CustomerRepository.Get(new Customer(id));
             });
 
             var model = new CustomerModel(entity);
@@ -136,10 +150,12 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
             {
                 var entity = await Task.Run(() =>
                 {
-                    return Uow.CustomerRepository.Get(new Customer() { CustomerID = id });
+                    return Uow.CustomerRepository.Get(new Customer(id));
                 });
 
-                // TODO: Add delete logic here
+                Uow.CustomerRepository.Remove(entity);
+
+                await Uow.CommitChangesAsync();
 
                 return RedirectToAction("Index");
             }

@@ -1,13 +1,15 @@
 ﻿@model IEnumerable<Northwind.Core.EntityLayer.Customer>
 
+@using NorthwindMvc5.Resources;
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = CustomerResource.Title;
 }
 
-<h2>Index</h2>
+<h2>@CustomerResource.Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink(CustomerResource.CreateNew, "Create")
 </p>
 <table class="table">
     <tr>
@@ -41,9 +43,9 @@
             @Html.DisplayFor(modelItem => item.Country)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CustomerID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CustomerID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CustomerID })
+            @Html.ActionLink(CustomerResource.Edit, "Edit", new { id = item.CustomerID }) |
+            @Html.ActionLink(CustomerResource.Details, "Details", new { id = item.CustomerID }) |
+            @Html.ActionLink(CustomerResource.Delete, "Delete", new { id = item.CustomerID })
         </td>
     </tr>
 }
