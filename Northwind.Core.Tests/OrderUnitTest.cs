@@ -15,7 +15,6 @@ namespace Northwind.Core.Tests
         {
             var header = new Order();
 
-            header.OrderID = 0;
             header.CustomerID = "ANATR";
             header.EmployeeID = 6;
             header.OrderDate = DateTime.Now;
@@ -23,7 +22,7 @@ namespace Northwind.Core.Tests
             header.ShippedDate = null;
             header.ShipVia = 1;
             header.Freight = 25.0m;
-            header.ShipName = "Steve Jobs";
+            header.ShipName = "Bill Gates";
             header.ShipAddress = "Redmon II";
             header.ShipCity = "Washington";
             header.ShipRegion = "West";
@@ -32,45 +31,10 @@ namespace Northwind.Core.Tests
 
             header.OrderSummaries = new Collection<OrderDetailSummary>();
 
-            header.OrderSummaries.Add(
-                new OrderDetailSummary()
-                {
-                    OrderID = header.OrderID,
-                    ProductID = 1,
-                    UnitPrice = 9.99m,
-                    Quantity = 3,
-                    Discount = 0.0m
-                });
-
-            header.OrderSummaries.Add(
-                new OrderDetailSummary()
-                {
-                    OrderID = header.OrderID,
-                    ProductID = 10,
-                    UnitPrice = 19.99m,
-                    Quantity = 2,
-                    Discount = 0.0m
-                });
-
-            header.OrderSummaries.Add(
-                new OrderDetailSummary()
-                {
-                    OrderID = header.OrderID,
-                    ProductID = 20,
-                    UnitPrice = 29.99m,
-                    Quantity = 1,
-                    Discount = 0.0m
-                });
-
-            header.OrderSummaries.Add(
-                new OrderDetailSummary()
-                {
-                    OrderID = header.OrderID,
-                    ProductID = 25,
-                    UnitPrice = 39.99m,
-                    Quantity = 1,
-                    Discount = 0.0m
-                });
+            header.OrderSummaries.Add(new OrderDetailSummary { OrderID = header.OrderID, ProductID = 1, UnitPrice = 9.99m, Quantity = 3, Discount = 0.0m });
+            header.OrderSummaries.Add(new OrderDetailSummary { OrderID = header.OrderID, ProductID = 10, UnitPrice = 19.99m, Quantity = 2, Discount = 0.0m });
+            header.OrderSummaries.Add(new OrderDetailSummary { OrderID = header.OrderID, ProductID = 20, UnitPrice = 29.99m, Quantity = 1, Discount = 0.0m });
+            header.OrderSummaries.Add(new OrderDetailSummary { OrderID = header.OrderID, ProductID = 25, UnitPrice = 39.99m, Quantity = 1, Discount = 0.0m });
 
             var dbContext = new SalesDbContext();
 

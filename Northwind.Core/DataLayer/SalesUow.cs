@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Data.Entity;
-using System.Threading.Tasks;
-using System.Transactions;
 using Northwind.Core.DataLayer.Contracts;
 using Northwind.Core.EntityLayer;
 
@@ -107,50 +105,57 @@ namespace Northwind.Core.DataLayer
 
         public void CreateOrder(Order entity)
         {
-            using (var transaction = new TransactionScope())
+            using (var transaction = Context.Database.BeginTransaction())
             {
-                var header = new Order();
-
-                header.CustomerID = entity.CustomerID;
-                header.EmployeeID = entity.EmployeeID;
-                header.OrderDate = DateTime.Now;
-                header.ShipVia = entity.ShipVia;
-                header.ShipName = entity.ShipName;
-                header.ShipAddress = entity.ShipAddress;
-                header.ShipCity = entity.ShipCity;
-                header.ShipRegion = entity.ShipRegion;
-                header.ShipPostalCode = entity.ShipPostalCode;
-                header.ShipCountry = entity.ShipCountry;
-
-                OrderRepository.Add(header);
-
-                CommitChanges();
-
-                foreach (var summary in entity.OrderSummaries)
+                try
                 {
-                    var detail = new OrderDetail();
+                    var header = new Order();
 
-                    detail.OrderID = header.OrderID;
-                    detail.ProductID = summary.ProductID;
-                    detail.Quantity = summary.Quantity;
-                    detail.UnitPrice = summary.UnitPrice;
-                    detail.Discount = (Single)summary.Discount;
+                    header.CustomerID = entity.CustomerID;
+                    header.EmployeeID = entity.EmployeeID;
+                    header.OrderDate = DateTime.Now;
+                    header.ShipVia = entity.ShipVia;
+                    header.ShipName = entity.ShipName;
+                    header.ShipAddress = entity.ShipAddress;
+                    header.ShipCity = entity.ShipCity;
+                    header.ShipRegion = entity.ShipRegion;
+                    header.ShipPostalCode = entity.ShipPostalCode;
+                    header.ShipCountry = entity.ShipCountry;
 
-                    OrderDetailRepository.Add(detail);
+                    OrderRepository.Add(header);
 
-                    var product = ProductRepository.Get(new Product(detail.ProductID));
+                    CommitChanges();
 
-                    product.UnitsInStock -= detail.Quantity;
-                    product.UnitsOnOrder += detail.Quantity;
+                    foreach (var summary in entity.OrderSummaries)
+                    {
+                        var detail = new OrderDetail();
 
-                    ProductRepository.Update(product);
+                        detail.OrderID = header.OrderID;
+                        detail.ProductID = summary.ProductID;
+                        detail.Quantity = summary.Quantity;
+                        detail.UnitPrice = summary.UnitPrice;
+                        detail.Discount = (Single)summary.Discount;
+
+                        OrderDetailRepository.Add(detail);
+
+                        var product = ProductRepository.Get(new Product(detail.ProductID));
+
+                        product.UnitsInStock -= detail.Quantity;
+                        product.UnitsOnOrder += detail.Quantity;
+
+                        ProductRepository.Update(product);
+                    }
+
+                    CommitChanges();
+
+                    entity.OrderID = header.OrderID;
+
+                    transaction.Commit();
                 }
-
-                CommitChanges();
-
-                entity.OrderID = header.OrderID;
-
-                transaction.Complete();
+                catch
+                {
+                    transaction.Rollback();
+                }
             }
         }
     }
