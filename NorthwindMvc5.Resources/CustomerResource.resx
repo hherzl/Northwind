@@ -129,6 +129,9 @@
   <data name="CompanyName" xml:space="preserve">
     <value>Company name</value>
   </data>
+  <data name="ContactName" xml:space="preserve">
+    <value>Contact name</value>
+  </data>
   <data name="ContactTitle" xml:space="preserve">
     <value>Contact title</value>
   </data>
