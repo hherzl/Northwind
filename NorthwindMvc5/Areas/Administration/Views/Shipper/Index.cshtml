@@ -1,13 +1,15 @@
 ﻿@model IEnumerable<NorthwindMvc5.Areas.Administration.Models.ShipperModel>
 
+@using NorthwindMvc5.Resources;
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = ShipperResource.Index;
 }
 
-<h2>Index</h2>
+<h2>@ShipperResource.Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink(ShipperResource.CreateNew, "Create")
 </p>
 <table class="table">
     <tr>
@@ -29,9 +31,9 @@
             @Html.DisplayFor(modelItem => item.Phone)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.ShipperID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ShipperID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.ShipperID })
+            @Html.ActionLink(ShipperResource.Edit, "Edit", new { id = item.ShipperID }) |
+            @Html.ActionLink(ShipperResource.Details, "Details", new { id = item.ShipperID }) |
+            @Html.ActionLink(ShipperResource.Delete, "Delete", new { id = item.ShipperID })
         </td>
     </tr>
 }

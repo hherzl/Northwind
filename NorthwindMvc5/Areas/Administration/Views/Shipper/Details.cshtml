@@ -1,13 +1,15 @@
 ﻿@model NorthwindMvc5.Areas.Administration.Models.ShipperModel
 
+@using NorthwindMvc5.Resources;
+
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = ShipperResource.Details;
 }
 
-<h2>Details</h2>
+<h2>@ShipperResource.Details</h2>
 
 <div>
-    <h4>ShipperModel</h4>
+    <h4>@ShipperResource.Shipper</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -29,6 +31,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ShipperID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink(ShipperResource.Edit, "Edit", new { id = Model.ShipperID }) |
+    @Html.ActionLink(ShipperResource.BackToList, "Index")
 </p>
