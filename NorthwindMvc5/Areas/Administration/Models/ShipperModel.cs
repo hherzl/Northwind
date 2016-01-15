@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Northwind.Core.EntityLayer;
+using NorthwindMvc5.Resources;
 
 namespace NorthwindMvc5.Areas.Administration.Models
 {
@@ -21,14 +22,13 @@ namespace NorthwindMvc5.Areas.Administration.Models
         [Key]
         public Int32? ShipperID { get; set; }
 
-        [Display(Name = "Company name")]
-        [Required]
-        [StringLength(80)]
+        [Display(Name = "CompanyName", ResourceType = typeof(ShipperResource))]
+        [Required(ErrorMessageResourceName = "CompanyNameRequired", ErrorMessageResourceType = typeof(ShipperResource))]
+        [StringLength(80, ErrorMessageResourceName = "CompanyNameStringLength", ErrorMessageResourceType = typeof(ShipperResource))]
         public String CompanyName { get; set; }
 
-        [Display(Name = "Phone")]
-        [Required]
-        [StringLength(40)]
+        [Display(Name = "Phone", ResourceType = typeof(ShipperResource))]
+        [StringLength(40, ErrorMessageResourceName = "PhoneStringLength", ErrorMessageResourceType = typeof(ShipperResource))]
         public String Phone { get; set; }
     }
 }

@@ -165,8 +165,14 @@
   <data name="ProductNameRequired" xml:space="preserve">
     <value>(*) Required</value>
   </data>
+  <data name="ProductNameStringLength" xml:space="preserve">
+    <value>(?) The {0} must be at least {1} characters long</value>
+  </data>
   <data name="QuantityPerUnit" xml:space="preserve">
     <value>Quantity per unit</value>
+  </data>
+  <data name="QuantityPerUnitStringLength" xml:space="preserve">
+    <value>(?) The {0} must be at least {1} characters long</value>
   </data>
   <data name="ReorderLevel" xml:space="preserve">
     <value>Reorder level</value>

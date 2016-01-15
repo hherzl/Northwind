@@ -88,7 +88,7 @@ namespace NorthwindMvc5.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (?).
+        ///   Looks up a localized string similar to (?) The {0} must be at least {1} characters long.
         /// </summary>
         public static string CompanyNameStringLength {
             get {
@@ -165,6 +165,15 @@ namespace NorthwindMvc5.Resources {
         public static string Phone {
             get {
                 return ResourceManager.GetString("Phone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (?) The {0} must be at least {1} characters long.
+        /// </summary>
+        public static string PhoneStringLength {
+            get {
+                return ResourceManager.GetString("PhoneStringLength", resourceCulture);
             }
         }
         

@@ -44,16 +44,18 @@ namespace NorthwindMvc5.Areas.Administration.Models
         public Int32? ProductID { get; set; }
 
         [Display(Name = "ProductName", ResourceType = typeof(ProductResource))]
-        [Required(ErrorMessage = "(*) Required")]
+        [Required(ErrorMessageResourceName = "ProductNameRequired", ErrorMessageResourceType = typeof(ProductResource))]
+        [StringLength(80, ErrorMessageResourceName = "ProductNameStringLength", ErrorMessageResourceType = typeof(ProductResource))]
         public String ProductName { get; set; }
 
         [Display(Name = "SupplierID", ResourceType = typeof(ProductResource))]
         public Int32? SupplierID { get; set; }
 
-        [Display(Name = "CategoryName", ResourceType = typeof(ProductResource))]
+        [Display(Name = "CategoryID", ResourceType = typeof(ProductResource))]
         public Int32? CategoryID { get; set; }
 
         [Display(Name = "QuantityPerUnit", ResourceType = typeof(ProductResource))]
+        [StringLength(40, ErrorMessageResourceName = "QuantityPerUnitStringLength", ErrorMessageResourceType = typeof(ProductResource))]
         public String QuantityPerUnit { get; set; }
 
         [Display(Name = "UnitPrice", ResourceType = typeof(ProductResource))]
@@ -69,7 +71,7 @@ namespace NorthwindMvc5.Areas.Administration.Models
         public Int16? ReorderLevel { get; set; }
 
         [Display(Name = "Discontinued", ResourceType = typeof(ProductResource))]
-        [Required(ErrorMessage = "(*) Required")]
+        [Required(ErrorMessageResourceName = "DiscontinuedRequired", ErrorMessageResourceType = typeof(ProductResource))]
         public Boolean? Discontinued { get; set; }
 
         [Display(Name = "CompanyName", ResourceType = typeof(ProductResource))]

@@ -127,7 +127,7 @@
     <value>(*) Required</value>
   </data>
   <data name="CompanyNameStringLength" xml:space="preserve">
-    <value>(?)</value>
+    <value>(?) The {0} must be at least {1} characters long</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Create</value>
@@ -152,6 +152,9 @@
   </data>
   <data name="Phone" xml:space="preserve">
     <value>Phone</value>
+  </data>
+  <data name="PhoneStringLength" xml:space="preserve">
+    <value>(?) The {0} must be at least {1} characters long</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
