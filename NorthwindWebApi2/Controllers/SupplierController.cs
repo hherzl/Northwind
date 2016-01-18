@@ -15,7 +15,7 @@ namespace NorthwindWebApi2.Controllers
     {
         protected ISalesUow Uow;
 
-        public SupplierController(IUowService service)
+        public SupplierController(IBusinessObjectService service)
         {
             Uow = service.GetSalesUow();
         }

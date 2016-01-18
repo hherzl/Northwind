@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Northwind.Core.BusinessLayer;
+using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.DataLayer;
 using Northwind.Core.DataLayer.Contracts;
 using Northwind.Core.EntityLayer;
@@ -11,7 +14,7 @@ namespace Northwind.Core.Tests
     public class OrderUnitTest
     {
         [TestMethod]
-        public void CreateOrder()
+        public async Task CreateOrder()
         {
             var header = new Order();
 
@@ -29,22 +32,25 @@ namespace Northwind.Core.Tests
             header.ShipPostalCode = "12345";
             header.ShipCountry = "USA";
 
-            header.OrderSummaries = new Collection<OrderDetailSummary>();
-
-            header.OrderSummaries.Add(new OrderDetailSummary { OrderID = header.OrderID, ProductID = 1, UnitPrice = 9.99m, Quantity = 3, Discount = 0.0m });
-            header.OrderSummaries.Add(new OrderDetailSummary { OrderID = header.OrderID, ProductID = 10, UnitPrice = 19.99m, Quantity = 2, Discount = 0.0m });
-            header.OrderSummaries.Add(new OrderDetailSummary { OrderID = header.OrderID, ProductID = 20, UnitPrice = 29.99m, Quantity = 1, Discount = 0.0m });
-            header.OrderSummaries.Add(new OrderDetailSummary { OrderID = header.OrderID, ProductID = 25, UnitPrice = 39.99m, Quantity = 1, Discount = 0.0m });
+            header.OrderSummaries = new Collection<OrderDetailSummary>()
+            {
+                new OrderDetailSummary { ProductID = 1, Quantity = 3, Discount = 0.0m },
+                new OrderDetailSummary { ProductID = 5, Quantity = 2, Discount = 0.0m },
+                new OrderDetailSummary { ProductID = 10, Quantity = 1, Discount = 0.0m },
+                new OrderDetailSummary { ProductID = 15, Quantity = 1, Discount = 0.0m }
+            };
 
             var dbContext = new SalesDbContext();
 
             var uow = new SalesUow(dbContext) as ISalesUow;
 
-            uow.CreateOrder(header);
+            var businessObject = new SalesBusinessObject(uow) as ISalesBusinessObject;
 
-            Console.WriteLine("Order #: {0}", header.OrderID);
+            var entity = await businessObject.CreateOrder(header);
 
-            uow.Dispose();
+            Console.WriteLine("Order #: {0}", entity.OrderID);
+
+            businessObject.Release();
         }
     }
 }

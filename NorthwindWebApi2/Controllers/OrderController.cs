@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Northwind.Core.DataLayer.Contracts;
+using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.EntityLayer;
 using NorthwindWebApi2.Models;
 using NorthwindWebApi2.Services;
@@ -13,18 +13,18 @@ namespace NorthwindWebApi2.Controllers
 {
     public class OrderController : ApiController
     {
-        protected ISalesUow Uow;
+        protected ISalesBusinessObject Uow;
 
-        public OrderController(IUowService service)
+        public OrderController(IBusinessObjectService service)
         {
-            Uow = service.GetSalesUow();
+            Uow = service.GetSalesBusinessObject();
         }
 
         protected override void Dispose(Boolean disposing)
         {
             if (Uow != null)
             {
-                Uow.Dispose();
+                Uow.Release();
             }
 
             base.Dispose(disposing);
@@ -37,14 +37,9 @@ namespace NorthwindWebApi2.Controllers
 
             try
             {
-                result.Model = await Task.Run(() =>
-                    {
-                        return Uow
-                            .OrderRepository
-                            .GetSummaries()
-                            .OrderByDescending(item => item.OrderDate)
-                            .ToList();
-                    });
+                var list = await Uow.GetOrderSummaries();
+
+                result.Model = list.ToList();
             }
             catch (Exception ex)
             {
@@ -63,12 +58,7 @@ namespace NorthwindWebApi2.Controllers
 
             try
             {
-                result.Model = await Task.Run(() =>
-                {
-                    return Uow
-                        .OrderRepository
-                        .Get(new Order(id));
-                });
+                result.Model = await Uow.GetOrder(new Order(id));
             }
             catch (Exception ex)
             {

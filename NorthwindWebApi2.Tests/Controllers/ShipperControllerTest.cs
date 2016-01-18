@@ -15,7 +15,7 @@ namespace NorthwindWebApi2.Tests.Controllers
         public async Task Get()
         {
             // Arrange
-            var controller = new ShipperController(new UowService());
+            var controller = new ShipperController(new BusinessObjectService());
             controller.Request = new HttpRequestMessage();
             controller.Configuration = new HttpConfiguration();
 
@@ -34,7 +34,7 @@ namespace NorthwindWebApi2.Tests.Controllers
         public async Task GetById()
         {
             // Arrange
-            var controller = new ShipperController(new UowService());
+            var controller = new ShipperController(new BusinessObjectService());
             controller.Request = new HttpRequestMessage();
             controller.Configuration = new HttpConfiguration();
 

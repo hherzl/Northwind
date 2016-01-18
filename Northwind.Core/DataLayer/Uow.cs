@@ -9,11 +9,11 @@ namespace Northwind.Core.DataLayer
     public abstract class Uow
     {
         protected Boolean Disposed;
-        protected DbContext Context;
+        protected DbContext DbContext;
 
         public Uow(DbContext dbContext)
         {
-            Context = dbContext;
+            DbContext = dbContext;
         }
 
         private IChangeLogRepository m_changeLogRepository;
@@ -22,7 +22,7 @@ namespace Northwind.Core.DataLayer
         {
             get
             {
-                return m_changeLogRepository ?? (m_changeLogRepository = new ChangeLogRepository(Context));
+                return m_changeLogRepository ?? (m_changeLogRepository = new ChangeLogRepository(DbContext));
             }
         }
 
@@ -32,7 +32,7 @@ namespace Northwind.Core.DataLayer
             {
                 if (disposing)
                 {
-                    Context.Dispose();
+                    DbContext.Dispose();
                 }
             }
 
@@ -46,22 +46,32 @@ namespace Northwind.Core.DataLayer
             GC.SuppressFinalize(this);
         }
 
-        public Int32 CommitChanges()
+        public DbContextTransaction GetTransaction()
         {
-            if (Context.ChangeTracker.HasChanges())
+            return DbContext.Database.BeginTransaction();
+        }
+
+        protected void AddChangesToLog()
+        {
+            foreach (var entry in DbContext.ChangeTracker.Entries())
             {
-                foreach (var entry in Context.ChangeTracker.Entries())
+                if (entry.State == EntityState.Modified)
                 {
-                    if (entry.State == EntityState.Modified)
+                    foreach (var change in ChangeTrackerHelper.GetChanges(DbContext, entry))
                     {
-                        foreach (var change in ChangeTrackerHelper.GetChanges(Context, entry))
-                        {
-                            ChangeLogRepository.Add(change);
-                        }
+                        ChangeLogRepository.Add(change);
                     }
                 }
+            }
+        }
 
-                return Context.SaveChanges();
+        public Int32 CommitChanges()
+        {
+            if (DbContext.ChangeTracker.HasChanges())
+            {
+                AddChangesToLog();
+
+                return DbContext.SaveChanges();
             }
 
             return 0;
@@ -69,20 +79,11 @@ namespace Northwind.Core.DataLayer
 
         public Task<Int32> CommitChangesAsync()
         {
-            if (Context.ChangeTracker.HasChanges())
+            if (DbContext.ChangeTracker.HasChanges())
             {
-                foreach (var entry in Context.ChangeTracker.Entries())
-                {
-                    if (entry.State == EntityState.Modified)
-                    {
-                        foreach (var change in ChangeTrackerHelper.GetChanges(Context, entry))
-                        {
-                            ChangeLogRepository.Add(change);
-                        }
-                    }
-                }
+                AddChangesToLog();
 
-                return Context.SaveChangesAsync();
+                return DbContext.SaveChangesAsync();
             }
             else
             {

@@ -65,7 +65,7 @@ namespace NorthwindWebApi2.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<IUowService>().To<UowService>();
+            kernel.Bind<IBusinessObjectService>().To<BusinessObjectService>();
         }        
     }
 }
