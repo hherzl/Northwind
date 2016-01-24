@@ -20,13 +20,20 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Employees", "Index", "Employee")</li>
-                    <li>@Html.ActionLink("Suppliers", "Index", "Supplier")</li>
-                    <li>@Html.ActionLink("Categories", "Index", "Category")</li>
-                    <li>@Html.ActionLink("Products", "Index", "Product")</li>
-                    <li>@Html.ActionLink("Shippers", "Index", "Shipper")</li>
-                    <li>@Html.ActionLink("Customers", "Index", "Customer")</li>
-                    <li>@Html.ActionLink("Regions", "Index", "Region")</li>
+                    
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Administration<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Employees", "Index", "Employee")</li>
+                            <li>@Html.ActionLink("Suppliers", "Index", "Supplier")</li>
+                            <li>@Html.ActionLink("Categories", "Index", "Category")</li>
+                            <li>@Html.ActionLink("Products", "Index", "Product")</li>
+                            <li>@Html.ActionLink("Shippers", "Index", "Shipper")</li>
+                            <li>@Html.ActionLink("Customers", "Index", "Customer")</li>
+                            <li>@Html.ActionLink("Regions", "Index", "Region")</li>
+                        </ul>
+                    </li>
+
                     <li>@Html.ActionLink("Orders", "Index", "Order")</li>
                 </ul>
             </div>
