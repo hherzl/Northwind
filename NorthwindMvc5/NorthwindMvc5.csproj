@@ -193,6 +193,7 @@
     <Compile Include="Areas\Administration\Models\RegionModel.cs" />
     <Compile Include="Areas\Administration\Models\ShipperModel.cs" />
     <Compile Include="Areas\Administration\Models\SupplierModel.cs" />
+    <Compile Include="Areas\Reports\ReportsAreaRegistration.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
@@ -266,6 +267,7 @@
     <Content Include="Areas\Administration\Views\Product\Create.cshtml" />
     <Content Include="Areas\Administration\Views\Product\Edit.cshtml" />
     <Content Include="Areas\Administration\Views\Product\Delete.cshtml" />
+    <Content Include="Areas\Reports\Views\web.config" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -302,6 +304,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Reports\Controllers\" />
+    <Folder Include="Areas\Reports\Models\" />
+    <Folder Include="Areas\Reports\Views\Shared\" />
     <Folder Include="Models\" />
     <Folder Include="Uploads\" />
   </ItemGroup>
