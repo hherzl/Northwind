@@ -9,5 +9,10 @@ namespace NorthwindMvc5.Services
         {
             return new SalesUow(new SalesDbContext());
         }
+
+        public IReportsUow GetReportsUow()
+        {
+            return new ReportsUow(new SalesDbContext());
+        }
     }
 }
