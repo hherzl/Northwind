@@ -7,6 +7,8 @@ namespace NorthwindWebApi2.Services
     {
         ISalesUow GetSalesUow();
 
+        IReportsUow GetReportsUow();
+
         ISalesBusinessObject GetSalesBusinessObject();
     }
 }

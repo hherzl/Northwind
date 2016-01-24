@@ -12,11 +12,11 @@ namespace NorthwindWebApi2.Controllers
 {
     public class CategorySaleFor1997Controller : ApiController
     {
-        protected ISalesUow Uow;
+        protected IReportsUow Uow;
 
         public CategorySaleFor1997Controller(IBusinessObjectService service)
         {
-            Uow = service.GetSalesUow();
+            Uow = service.GetReportsUow();
         }
 
         protected override void Dispose(Boolean disposing)

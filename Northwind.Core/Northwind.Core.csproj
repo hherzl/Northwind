@@ -58,11 +58,13 @@
     <Compile Include="DataLayer\ChangeLogRepository.cs" />
     <Compile Include="DataLayer\Contracts\IChangeLogRepository.cs" />
     <Compile Include="DataLayer\Contracts\IOrderDetailSummaryRepository.cs" />
+    <Compile Include="DataLayer\Contracts\IReportsUow.cs" />
     <Compile Include="DataLayer\Contracts\ISalesUow.cs" />
     <Compile Include="DataLayer\Contracts\IUow.cs" />
     <Compile Include="DataLayer\Mapping\ChangeLogMap.cs" />
     <Compile Include="DataLayer\Mapping\OrderDetailSummaryMap.cs" />
     <Compile Include="DataLayer\OrderDetailSummaryRepository.cs" />
+    <Compile Include="DataLayer\ReportsUow.cs" />
     <Compile Include="DataLayer\SalesUow.cs" />
     <Compile Include="DataLayer\Mapping\CategoryMap.cs" />
     <Compile Include="DataLayer\Mapping\CategorySaleFor1997Map.cs" />
@@ -127,6 +129,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
