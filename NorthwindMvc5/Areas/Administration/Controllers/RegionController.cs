@@ -33,7 +33,11 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         {
             var model = await Task.Run(() =>
             {
-                return Uow.RegionRepository.GetAll().ToList();
+                return Uow
+                    .RegionRepository
+                    .GetAll()
+                    .Select(item => new RegionModel(item))
+                    .ToList();
             });
 
             return View(model);

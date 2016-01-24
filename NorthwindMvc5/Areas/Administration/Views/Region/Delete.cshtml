@@ -1,14 +1,16 @@
 ﻿@model NorthwindMvc5.Areas.Administration.Models.RegionModel
 
+@using NorthwindMvc5.Resources;
+
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = RegionResource.Delete;
 }
 
-<h2>Delete</h2>
+<h2>@RegionResource.Delete</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>@RegionResource.DeleteConfirmation</h3>
 <div>
-    <h4>RegionModel</h4>
+    <h4>@RegionResource.Region</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -25,8 +27,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="@RegionResource.Delete" class="btn btn-default" /> |
+            @Html.ActionLink(RegionResource.BackToList, "Index")
         </div>
     }
 </div>

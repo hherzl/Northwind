@@ -1,13 +1,15 @@
-﻿@model IEnumerable<Northwind.Core.EntityLayer.Region>
+﻿@model IEnumerable<NorthwindMvc5.Areas.Administration.Models.RegionModel>
+
+@using NorthwindMvc5.Resources;
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = RegionResource.Index;
 }
 
-<h2>Index</h2>
+<h2>@RegionResource.Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink(@RegionResource.CreateNew, "Create")
 </p>
 <table class="table">
     <tr>
@@ -17,17 +19,25 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.RegionDescription)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.RegionID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.RegionID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.RegionID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegionDescription)
+            </td>
+            <td>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>@Html.ActionLink(RegionResource.Edit, "Edit", new { id = item.RegionID })</li>
+                        <li>@Html.ActionLink(RegionResource.Details, "Details", new { id = item.RegionID })</li>
+                        <li>@Html.ActionLink(RegionResource.Delete, "Delete", new { id = item.RegionID })</li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    }
 
 </table>

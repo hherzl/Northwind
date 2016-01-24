@@ -1,18 +1,19 @@
 ﻿@model NorthwindMvc5.Areas.Administration.Models.RegionModel
 
+@using NorthwindMvc5.Resources;
+
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = RegionResource.Create;
 }
 
-<h2>Create</h2>
-
+<h2>@RegionResource.Create</h2>
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>RegionModel</h4>
+        <h4>@RegionResource.Region</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -25,14 +26,14 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="@RegionResource.Create" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink(RegionResource.BackToList, "Index")
 </div>
 
 @section Scripts {

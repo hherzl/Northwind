@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Northwind.Core.EntityLayer;
+using NorthwindMvc5.Resources;
 
 namespace NorthwindMvc5.Areas.Administration.Models
 {
@@ -20,6 +21,9 @@ namespace NorthwindMvc5.Areas.Administration.Models
         [Key]
         public Int32? RegionID { get; set; }
 
+        [Display(Name = "RegionDescription", ResourceType = typeof(RegionResource))]
+        [Required(ErrorMessageResourceName = "RegionDescriptionRequired", ErrorMessageResourceType = typeof(RegionResource))]
+        [StringLength(80, ErrorMessageResourceName = "RegionDescriptionStringLength", ErrorMessageResourceType = typeof(RegionResource))]
         public String RegionDescription { get; set; }
     }
 }
