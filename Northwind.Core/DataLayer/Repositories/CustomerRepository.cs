@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
-using Northwind.Core.DataLayer.DataContracts;
 using Northwind.Core.DataLayer.Contracts;
+using Northwind.Core.DataLayer.DataContracts;
 using Northwind.Core.EntityLayer;
 
-namespace Northwind.Core.DataLayer
+namespace Northwind.Core.DataLayer.Repositories
 {
     public class CustomerRepository : Repository<Customer>, ICustomerRepository
     {

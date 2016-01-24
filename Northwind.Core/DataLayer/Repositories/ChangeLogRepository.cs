@@ -2,7 +2,7 @@
 using Northwind.Core.DataLayer.Contracts;
 using Northwind.Core.EntityLayer;
 
-namespace Northwind.Core.DataLayer
+namespace Northwind.Core.DataLayer.Repositories
 {
     public class ChangeLogRepository : Repository<ChangeLog>, IChangeLogRepository
     {

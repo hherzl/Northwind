@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity;
 using Northwind.Core.DataLayer.Contracts;
+using Northwind.Core.DataLayer.Repositories;
 
 namespace Northwind.Core.DataLayer
 {

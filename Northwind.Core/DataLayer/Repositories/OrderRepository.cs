@@ -5,7 +5,7 @@ using Northwind.Core.DataLayer.Contracts;
 using Northwind.Core.DataLayer.DataContracts;
 using Northwind.Core.EntityLayer;
 
-namespace Northwind.Core.DataLayer
+namespace Northwind.Core.DataLayer.Repositories
 {
     public class OrderRepository : Repository<Order>, IOrderRepository
     {
