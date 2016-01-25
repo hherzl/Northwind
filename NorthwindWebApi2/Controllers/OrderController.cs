@@ -13,18 +13,18 @@ namespace NorthwindWebApi2.Controllers
 {
     public class OrderController : ApiController
     {
-        protected ISalesBusinessObject Uow;
+        protected ISalesBusinessObject BusinessObject;
 
         public OrderController(IBusinessObjectService service)
         {
-            Uow = service.GetSalesBusinessObject();
+            BusinessObject = service.GetSalesBusinessObject();
         }
 
         protected override void Dispose(Boolean disposing)
         {
-            if (Uow != null)
+            if (BusinessObject != null)
             {
-                Uow.Release();
+                BusinessObject.Release();
             }
 
             base.Dispose(disposing);
@@ -37,7 +37,7 @@ namespace NorthwindWebApi2.Controllers
 
             try
             {
-                var list = await Uow.GetOrderSummaries();
+                var list = await BusinessObject.GetOrderSummaries();
 
                 result.Model = list.ToList();
             }
@@ -58,7 +58,7 @@ namespace NorthwindWebApi2.Controllers
 
             try
             {
-                result.Model = await Uow.GetOrder(new Order(id));
+                result.Model = await BusinessObject.GetOrder(new Order(id));
             }
             catch (Exception ex)
             {
@@ -79,7 +79,7 @@ namespace NorthwindWebApi2.Controllers
             {
                 await Task.Run(() =>
                 {
-                    Uow.CreateOrder(value);
+                    BusinessObject.CreateOrder(value);
                 });
 
                 result.Model = value;

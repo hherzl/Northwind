@@ -21,7 +21,7 @@ namespace NorthwindApi.Controllers
             Uow = service.GetSalesUow();
         }
 
-        protected override void Dispose(bool disposing)
+        protected override void Dispose(Boolean disposing)
         {
             if (Uow != null)
             {
