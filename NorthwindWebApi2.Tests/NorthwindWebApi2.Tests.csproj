@@ -73,12 +73,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NorthwindWebApi2\NorthwindWebApi2.csproj">
-      <Project>{32b562aa-d837-4490-b2f9-6c20ac2347ea}</Project>
-      <Name>NorthwindWebApi2</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
