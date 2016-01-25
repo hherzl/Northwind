@@ -136,7 +136,7 @@ namespace Northwind.Core.BusinessLayer
         {
             var entity = Uow.ProductRepository.Get(value);
 
-            if ( entity!= null)
+            if (entity != null)
             {
                 entity.ProductName = value.ProductName;
                 entity.SupplierID = value.SupplierID;
@@ -158,6 +158,169 @@ namespace Northwind.Core.BusinessLayer
             if (entity != null)
             {
                 Uow.ProductRepository.Remove(entity);
+
+                await Uow.CommitChangesAsync();
+            }
+
+            return entity;
+        }
+
+        public async Task<IEnumerable<Employee>> GetEmployees()
+        {
+            return await Task.Run(() =>
+            {
+                return Uow
+                    .EmployeeRepository
+                    .GetAll();
+            });
+        }
+
+        public async Task<Employee> GetEmployee(Employee entity)
+        {
+            return await Task.Run(() =>
+            {
+                return Uow
+                    .EmployeeRepository
+                    .Get(entity);
+            });
+        }
+
+        public async Task<IEnumerable<Supplier>> GetSuppliers()
+        {
+            return await Task.Run(() =>
+            {
+                return Uow
+                    .SupplierRepository
+                    .GetAll();
+            });
+        }
+
+        public async Task<Supplier> GetSupplier(Supplier entity)
+        {
+            return await Task.Run(() =>
+            {
+                return Uow
+                    .SupplierRepository
+                    .Get(entity);
+            });
+        }
+
+        public async Task<Supplier> CreateSupplier(Supplier entity)
+        {
+            Uow.SupplierRepository.Add(entity);
+
+            await Uow.CommitChangesAsync();
+
+            return entity;
+        }
+
+        public async Task<Supplier> UpdateSupplier(Supplier value)
+        {
+            var entity = Uow.SupplierRepository.Get(value);
+
+            if (entity != null)
+            {
+                entity.CompanyName = value.CompanyName;
+                entity.ContactName = value.ContactName;
+                entity.ContactTitle = value.ContactTitle;
+                entity.Address = value.Address;
+                entity.City = value.City;
+                entity.Region = value.Region;
+                entity.PostalCode = value.PostalCode;
+                entity.Country = value.Country;
+                entity.Phone = value.Phone;
+                entity.Fax = value.Fax;
+                entity.HomePage = value.HomePage;
+
+                Uow.SupplierRepository.Update(entity);
+
+                await Uow.CommitChangesAsync();
+            }
+
+            return entity;
+        }
+
+        public async Task<Supplier> DeleteSupplier(Supplier value)
+        {
+            var entity = Uow.SupplierRepository.Get(value);
+
+            if (entity != null)
+            {
+                Uow.SupplierRepository.Remove(entity);
+
+                await Uow.CommitChangesAsync();
+            }
+
+            return entity;
+        }
+
+
+
+
+
+
+
+        public async Task<IEnumerable<Customer>> GetCustomers()
+        {
+            return await Task.Run(() =>
+            {
+                return Uow
+                    .CustomerRepository
+                    .GetAll();
+            });
+        }
+
+        public async Task<Customer> GetCustomer(Customer entity)
+        {
+            return await Task.Run(() =>
+            {
+                return Uow
+                    .CustomerRepository
+                    .Get(entity);
+            });
+        }
+
+        public async Task<Customer> CreateCustomer(Customer entity)
+        {
+            Uow.CustomerRepository.Add(entity);
+
+            await Uow.CommitChangesAsync();
+
+            return entity;
+        }
+
+        public async Task<Customer> UpdateCustomer(Customer value)
+        {
+            var entity = Uow.CustomerRepository.Get(value);
+
+            if (entity != null)
+            {
+                entity.CompanyName = value.CompanyName;
+                entity.ContactName = value.ContactName;
+                entity.ContactTitle = value.ContactTitle;
+                entity.Address = value.Address;
+                entity.City = value.City;
+                entity.Region = value.Region;
+                entity.PostalCode = value.PostalCode;
+                entity.Country = value.Country;
+                entity.Phone = value.Phone;
+                entity.Fax = value.Fax;
+
+                Uow.CustomerRepository.Update(entity);
+
+                await Uow.CommitChangesAsync();
+            }
+
+            return entity;
+        }
+
+        public async Task<Customer> DeleteCustomer(Customer value)
+        {
+            var entity = Uow.CustomerRepository.Get(value);
+
+            if (entity != null)
+            {
+                Uow.CustomerRepository.Remove(entity);
 
                 await Uow.CommitChangesAsync();
             }

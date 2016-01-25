@@ -77,11 +77,19 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.3\lib\net45\System.Web.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.3\lib\net45\System.Web.Http.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
@@ -181,11 +189,14 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\RegionController.cs" />
     <Compile Include="Controllers\ShipperController.cs" />
+    <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Filters\ExceptionHandlingAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -196,23 +207,30 @@
     <Compile Include="Helpers\TextFileHelper.cs" />
     <Compile Include="Models\ErrorLog.cs" />
     <Compile Include="Responses\ComposedCategoryResponse.cs" />
+    <Compile Include="Responses\ComposedCustomerResponse.cs" />
+    <Compile Include="Responses\ComposedEmployeeDetailResponse.cs" />
     <Compile Include="Responses\ComposedOrderSummaryResponse.cs" />
     <Compile Include="Responses\ComposedProductDetailResponse.cs" />
     <Compile Include="Responses\ComposedRegionResponse.cs" />
     <Compile Include="Responses\ComposedShipperResponse.cs" />
+    <Compile Include="Responses\ComposedSupplierResponse.cs" />
     <Compile Include="Responses\IComposedViewModelResponse.cs" />
     <Compile Include="Responses\IResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Responses\ISingleViewModelResponse.cs" />
     <Compile Include="Responses\Response.cs" />
     <Compile Include="Responses\SingleCategoryResponse.cs" />
+    <Compile Include="Responses\SingleCustomerResponse.cs" />
+    <Compile Include="Responses\SingleEmployeeResponse.cs" />
     <Compile Include="Responses\SingleOrderResponse.cs" />
     <Compile Include="Responses\SingleProductResponse.cs" />
     <Compile Include="Responses\SingleRegionResponse.cs" />
     <Compile Include="Responses\SingleShipperResponse.cs" />
+    <Compile Include="Responses\SingleSupplierResponse.cs" />
     <Compile Include="Services\IUowService.cs" />
     <Compile Include="Services\UowService.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />
+    <Compile Include="ViewModels\EmployeeDetailViewModel.cs" />
     <Compile Include="ViewModels\OrderSummaryViewModel.cs" />
     <Compile Include="ViewModels\ProductDetailViewModel.cs" />
   </ItemGroup>

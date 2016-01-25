@@ -14,6 +14,12 @@ namespace NorthwindApi.ViewModels
         public OrderSummaryViewModel(OrderSummary entity)
         {
             OrderID = entity.OrderID;
+            OrderDate = entity.OrderDate;
+            Customer = entity.Customer;
+            Employee = entity.Employee;
+            Shipper = entity.Shipper;
+            Lines = entity.Lines;
+            Total = entity.Total;
         }
 
         [Key]

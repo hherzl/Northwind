@@ -4,14 +4,14 @@ using Northwind.Core.EntityLayer;
 namespace NorthwindApi.Responses
 {
     [DataContract]
-    public class SingleShipperResponse : Response, ISingleViewModelResponse<Shipper>
+    public class SingleEmployeeResponse : Response, ISingleViewModelResponse<Employee>
     {
-        public SingleShipperResponse()
+        public SingleEmployeeResponse()
         {
 
         }
 
         [DataMember(Name = "model")]
-        public Shipper Model { get; set; }
+        public Employee Model { get; set; }
     }
 }

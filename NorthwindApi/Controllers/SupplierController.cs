@@ -8,15 +8,14 @@ using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.EntityLayer;
 using NorthwindApi.Responses;
 using NorthwindApi.Services;
-using NorthwindApi.ViewModels;
 
 namespace NorthwindApi.Controllers
 {
-    public class ProductController : ApiController
+    public class SupplierController : ApiController
     {
         protected ISalesBusinessObject BusinessObject;
 
-        public ProductController(IUowService service)
+        public SupplierController(IUowService service)
         {
             BusinessObject = service.GetSalesBusinessObject();
         }
@@ -31,16 +30,16 @@ namespace NorthwindApi.Controllers
             base.Dispose(disposing);
         }
 
-        // GET: api/Product
-        public async Task<HttpResponseMessage> Get(String productName, Int32? supplierID, Int32? categoryID)
+        // GET: api/Supplier
+        public async Task<HttpResponseMessage> Get()
         {
-            var response = new ComposedProductDetailResponse();
+            var response = new ComposedSupplierResponse();
 
             try
             {
-                var task = await BusinessObject.GetProductsDetails(productName, supplierID, categoryID);
+                var task = await BusinessObject.GetSuppliers();
 
-                response.Model = task.Select(item => new ProductDetailViewModel(item)).ToList();
+                response.Model = task.ToList();
             }
             catch (Exception ex)
             {
@@ -51,14 +50,14 @@ namespace NorthwindApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, response);
         }
 
-        // GET: api/Product/5
+        // GET: api/Supplier/5
         public async Task<HttpResponseMessage> Get(Int32 id)
         {
-            var response = new SingleProductResponse();
+            var response = new SingleSupplierResponse();
 
             try
             {
-                response.Model = await BusinessObject.GetProduct(new Product(id));
+                response.Model = await BusinessObject.GetSupplier(new Supplier(id));
             }
             catch (Exception ex)
             {
@@ -69,14 +68,14 @@ namespace NorthwindApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, response);
         }
 
-        // POST: api/Product
-        public async Task<HttpResponseMessage> Post([FromBody]Product value)
+        // POST: api/Supplier
+        public async Task<HttpResponseMessage> Post([FromBody]Supplier value)
         {
-            var response = new SingleProductResponse();
+            var response = new SingleSupplierResponse();
 
             try
             {
-                await BusinessObject.CreateProduct(value);
+                await BusinessObject.CreateSupplier(value);
 
                 response.Model = value;
             }
@@ -89,14 +88,14 @@ namespace NorthwindApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, response);
         }
 
-        // PUT: api/Product/5
-        public async Task<HttpResponseMessage> Put(Int32 id, [FromBody]Product value)
+        // PUT: api/Supplier/5
+        public async Task<HttpResponseMessage> Put(Int32 id, [FromBody]Supplier value)
         {
-            var response = new SingleProductResponse();
+            var response = new SingleSupplierResponse();
 
             try
             {
-                var entity = await BusinessObject.UpdateProduct(value);
+                var entity = await BusinessObject.UpdateSupplier(value);
 
                 if (entity == null)
                 {
@@ -118,14 +117,14 @@ namespace NorthwindApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, response);
         }
 
-        // DELETE: api/Product/5
+        // DELETE: api/Supplier/5
         public async Task<HttpResponseMessage> Delete(Int32 id)
         {
-            var response = new SingleProductResponse();
+            var response = new SingleSupplierResponse();
 
             try
             {
-                var entity = await BusinessObject.DeleteProduct(new Product(id));
+                var entity = await BusinessObject.DeleteSupplier(new Supplier(id));
 
                 if (entity == null)
                 {

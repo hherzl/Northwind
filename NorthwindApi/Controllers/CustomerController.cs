@@ -8,15 +8,14 @@ using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.EntityLayer;
 using NorthwindApi.Responses;
 using NorthwindApi.Services;
-using NorthwindApi.ViewModels;
 
 namespace NorthwindApi.Controllers
 {
-    public class ProductController : ApiController
+    public class CustomerController : ApiController
     {
         protected ISalesBusinessObject BusinessObject;
 
-        public ProductController(IUowService service)
+        public CustomerController(IUowService service)
         {
             BusinessObject = service.GetSalesBusinessObject();
         }
@@ -31,16 +30,16 @@ namespace NorthwindApi.Controllers
             base.Dispose(disposing);
         }
 
-        // GET: api/Product
-        public async Task<HttpResponseMessage> Get(String productName, Int32? supplierID, Int32? categoryID)
+        // GET: api/Customer
+        public async Task<HttpResponseMessage> Get()
         {
-            var response = new ComposedProductDetailResponse();
+            var response = new ComposedCustomerResponse();
 
             try
             {
-                var task = await BusinessObject.GetProductsDetails(productName, supplierID, categoryID);
+                var task = await BusinessObject.GetCustomers();
 
-                response.Model = task.Select(item => new ProductDetailViewModel(item)).ToList();
+                response.Model = task.ToList();
             }
             catch (Exception ex)
             {
@@ -51,14 +50,14 @@ namespace NorthwindApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, response);
         }
 
-        // GET: api/Product/5
-        public async Task<HttpResponseMessage> Get(Int32 id)
+        // GET: api/Customer/5
+        public async Task<HttpResponseMessage> Get(String id)
         {
-            var response = new SingleProductResponse();
+            var response = new SingleCustomerResponse();
 
             try
             {
-                response.Model = await BusinessObject.GetProduct(new Product(id));
+                response.Model = await BusinessObject.GetCustomer(new Customer(id));
             }
             catch (Exception ex)
             {
@@ -69,16 +68,20 @@ namespace NorthwindApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, response);
         }
 
-        // POST: api/Product
-        public async Task<HttpResponseMessage> Post([FromBody]Product value)
+        // POST: api/Customer
+        public async Task<HttpResponseMessage> Post([FromBody]Customer value)
         {
-            var response = new SingleProductResponse();
+            var response = new SingleCustomerResponse();
 
             try
             {
-                await BusinessObject.CreateProduct(value);
+                value.CustomerID = value.CompanyName.Substring(0, 5).ToUpper();
+
+                await BusinessObject.CreateCustomer(value);
 
                 response.Model = value;
+
+                response.Message = "The data was saved successfully!";
             }
             catch (Exception ex)
             {
@@ -89,14 +92,14 @@ namespace NorthwindApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, response);
         }
 
-        // PUT: api/Product/5
-        public async Task<HttpResponseMessage> Put(Int32 id, [FromBody]Product value)
+        // PUT: api/Customer/5
+        public async Task<HttpResponseMessage> Put(String id, [FromBody]Customer value)
         {
-            var response = new SingleProductResponse();
+            var response = new SingleCustomerResponse();
 
             try
             {
-                var entity = await BusinessObject.UpdateProduct(value);
+                var entity = await BusinessObject.UpdateCustomer(value);
 
                 if (entity == null)
                 {
@@ -118,14 +121,14 @@ namespace NorthwindApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, response);
         }
 
-        // DELETE: api/Product/5
-        public async Task<HttpResponseMessage> Delete(Int32 id)
+        // DELETE: api/Customer/5
+        public async Task<HttpResponseMessage> Delete(String id)
         {
-            var response = new SingleProductResponse();
+            var response = new SingleCustomerResponse();
 
             try
             {
-                var entity = await BusinessObject.DeleteProduct(new Product(id));
+                var entity = await BusinessObject.DeleteCustomer(new Customer(id));
 
                 if (entity == null)
                 {

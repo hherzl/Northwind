@@ -23,5 +23,29 @@ namespace Northwind.Core.BusinessLayer.Contracts
         Task<Product> UpdateProduct(Product entity);
 
         Task<Product> DeleteProduct(Product entity);
+
+        Task<IEnumerable<Employee>> GetEmployees();
+
+        Task<Employee> GetEmployee(Employee entity);
+
+        Task<IEnumerable<Supplier>> GetSuppliers();
+
+        Task<Supplier> GetSupplier(Supplier entity);
+
+        Task<Supplier> CreateSupplier(Supplier entity);
+
+        Task<Supplier> UpdateSupplier(Supplier entity);
+
+        Task<Supplier> DeleteSupplier(Supplier entity);
+
+        Task<IEnumerable<Customer>> GetCustomers();
+
+        Task<Customer> GetCustomer(Customer entity);
+
+        Task<Customer> CreateCustomer(Customer entity);
+
+        Task<Customer> UpdateCustomer(Customer entity);
+
+        Task<Customer> DeleteCustomer(Customer entity);
     }
 }

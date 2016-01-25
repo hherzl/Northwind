@@ -8,7 +8,7 @@
     function UrlBuilder($log) {
         var svc = this;
 
-        svc.baseUrl = "http://localhost:58532/api";
+        svc.baseUrl = "http://localhost:55690/api";
 
         svc.rest = function (controller) {
             return {

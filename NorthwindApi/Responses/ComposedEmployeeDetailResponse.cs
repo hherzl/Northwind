@@ -5,14 +5,14 @@ using NorthwindApi.ViewModels;
 namespace NorthwindApi.Responses
 {
     [DataContract]
-    public class ComposedProductDetailResponse : Response, IComposedViewModelResponse<ProductDetailViewModel>
+    public class ComposedEmployeeDetailResponse : Response, IComposedViewModelResponse<EmployeeDetailViewModel>
     {
-        public ComposedProductDetailResponse()
+        public ComposedEmployeeDetailResponse()
         {
 
         }
 
         [DataMember(Name = "model")]
-        public IEnumerable<ProductDetailViewModel> Model { get; set; }
+        public IEnumerable<EmployeeDetailViewModel> Model { get; set; }
     }
 }

@@ -5,14 +5,14 @@ using Northwind.Core.EntityLayer;
 namespace NorthwindApi.Responses
 {
     [DataContract]
-    public class ComposedRegionResponse: Response, IComposedViewModelResponse<Region>
+    public class ComposedCustomerResponse : Response, IComposedViewModelResponse<Customer>
     {
-        public ComposedRegionResponse()
+        public ComposedCustomerResponse()
         {
 
         }
 
         [DataMember(Name = "model")]
-        public IEnumerable<Region> Model { get; set; }
+        public IEnumerable<Customer> Model { get; set; }
     }
 }
