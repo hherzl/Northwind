@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Northwind.Core.DataLayer.Contracts;
+using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.EntityLayer;
 using NorthwindApi.Helpers;
 using NorthwindApi.Responses;
@@ -14,18 +14,18 @@ namespace NorthwindApi.Controllers
 {
     public class ShipperController : ApiController
     {
-        protected ISalesUow Uow;
+        protected ISalesBusinessObject BusinessObject;
 
-        public ShipperController(IUowService service)
+        public ShipperController(IBusinessObjectService service)
         {
-            Uow = service.GetSalesUow();
+            BusinessObject = service.GetSalesBusinessObject();
         }
 
         protected override void Dispose(Boolean disposing)
         {
-            if (Uow != null)
+            if (BusinessObject != null)
             {
-                Uow.Dispose();
+                BusinessObject.Release();
             }
 
             base.Dispose(disposing);
@@ -38,13 +38,9 @@ namespace NorthwindApi.Controllers
 
             try
             {
-                response.Model = await Task.Run(() =>
-                {
-                    return Uow
-                        .ShipperRepository
-                        .GetAll()
-                        .ToList();
-                });
+                var task = await BusinessObject.GetShippers();
+
+                response.Model = task.ToList();
             }
             catch (Exception ex)
             {
@@ -64,12 +60,7 @@ namespace NorthwindApi.Controllers
 
             try
             {
-                response.Model = await Task.Run(() =>
-                {
-                    return Uow
-                        .ShipperRepository
-                        .Get(new Shipper(id));
-                });
+                response.Model = await BusinessObject.GetShipper(new Shipper(id));
 
                 if (response.Model == null)
                 {
@@ -94,13 +85,9 @@ namespace NorthwindApi.Controllers
 
             try
             {
-                Uow.ShipperRepository.Add(value);
+                await BusinessObject.CreateShipper(value);
 
-                if (await Uow.CommitChangesAsync() > 0)
-                {
-                    response.Message = "Record added successfully";
-                    response.Model = value;
-                }
+                response.Model = value;
             }
             catch (Exception ex)
             {
@@ -120,21 +107,17 @@ namespace NorthwindApi.Controllers
 
             try
             {
-                var entity = Uow.ShipperRepository.Get(new Shipper(id));
+                var entity = await BusinessObject.UpdateShipper(value);
 
                 if (entity == null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                    response.DidError = true;
+                    response.ErrorMessage = String.Format("There isn't a record with id: {0}", id);
                 }
-
-                entity.CompanyName = value.CompanyName;
-                entity.Phone = value.Phone;
-
-                Uow.ShipperRepository.Update(entity);
-
-                if (await Uow.CommitChangesAsync() > 0)
+                else
                 {
-                    response.Message = "Record updated successfully";
+                    response.Model = value;
+                    response.Message = "Update was successfully!";
                 }
             }
             catch (Exception ex)
@@ -155,18 +138,17 @@ namespace NorthwindApi.Controllers
 
             try
             {
-                var entity = Uow.ShipperRepository.Get(new Shipper(id));
+                var entity = await BusinessObject.DeleteShipper(new Shipper(id));
 
                 if (entity == null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                    response.DidError = true;
+                    response.ErrorMessage = String.Format("There isn't a record with id: {0}", id);
                 }
-
-                Uow.ShipperRepository.Remove(entity);
-
-                if (await Uow.CommitChangesAsync() > 0)
+                else
                 {
-                    response.Message = "Record deleted successfully";
+                    response.Model = entity;
+                    response.Message = "Delete was successfully!";
                 }
             }
             catch (Exception ex)

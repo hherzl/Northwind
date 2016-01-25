@@ -12,12 +12,12 @@ namespace NorthwindApi.Tests
     [TestClass]
     public class RegionUnitTest
     {
-        private IUowService service;
+        private IBusinessObjectService service;
 
         [TestInitialize]
         public void Init()
         {
-            service = new UowService();
+            service = new BusinessObjectService();
         }
 
         [TestMethod]

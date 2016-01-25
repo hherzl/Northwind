@@ -28,6 +28,16 @@ namespace Northwind.Core.BusinessLayer.Contracts
 
         Task<Employee> GetEmployee(Employee entity);
 
+        Task<IEnumerable<Category>> GetCategories();
+
+        Task<Category> GetCategory(Category entity);
+
+        Task<Category> CreateCategory(Category entity);
+
+        Task<Category> UpdateCategory(Category entity);
+
+        Task<Category> DeleteCategory(Category entity);
+
         Task<IEnumerable<Supplier>> GetSuppliers();
 
         Task<Supplier> GetSupplier(Supplier entity);
@@ -47,5 +57,25 @@ namespace Northwind.Core.BusinessLayer.Contracts
         Task<Customer> UpdateCustomer(Customer entity);
 
         Task<Customer> DeleteCustomer(Customer entity);
+
+        Task<IEnumerable<Shipper>> GetShippers();
+
+        Task<Shipper> GetShipper(Shipper entity);
+
+        Task<Shipper> CreateShipper(Shipper entity);
+
+        Task<Shipper> UpdateShipper(Shipper entity);
+
+        Task<Shipper> DeleteShipper(Shipper entity);
+
+        Task<IEnumerable<Region>> GetRegions();
+
+        Task<Region> GetRegion(Region entity);
+
+        Task<Region> CreateRegion(Region entity);
+
+        Task<Region> UpdateRegion(Region entity);
+
+        Task<Region> DeleteRegion(Region entity);
     }
 }

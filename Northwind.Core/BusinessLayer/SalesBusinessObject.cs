@@ -254,11 +254,66 @@ namespace Northwind.Core.BusinessLayer
             return entity;
         }
 
+        public async Task<IEnumerable<Category>> GetCategories()
+        {
+            return await Task.Run(() =>
+            {
+                return Uow
+                    .CategoryRepository
+                    .GetAll();
+            });
+        }
 
+        public async Task<Category> GetCategory(Category entity)
+        {
+            return await Task.Run(() =>
+            {
+                return Uow
+                    .CategoryRepository
+                    .Get(entity);
+            });
+        }
 
+        public async Task<Category> CreateCategory(Category entity)
+        {
+            Uow.CategoryRepository.Add(entity);
 
+            await Uow.CommitChangesAsync();
 
+            return entity;
+        }
 
+        public async Task<Category> UpdateCategory(Category value)
+        {
+            var entity = Uow.CategoryRepository.Get(value);
+
+            if (entity != null)
+            {
+                entity.CategoryName = value.CategoryName;
+                entity.Description = value.Description;
+                entity.Picture = value.Picture;
+
+                Uow.CategoryRepository.Update(entity);
+
+                await Uow.CommitChangesAsync();
+            }
+
+            return entity;
+        }
+
+        public async Task<Category> DeleteCategory(Category value)
+        {
+            var entity = Uow.CategoryRepository.Get(value);
+
+            if (entity != null)
+            {
+                Uow.CategoryRepository.Remove(entity);
+
+                await Uow.CommitChangesAsync();
+            }
+
+            return entity;
+        }
 
         public async Task<IEnumerable<Customer>> GetCustomers()
         {
@@ -321,6 +376,125 @@ namespace Northwind.Core.BusinessLayer
             if (entity != null)
             {
                 Uow.CustomerRepository.Remove(entity);
+
+                await Uow.CommitChangesAsync();
+            }
+
+            return entity;
+        }
+
+        public async Task<IEnumerable<Shipper>> GetShippers()
+        {
+            return await Task.Run(() =>
+            {
+                return Uow
+                    .ShipperRepository
+                    .GetAll();
+            });
+        }
+
+        public async Task<Shipper> GetShipper(Shipper entity)
+        {
+            return await Task.Run(() =>
+            {
+                return Uow
+                    .ShipperRepository
+                    .Get(entity);
+            });
+        }
+
+        public async Task<Shipper> CreateShipper(Shipper entity)
+        {
+            Uow.ShipperRepository.Add(entity);
+
+            await Uow.CommitChangesAsync();
+
+            return entity;
+        }
+
+        public async Task<Shipper> UpdateShipper(Shipper value)
+        {
+            var entity = Uow.ShipperRepository.Get(value);
+
+            if (entity != null)
+            {
+                entity.CompanyName = value.CompanyName;
+                entity.Phone = value.Phone;
+
+                Uow.ShipperRepository.Update(entity);
+
+                await Uow.CommitChangesAsync();
+            }
+
+            return entity;
+        }
+
+        public async Task<Shipper> DeleteShipper(Shipper value)
+        {
+            var entity = Uow.ShipperRepository.Get(value);
+
+            if (entity != null)
+            {
+                Uow.ShipperRepository.Remove(entity);
+
+                await Uow.CommitChangesAsync();
+            }
+
+            return entity;
+        }
+
+        public async Task<IEnumerable<Region>> GetRegions()
+        {
+            return await Task.Run(() =>
+            {
+                return Uow
+                    .RegionRepository
+                    .GetAll();
+            });
+        }
+
+        public async Task<Region> GetRegion(Region entity)
+        {
+            return await Task.Run(() =>
+            {
+                return Uow
+                    .RegionRepository
+                    .Get(entity);
+            });
+        }
+
+        public async Task<Region> CreateRegion(Region entity)
+        {
+            Uow.RegionRepository.Add(entity);
+
+            await Uow.CommitChangesAsync();
+
+            return entity;
+        }
+
+        public async Task<Region> UpdateRegion(Region value)
+        {
+            var entity = Uow.RegionRepository.Get(value);
+
+            if (entity != null)
+            {
+                entity.RegionDescription = value.RegionDescription;
+
+                Uow.RegionRepository.Update(entity);
+
+                await Uow.CommitChangesAsync();
+            }
+
+            return entity;
+        }
+
+        public async Task<Region> DeleteRegion(Region value)
+        {
+            var entity = Uow.RegionRepository.Get(value);
+
+            if (entity != null)
+            {
+                Uow.RegionRepository.Remove(entity);
 
                 await Uow.CommitChangesAsync();
             }

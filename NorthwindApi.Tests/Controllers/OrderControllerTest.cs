@@ -17,12 +17,12 @@ namespace NorthwindApi.Tests.Controllers
 
         }
 
-        private IUowService service;
+        private IBusinessObjectService service;
 
         [TestInitialize]
         public void Init()
         {
-            service = new UowService();
+            service = new BusinessObjectService();
         }
 
         [TestMethod]

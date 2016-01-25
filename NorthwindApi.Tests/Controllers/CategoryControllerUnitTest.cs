@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Northwind.Core.EntityLayer;
 using NorthwindApi.Controllers;
 using NorthwindApi.Responses;
 using NorthwindApi.Services;
@@ -12,12 +13,12 @@ namespace NorthwindApi.Tests.Controllers
     [TestClass]
     public class CategoryControllerUnitTest
     {
-        private IUowService service;
+        private IBusinessObjectService service;
 
         [TestInitialize]
         public void Init()
         {
-            service = new UowService();
+            service = new BusinessObjectService();
         }
 
         [TestMethod]
@@ -48,7 +49,7 @@ namespace NorthwindApi.Tests.Controllers
             controller.Configuration = new HttpConfiguration();
 
             // Act
-            var model = new CategoryViewModel()
+            var model = new Category()
             {
                 CategoryName = "Acme Category",
                 Description = "Acme category description"
@@ -92,7 +93,7 @@ namespace NorthwindApi.Tests.Controllers
             controller.Configuration = new HttpConfiguration();
 
             // Act
-            var model = new CategoryViewModel()
+            var model = new Category()
             {
                 CategoryName = "Acme 2",
                 Description = "22445 77990"

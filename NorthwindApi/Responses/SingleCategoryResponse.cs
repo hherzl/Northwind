@@ -1,10 +1,10 @@
 ﻿using System.Runtime.Serialization;
-using NorthwindApi.ViewModels;
+using Northwind.Core.EntityLayer;
 
 namespace NorthwindApi.Responses
 {
     [DataContract]
-    public class SingleCategoryResponse : Response, ISingleViewModelResponse<CategoryViewModel>
+    public class SingleCategoryResponse : Response, ISingleViewModelResponse<Category>
     {
         public SingleCategoryResponse()
         {
@@ -12,6 +12,6 @@ namespace NorthwindApi.Responses
         }
 
         [DataMember(Name = "model")]
-        public CategoryViewModel Model { get; set; }
+        public Category Model { get; set; }
     }
 }

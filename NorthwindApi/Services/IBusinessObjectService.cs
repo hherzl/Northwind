@@ -1,12 +1,9 @@
 ﻿using Northwind.Core.BusinessLayer.Contracts;
-using Northwind.Core.DataLayer.Contracts;
 
 namespace NorthwindApi.Services
 {
-    public interface IUowService
+    public interface IBusinessObjectService
     {
-        ISalesUow GetSalesUow();
-
         ISalesBusinessObject GetSalesBusinessObject();
     }
 }

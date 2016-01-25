@@ -16,7 +16,7 @@ namespace NorthwindApi.Controllers
     {
         protected ISalesBusinessObject BusinessObject;
 
-        public EmployeeController(IUowService service)
+        public EmployeeController(IBusinessObjectService service)
         {
             BusinessObject = service.GetSalesBusinessObject();
         }

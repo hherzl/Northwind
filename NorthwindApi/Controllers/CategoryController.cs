@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Northwind.Core.DataLayer.Contracts;
+using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.EntityLayer;
 using NorthwindApi.Helpers;
 using NorthwindApi.Responses;
@@ -15,18 +15,18 @@ namespace NorthwindApi.Controllers
 {
     public class CategoryController : ApiController
     {
-        protected ISalesUow Uow;
+        protected ISalesBusinessObject BusinessObject;
 
-        public CategoryController(IUowService service)
+        public CategoryController(IBusinessObjectService service)
         {
-            Uow = service.GetSalesUow();
+            BusinessObject = service.GetSalesBusinessObject();
         }
 
         protected override void Dispose(Boolean disposing)
         {
-            if (Uow != null)
+            if (BusinessObject != null)
             {
-                Uow.Dispose();
+                BusinessObject.Release();
             }
 
             base.Dispose(disposing);
@@ -39,14 +39,9 @@ namespace NorthwindApi.Controllers
 
             try
             {
-                response.Model = await Task.Run(() =>
-                {
-                    return Uow
-                        .CategoryRepository
-                        .GetAll()
-                        .Select(item => new CategoryViewModel(item))
-                        .ToList();
-                });
+                var task = await BusinessObject.GetCategories();
+
+                response.Model = task.Select(item => new CategoryViewModel(item)).ToList();
             }
             catch (Exception ex)
             {
@@ -66,10 +61,7 @@ namespace NorthwindApi.Controllers
 
             try
             {
-                response.Model = await Task.Run(() =>
-                {
-                    return new CategoryViewModel(Uow.CategoryRepository.Get(new Category(id)));
-                });
+                response.Model = await BusinessObject.GetCategory(new Category(id));
 
                 if (response.Model == null)
                 {
@@ -88,21 +80,15 @@ namespace NorthwindApi.Controllers
         }
 
         // POST: api/Category
-        public async Task<HttpResponseMessage> Post([FromBody]CategoryViewModel value)
+        public async Task<HttpResponseMessage> Post([FromBody]Category value)
         {
             var response = new SingleCategoryResponse();
 
             try
             {
-                var entity = value.ToEntity();
+                await BusinessObject.CreateCategory(value);
 
-                Uow.CategoryRepository.Add(entity);
-
-                if (await Uow.CommitChangesAsync() > 0)
-                {
-                    response.Message = "Record added successfully";
-                    response.Model = new CategoryViewModel(entity);
-                }
+                response.Model = value;
             }
             catch (Exception ex)
             {
@@ -116,27 +102,23 @@ namespace NorthwindApi.Controllers
         }
 
         // PUT: api/Category/5
-        public async Task<HttpResponseMessage> Put(Int32 id, [FromBody]CategoryViewModel value)
+        public async Task<HttpResponseMessage> Put(Int32 id, [FromBody]Category value)
         {
             var response = new SingleCategoryResponse();
 
             try
             {
-                var entity = Uow.CategoryRepository.Get(new Category(id));
+                var entity = await BusinessObject.UpdateCategory(value);
 
                 if (entity == null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                    response.DidError = true;
+                    response.ErrorMessage = String.Format("There isn't a record with id: {0}", id);
                 }
-
-                entity.CategoryName = value.CategoryName;
-                entity.Description = value.Description;
-
-                Uow.CategoryRepository.Update(entity);
-
-                if (await Uow.CommitChangesAsync() > 0)
+                else
                 {
-                    response.Message = "Record updated successfully";
+                    response.Model = value;
+                    response.Message = "Update was successfully!";
                 }
             }
             catch (Exception ex)
@@ -157,18 +139,17 @@ namespace NorthwindApi.Controllers
 
             try
             {
-                var entity = Uow.CategoryRepository.Get(new Category(id));
+                var entity = await BusinessObject.DeleteCategory(new Category(id));
 
                 if (entity == null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                    response.DidError = true;
+                    response.ErrorMessage = String.Format("There isn't a record with id: {0}", id);
                 }
-
-                Uow.CategoryRepository.Remove(entity);
-
-                if (await Uow.CommitChangesAsync() > 0)
+                else
                 {
-                    response.Message = "Record deleted successfully";
+                    response.Model = entity;
+                    response.Message = "Delete was successfully!";
                 }
             }
             catch (Exception ex)

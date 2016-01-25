@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.DataLayer.Contracts;
 using Northwind.Core.EntityLayer;
 using NorthwindApi.Helpers;
@@ -14,18 +15,18 @@ namespace NorthwindApi.Controllers
 {
     public class RegionController : ApiController
     {
-        protected ISalesUow Uow;
+        protected ISalesBusinessObject BusinessObject;
 
-        public RegionController(IUowService service)
+        public RegionController(IBusinessObjectService service)
         {
-            Uow = service.GetSalesUow();
+            BusinessObject = service.GetSalesBusinessObject();
         }
 
         protected override void Dispose(Boolean disposing)
         {
-            if (Uow != null)
+            if (BusinessObject != null)
             {
-                Uow.Dispose();
+                BusinessObject.Release();
             }
 
             base.Dispose(disposing);
@@ -36,17 +37,11 @@ namespace NorthwindApi.Controllers
         {
             var response = new ComposedRegionResponse() as IComposedViewModelResponse<Region>;
 
-            var foo = Uow.RegionRepository.GetAll().ToList();
-
             try
             {
-                response.Model = await Task.Run(() =>
-                {
-                    return Uow
-                        .RegionRepository
-                        .GetAll()
-                        .ToList();
-                });
+                var task = await BusinessObject.GetRegions();
+
+                response.Model = task.ToList();
             }
             catch (Exception ex)
             {
@@ -66,12 +61,7 @@ namespace NorthwindApi.Controllers
 
             try
             {
-                response.Model = await Task.Run(() =>
-                {
-                    return Uow
-                        .RegionRepository
-                        .Get(new Region(id));
-                });
+                response.Model = await BusinessObject.GetRegion(new Region(id));
 
                 if (response.Model == null)
                 {
@@ -96,13 +86,9 @@ namespace NorthwindApi.Controllers
 
             try
             {
-                Uow.RegionRepository.Add(value);
+                await BusinessObject.CreateRegion(value);
 
-                if (await Uow.CommitChangesAsync() > 0)
-                {
-                    response.Message = "Record added successfully";
-                    response.Model = value;
-                }
+                response.Model = value;
             }
             catch (Exception ex)
             {
@@ -122,20 +108,17 @@ namespace NorthwindApi.Controllers
 
             try
             {
-                var entity = Uow.RegionRepository.Get(new Region(id));
+                var entity = await BusinessObject.UpdateRegion(value);
 
                 if (entity == null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                    response.DidError = true;
+                    response.ErrorMessage = String.Format("There isn't a record with id: {0}", id);
                 }
-
-                entity.RegionDescription = value.RegionDescription;
-
-                Uow.RegionRepository.Update(entity);
-
-                if (await Uow.CommitChangesAsync() > 0)
+                else
                 {
-                    response.Message = "Record updated successfully";
+                    response.Model = value;
+                    response.Message = "Update was successfully!";
                 }
             }
             catch (Exception ex)
@@ -156,18 +139,17 @@ namespace NorthwindApi.Controllers
 
             try
             {
-                var entity = Uow.RegionRepository.Get(new Region(id));
+                var entity = await BusinessObject.DeleteRegion(new Region(id));
 
                 if (entity == null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                    response.DidError = true;
+                    response.ErrorMessage = String.Format("There isn't a record with id: {0}", id);
                 }
-
-                Uow.RegionRepository.Remove(entity);
-
-                if (await Uow.CommitChangesAsync() > 0)
+                else
                 {
-                    response.Message = "Record deleted successfully";
+                    response.Model = entity;
+                    response.Message = "Delete was successfully!";
                 }
             }
             catch (Exception ex)

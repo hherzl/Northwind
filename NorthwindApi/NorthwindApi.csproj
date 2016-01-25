@@ -227,8 +227,8 @@
     <Compile Include="Responses\SingleRegionResponse.cs" />
     <Compile Include="Responses\SingleShipperResponse.cs" />
     <Compile Include="Responses\SingleSupplierResponse.cs" />
-    <Compile Include="Services\IUowService.cs" />
-    <Compile Include="Services\UowService.cs" />
+    <Compile Include="Services\IBusinessObjectService.cs" />
+    <Compile Include="Services\BusinessObjectService.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />
     <Compile Include="ViewModels\EmployeeDetailViewModel.cs" />
     <Compile Include="ViewModels\OrderSummaryViewModel.cs" />

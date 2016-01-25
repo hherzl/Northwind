@@ -12,12 +12,12 @@ namespace NorthwindApi.Tests.Controllers
     [TestClass]
     public class ShipperControllerTest
     {
-        private IUowService service;
+        private IBusinessObjectService service;
 
         [TestInitialize]
         public void Init()
         {
-            service = new UowService();
+            service = new BusinessObjectService();
         }
 
         [TestMethod]
