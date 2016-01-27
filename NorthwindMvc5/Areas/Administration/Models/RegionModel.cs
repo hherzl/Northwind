@@ -15,10 +15,12 @@ namespace NorthwindMvc5.Areas.Administration.Models
         public RegionModel(Region entity)
         {
             RegionID = entity.RegionID;
-            RegionDescription = entity.RegionDescription;
+            RegionDescription = entity.RegionDescription.Trim();
         }
 
         [Key]
+        [Display(Name = "RegionID", ResourceType = typeof(RegionResource))]
+        [Required(ErrorMessageResourceName = "RegionIDRequired", ErrorMessageResourceType = typeof(RegionResource))]
         public Int32? RegionID { get; set; }
 
         [Display(Name = "RegionDescription", ResourceType = typeof(RegionResource))]

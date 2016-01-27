@@ -48,7 +48,7 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         {
             var entity = await Task.Run(() =>
             {
-                return Uow.RegionRepository.Get(new EL.Region() { RegionID = id });
+                return Uow.RegionRepository.Get(new EL.Region(id));
             });
 
             var model = new RegionModel(entity);
@@ -73,13 +73,16 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
             {
                 var entity = new EL.Region();
 
+                entity.RegionID = model.RegionID;
+                entity.RegionDescription = model.RegionDescription.Trim();
+
                 Uow.RegionRepository.Add(entity);
 
                 await Uow.CommitChangesAsync();
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }
@@ -90,7 +93,7 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         {
             var entity = await Task.Run(() =>
             {
-                return Uow.RegionRepository.Get(new EL.Region() { RegionID = id });
+                return Uow.RegionRepository.Get(new EL.Region(id));
             });
 
             var model = new RegionModel(entity);
@@ -106,8 +109,10 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
             {
                 var entity = await Task.Run(() =>
                 {
-                    return Uow.RegionRepository.Get(new EL.Region() { RegionID = id });
+                    return Uow.RegionRepository.Get(new EL.Region(id));
                 });
+
+                entity.RegionDescription = model.RegionDescription;
 
                 await Uow.CommitChangesAsync();
 
@@ -124,7 +129,7 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         {
             var entity = await Task.Run(() =>
             {
-                return Uow.RegionRepository.Get(new EL.Region() { RegionID = id });
+                return Uow.RegionRepository.Get(new EL.Region(id));
             });
 
             var model = new RegionModel(entity);
@@ -140,7 +145,7 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
             {
                 var entity = await Task.Run(() =>
                 {
-                    return Uow.RegionRepository.Get(new EL.Region() { RegionID = id });
+                    return Uow.RegionRepository.Get(new EL.Region(id));
                 });
 
                 Uow.RegionRepository.Remove(entity);

@@ -151,10 +151,13 @@
     <value>(*) Required</value>
   </data>
   <data name="RegionDescriptionStringLength" xml:space="preserve">
-    <value>(?) </value>
+    <value>(?) The filed {0} must be '{1}' characters long</value>
   </data>
   <data name="RegionID" xml:space="preserve">
     <value>ID</value>
+  </data>
+  <data name="RegionIDRequired" xml:space="preserve">
+    <value>(*) Required</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
