@@ -42,6 +42,8 @@ namespace Northwind.Core.Tests
 
             var dbContext = new SalesDbContext();
 
+            dbContext.Database.Log = s => Console.WriteLine(s);
+
             var uow = new SalesUow(dbContext) as ISalesUow;
 
             var businessObject = new SalesBusinessObject(uow) as ISalesBusinessObject;

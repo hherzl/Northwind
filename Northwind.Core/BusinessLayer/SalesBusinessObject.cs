@@ -96,9 +96,11 @@ namespace Northwind.Core.BusinessLayer
 
                     transaction.Commit();
                 }
-                catch
+                catch (Exception ex)
                 {
                     transaction.Rollback();
+
+                    throw ex;
                 }
             }
 

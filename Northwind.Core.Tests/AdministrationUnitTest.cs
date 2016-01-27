@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Northwind.Core.BusinessLayer;
+using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.DataLayer;
 using Northwind.Core.DataLayer.Contracts;
 
@@ -10,7 +13,7 @@ namespace Northwind.Core.Tests
     public class AdministrationUnitTest
     {
         [TestMethod]
-        public void SearchProductsLinqQuery()
+        public async Task SearchProductsLinqQuery()
         {
             var dbContext = new SalesDbContext();
 
@@ -18,15 +21,13 @@ namespace Northwind.Core.Tests
 
             var uow = new SalesUow(dbContext) as ISalesUow;
 
+            var businessObject = new SalesBusinessObject(uow) as ISalesBusinessObject;
+
             String productName = null;
             Int32? supplierID = null;
             Int32? categoryID = null;
 
-            //productName = "a";
-            //supplierID = 1;
-            categoryID = 4;
-
-            var query = uow.ProductRepository.GetDetails(productName, supplierID, categoryID);
+            var query = await businessObject.GetProductsDetails(productName, supplierID, categoryID);
 
             foreach (var item in query.ToList())
             {
