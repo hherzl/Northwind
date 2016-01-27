@@ -42,6 +42,7 @@ $provide.value("$locale", {
       "Mb.Y.",
       "Ny.Y"
     ],
+    "FIRSTDAYOFWEEK": 0,
     "MONTH": [
       "Nzero",
       "Ruhuhuma",
@@ -78,6 +79,24 @@ $provide.value("$locale", {
       "Ukw.",
       "Ugu.",
       "Uku."
+    ],
+    "STANDALONEMONTH": [
+      "Nzero",
+      "Ruhuhuma",
+      "Ntwarante",
+      "Ndamukiza",
+      "Rusama",
+      "Ruheshi",
+      "Mukakaro",
+      "Nyandagaro",
+      "Nyakanga",
+      "Gitugutu",
+      "Munyonyo",
+      "Kigarama"
+    ],
+    "WEEKENDRANGE": [
+      5,
+      6
     ],
     "fullDate": "EEEE d MMMM y",
     "longDate": "d MMMM y",

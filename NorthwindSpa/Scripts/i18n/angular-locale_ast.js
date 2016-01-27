@@ -42,6 +42,7 @@ $provide.value("$locale", {
       "a.C.",
       "d.C."
     ],
+    "FIRSTDAYOFWEEK": 0,
     "MONTH": [
       "de xineru",
       "de febreru",
@@ -78,6 +79,24 @@ $provide.value("$locale", {
       "och",
       "pay",
       "avi"
+    ],
+    "STANDALONEMONTH": [
+      "xineru",
+      "febreru",
+      "marzu",
+      "abril",
+      "mayu",
+      "xunu",
+      "xunetu",
+      "agostu",
+      "setiembre",
+      "ochobre",
+      "payares",
+      "avientu"
+    ],
+    "WEEKENDRANGE": [
+      5,
+      6
     ],
     "fullDate": "EEEE, d MMMM 'de' y",
     "longDate": "d MMMM 'de' y",

@@ -42,6 +42,7 @@ $provide.value("$locale", {
       "AC",
       "AD"
     ],
+    "FIRSTDAYOFWEEK": 0,
     "MONTH": [
       "Janeiro",
       "Fevreiro",
@@ -78,6 +79,24 @@ $provide.value("$locale", {
       "Otu",
       "Nov",
       "Dec"
+    ],
+    "STANDALONEMONTH": [
+      "Janeiro",
+      "Fevreiro",
+      "Marco",
+      "Abril",
+      "Maio",
+      "Junho",
+      "Julho",
+      "Augusto",
+      "Setembro",
+      "Otubro",
+      "Novembro",
+      "Decembro"
+    ],
+    "WEEKENDRANGE": [
+      5,
+      6
     ],
     "fullDate": "EEEE, d 'de' MMMM 'de' y",
     "longDate": "d 'de' MMMM 'de' y",

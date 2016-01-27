@@ -56,9 +56,301 @@ var app = angular.module('ngTable', []);
  * @license New BSD License <http://creativecommons.org/licenses/BSD/>
  */
 
+(function(){
+    'use strict';
+
+    angular.module('ngTable')
+        .factory('ngTableEventsChannel', ngTableEventsChannel);
+
+    ngTableEventsChannel.$inject = ['$rootScope'];
+
+    /**
+     * @ngdoc service
+     * @name ngTableEventsChannel
+     * @description strongly typed pub/sub for `NgTableParams`
+     *
+     * Supported events:
+     *
+     * * afterCreated - raised when a new instance of `NgTableParams` has finished being constructed
+     * * afterReloadData - raised when the `reload` event has finished loading new data
+     * * datasetChanged - raised when `settings` receives a new data array
+     * * pagesChanged - raised when a new pages array has been generated
+     */
+    function ngTableEventsChannel($rootScope){
+
+        var events = {};
+        events = addChangeEvent('afterCreated', events);
+        events = addChangeEvent('afterReloadData', events);
+        events = addChangeEvent('datasetChanged', events);
+        events = addChangeEvent('pagesChanged', events);
+        return events;
+
+        //////////
+
+        function addChangeEvent(eventName, target){
+            var fnName = eventName.charAt(0).toUpperCase() + eventName.substring(1);
+            var event = {};
+            event['on' + fnName] = createEventSubscriptionFn(eventName);
+            event['publish' + fnName] = createPublishEventFn(eventName);
+            return angular.extend(target, event);
+        }
+
+        function createEventSubscriptionFn(eventName){
+
+            return function subscription(handler/*[, eventSelector or $scope][, eventSelector]*/){
+                var eventSelector = angular.identity;
+                var scope = $rootScope;
+
+                if (arguments.length === 2){
+                    if (angular.isFunction(arguments[1].$new)) {
+                        scope = arguments[1];
+                    } else {
+                        eventSelector = arguments[1]
+                    }
+                } else if (arguments.length > 2){
+                    scope = arguments[1];
+                    eventSelector = arguments[2];
+                }
+
+                // shorthand for subscriber to only receive events from a specific publisher instance
+                if (angular.isObject(eventSelector)) {
+                    var requiredPublisher = eventSelector;
+                    eventSelector = function(publisher){
+                        return publisher === requiredPublisher;
+                    }
+                }
+
+                return scope.$on('ngTable:' + eventName, function(event, params/*, ...args*/){
+                    // don't send events published by the internal NgTableParams created by ngTableController
+                    if (params.isNullInstance) return;
+
+                    var eventArgs = rest(arguments, 2);
+                    var fnArgs = [params].concat(eventArgs);
+                    if (eventSelector.apply(this, fnArgs)){
+                        handler.apply(this, fnArgs);
+                    }
+                });
+            }
+        }
+
+        function createPublishEventFn(eventName){
+            return function publish(/*args*/){
+                var fnArgs = ['ngTable:' + eventName].concat(Array.prototype.slice.call(arguments));
+                $rootScope.$broadcast.apply($rootScope, fnArgs);
+            }
+        }
+
+        function rest(array, n) {
+            return Array.prototype.slice.call(array, n == null ? 1 : n);
+        }
+    }
+})();
+
 /**
- * @ngdoc value
- * @name ngTable.value:ngTableDefaultParams
+ * ngTable: Table + Angular JS
+ *
+ * @author Vitalii Savchuk <esvit666@gmail.com>
+ * @url https://github.com/esvit/ng-table/
+ * @license New BSD License <http://creativecommons.org/licenses/BSD/>
+ */
+
+(function(){
+    'use strict';
+
+    angular.module('ngTable')
+        .provider('ngTableFilterConfig', ngTableFilterConfigProvider);
+
+    ngTableFilterConfigProvider.$inject = [];
+
+    function ngTableFilterConfigProvider(){
+        var config;
+        var defaultConfig = {
+            defaultBaseUrl: 'ng-table/filters/',
+            defaultExt: '.html',
+            aliasUrls: {}
+        };
+
+        this.$get = ngTableFilterConfig;
+        this.resetConfigs = resetConfigs;
+        this.setConfig = setConfig;
+
+        init();
+
+        /////////
+
+        function init(){
+            resetConfigs();
+        }
+
+        function resetConfigs(){
+            config = defaultConfig;
+        }
+
+        function setConfig(customConfig){
+            var mergeConfig = angular.extend({}, config, customConfig);
+            mergeConfig.aliasUrls = angular.extend({}, config.aliasUrls, customConfig.aliasUrls);
+            config = mergeConfig;
+        }
+
+        /////////
+
+        ngTableFilterConfig.$inject = [];
+
+        function ngTableFilterConfig(){
+
+            var publicConfig;
+
+            var service = {
+                config: publicConfig,
+                getTemplateUrl: getTemplateUrl,
+                getUrlForAlias: getUrlForAlias
+            };
+            Object.defineProperty(service, "config", {
+                get: function(){
+                    return publicConfig = publicConfig || angular.copy(config);
+                },
+                enumerable: true
+            });
+
+            return service;
+
+            /////////
+
+            function getTemplateUrl(filterValue, filterKey){
+                if (filterValue.indexOf('/') !== -1){
+                    return filterValue;
+                }
+
+                return service.getUrlForAlias(filterValue, filterKey);
+            }
+
+            function getUrlForAlias(aliasName/*, filterKey*/){
+                return config.aliasUrls[aliasName] || config.defaultBaseUrl + aliasName + config.defaultExt;
+            }
+        }
+    }
+})();
+
+/**
+ * ngTable: Table + Angular JS
+ *
+ * @author Vitalii Savchuk <esvit666@gmail.com>
+ * @url https://github.com/esvit/ng-table/
+ * @license New BSD License <http://creativecommons.org/licenses/BSD/>
+ */
+
+(function(){
+    'use strict';
+
+
+    angular.module('ngTable')
+        .provider('ngTableDefaultGetData', ngTableDefaultGetDataProvider);
+
+    ngTableDefaultGetDataProvider.$inject = [];
+
+    /**
+     * @ngdoc provider
+     * @name ngTableDefaultGetDataProvider
+     * @description Allows for the configuration of the {@link ngTable.ngTableDefaultGetData ngTableDefaultGetData}
+     * service.
+     *
+     * Set filterFilterName to the name of a angular filter that knows how to take `NgTableParams.filter()`
+     * to restrict an array of data.
+     *
+     * Set sortingFilterName to the name of a angular filter that knows how to take `NgTableParams.orderBy()`
+     * to sort an array of data.
+     *
+     * Out of the box the `ngTableDefaultGetData` service will be configured to use the angular `filter` and `orderBy`
+     * filters respectively
+     */
+    function ngTableDefaultGetDataProvider(){
+        var provider = this;
+        provider.$get = ngTableDefaultGetData;
+        provider.filterFilterName = 'filter';
+        provider.sortingFilterName = 'orderBy';
+
+        ///////////
+
+        ngTableDefaultGetData.$inject = ['$filter'];
+
+        /**
+         * @ngdoc service
+         * @name ngTableDefaultGetData
+         * @description A default implementation of the getData function that will apply the `filter`, `orderBy` and
+         * paging values from the `NgTableParams` instance supplied to the data array supplied.
+         *
+         * The outcome will be to return the resulting array and to assign the total item count after filtering
+         * to the `total` of the `NgTableParams` instance supplied
+         */
+        function ngTableDefaultGetData($filter) {
+
+            return getData;
+
+            function getData(data, params) {
+                if (data == null){
+                    return [];
+                }
+
+                var fData = params.hasFilter() ? $filter(provider.filterFilterName)(data, params.filter(true)) : data;
+                var orderBy = params.orderBy();
+                var orderedData = orderBy.length ? $filter(provider.sortingFilterName)(fData, orderBy) : fData;
+                var pagedData = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+                params.total(orderedData.length); // set total for recalc pagination
+                return pagedData;
+            }
+        }
+    }
+})();
+
+/**
+ * ngTable: Table + Angular JS
+ *
+ * @author Vitalii Savchuk <esvit666@gmail.com>
+ * @url https://github.com/esvit/ng-table/
+ * @license New BSD License <http://creativecommons.org/licenses/BSD/>
+ */
+
+(function(){
+    'use strict';
+
+    // todo: remove shim after an acceptable depreciation period
+
+    angular.module('ngTable')
+        .factory('ngTableGetDataBcShim', ngTableGetDataBcShim);
+
+    ngTableGetDataBcShim.$inject = ['$q'];
+
+    function ngTableGetDataBcShim($q){
+
+        return createWrapper;
+
+        function createWrapper(getDataFn){
+            return function getDataShim(/*args*/){
+                var $defer = $q.defer();
+                var pData = getDataFn.apply(this, [$defer].concat(Array.prototype.slice.call(arguments)));
+                if (!pData) {
+                    // If getData resolved the $defer, and didn't promise us data,
+                    //   create a promise from the $defer. We need to return a promise.
+                    pData = $defer.promise;
+                }
+                return pData;
+            }
+        }
+    }
+})();
+
+/**
+ * ngTable: Table + Angular JS
+ *
+ * @author Vitalii Savchuk <esvit666@gmail.com>
+ * @url https://github.com/esvit/ng-table/
+ * @license New BSD License <http://creativecommons.org/licenses/BSD/>
+ */
+
+/**
+ * @ngdoc object
+ * @name ngTableDefaultParams
+ * @module ngTable
  * @description Default Parameters for ngTable
  */
 app.value('ngTableDefaults', {
@@ -68,16 +360,26 @@ app.value('ngTableDefaults', {
 
 /**
  * @ngdoc service
- * @name ngTable.factory:NgTableParams
+ * @name NgTableParams
+ * @module ngTable
  * @description Parameters manager for ngTable
  */
 
-app.factory('NgTableParams', ['$q', '$log', 'ngTableDefaults', function($q, $log, ngTableDefaults) {
+app.factory('NgTableParams', ['$q', '$log', 'ngTableDefaults', 'ngTableGetDataBcShim', 'ngTableDefaultGetData', 'ngTableEventsChannel', function($q, $log, ngTableDefaults, ngTableGetDataBcShim, ngTableDefaultGetData, ngTableEventsChannel) {
     var isNumber = function(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     };
     var NgTableParams = function(baseParameters, baseSettings) {
+
+        // the ngTableController "needs" to create a dummy/null instance and it's important to know whether an instance
+        // is one of these
+        if (typeof baseParameters === "boolean"){
+            this.isNullInstance = true;
+        }
+
         var self = this,
+            committedParams,
+            isCommittedDataset = false,
             log = function() {
                 if (settings.debugMode && $log.debug) {
                     $log.debug.apply(this, arguments);
@@ -88,8 +390,7 @@ app.factory('NgTableParams', ['$q', '$log', 'ngTableDefaults', function($q, $log
 
         /**
          * @ngdoc method
-         * @name ngTable.factory:NgTableParams#parameters
-         * @methodOf ngTable.factory:NgTableParams
+         * @name NgTableParams#parameters
          * @description Set new parameters or get current parameters
          *
          * @param {string} newParameters      New parameters
@@ -128,8 +429,7 @@ app.factory('NgTableParams', ['$q', '$log', 'ngTableDefaults', function($q, $log
 
         /**
          * @ngdoc method
-         * @name ngTable.factory:NgTableParams#settings
-         * @methodOf ngTable.factory:NgTableParams
+         * @name NgTableParams#settings
          * @description Set new settings for table
          *
          * @param {string} newSettings New settings or undefined
@@ -141,7 +441,29 @@ app.factory('NgTableParams', ['$q', '$log', 'ngTableDefaults', function($q, $log
                     //auto-set the total from passed in data
                     newSettings.total = newSettings.data.length;
                 }
+
+                // todo: remove the backwards compatibility shim and the following two if blocks
+                if (newSettings.getData && newSettings.getData.length > 1){
+                    // support the old getData($defer, params) api
+                    newSettings.getDataFnAdaptor = ngTableGetDataBcShim;
+                }
+                if (newSettings.getGroups && newSettings.getGroups.length > 2){
+                    // support the old getGroups($defer, grouping, params) api
+                    newSettings.getGroupsFnAdaptor = ngTableGetDataBcShim;
+                }
+
+                var originalDataset = settings.data;
                 settings = angular.extend(settings, newSettings);
+
+                // note: using != as want null and undefined to be treated the same
+                var hasDatasetChanged = newSettings.hasOwnProperty('data') && (newSettings.data != originalDataset);
+                if (hasDatasetChanged) {
+                    if (isCommittedDataset){
+                        this.page(1); // reset page as a new dataset has been supplied
+                    }
+                    isCommittedDataset = false;
+                    ngTableEventsChannel.publishDatasetChanged(this, newSettings.data, originalDataset);
+                }
                 log('ngTable: set settings', settings);
                 return this;
             }
@@ -150,8 +472,7 @@ app.factory('NgTableParams', ['$q', '$log', 'ngTableDefaults', function($q, $log
 
         /**
          * @ngdoc method
-         * @name ngTable.factory:NgTableParams#page
-         * @methodOf ngTable.factory:NgTableParams
+         * @name NgTableParams#page
          * @description If parameter page not set return current page else set current page
          *
          * @param {string} page Page number
@@ -165,8 +486,7 @@ app.factory('NgTableParams', ['$q', '$log', 'ngTableDefaults', function($q, $log
 
         /**
          * @ngdoc method
-         * @name ngTable.factory:NgTableParams#total
-         * @methodOf ngTable.factory:NgTableParams
+         * @name NgTableParams#total
          * @description If parameter total not set return current quantity else set quantity
          *
          * @param {string} total Total quantity of items
@@ -180,8 +500,7 @@ app.factory('NgTableParams', ['$q', '$log', 'ngTableDefaults', function($q, $log
 
         /**
          * @ngdoc method
-         * @name ngTable.factory:NgTableParams#count
-         * @methodOf ngTable.factory:NgTableParams
+         * @name NgTableParams#count
          * @description If parameter count not set return current count per page else set count per page
          *
          * @param {string} count Count per number
@@ -197,24 +516,40 @@ app.factory('NgTableParams', ['$q', '$log', 'ngTableDefaults', function($q, $log
 
         /**
          * @ngdoc method
-         * @name ngTable.factory:NgTableParams#filter
-         * @methodOf ngTable.factory:NgTableParams
-         * @description If parameter page not set return current filter else set current filter
+         * @name NgTableParams#filter
+         * @description If 'filter' parameter not set return current filter else set current filter
          *
-         * @param {string} filter New filter
+         * Note: when assigning a new filter, {@link NgTableParams#page page} will be set to 1
+         *
+         * @param {Object|Boolean} filter 'object': new filter to assign or
+         * 'true': to return the current filter minus any insignificant values (null,  undefined and empty string); or
+         * 'falsey': to return the current filter "as is"
          * @returns {Object} Current filter or `this`
          */
         this.filter = function(filter) {
-            return angular.isDefined(filter) ? this.parameters({
-                'filter': filter,
-                'page': 1
-            }) : params.filter;
+            if (angular.isDefined(filter) && angular.isObject(filter)) {
+                return this.parameters({
+                    'filter': filter,
+                    'page': 1
+                });
+            } else if (filter === true){
+                var keys = Object.keys(params.filter);
+                var significantFilter = {};
+                for (var i=0; i < keys.length; i++){
+                    var filterValue = params.filter[keys[i]];
+                    if (filterValue != null && filterValue !== '') {
+                        significantFilter[keys[i]] = filterValue;
+                    }
+                }
+                return significantFilter;
+            } else {
+                return params.filter;
+            }
         };
 
         /**
          * @ngdoc method
-         * @name ngTable.factory:NgTableParams#sorting
-         * @methodOf ngTable.factory:NgTableParams
+         * @name NgTableParams#sorting
          * @description If 'sorting' parameter is not set, return current sorting. Otherwise set current sorting.
          *
          * @param {string} sorting New sorting
@@ -236,22 +571,24 @@ app.factory('NgTableParams', ['$q', '$log', 'ngTableDefaults', function($q, $log
 
         /**
          * @ngdoc method
-         * @name ngTable.factory:NgTableParams#isSortBy
-         * @methodOf ngTable.factory:NgTableParams
+         * @name NgTableParams#isSortBy
          * @description Checks sort field
          *
          * @param {string} field     Field name
-         * @param {string} direction Direction of sorting 'asc' or 'desc'
+         * @param {string} direction Optional direction of sorting ('asc' or 'desc')
          * @returns {Array} Return true if field sorted by direction
          */
         this.isSortBy = function(field, direction) {
-            return angular.isDefined(params.sorting[field]) && angular.equals(params.sorting[field], direction);
+            if(direction !== undefined) {
+                return angular.isDefined(params.sorting[field]) && params.sorting[field] == direction;
+            } else {
+                return angular.isDefined(params.sorting[field]);
+            }
         };
 
         /**
          * @ngdoc method
-         * @name ngTable.factory:NgTableParams#orderBy
-         * @methodOf ngTable.factory:NgTableParams
+         * @name NgTableParams#orderBy
          * @description Return object of sorting parameters for angular filter
          *
          * @returns {Array} Array like: [ '-name', '+age' ]
@@ -266,32 +603,23 @@ app.factory('NgTableParams', ['$q', '$log', 'ngTableDefaults', function($q, $log
 
         /**
          * @ngdoc method
-         * @name ngTable.factory:NgTableParams#getData
-         * @methodOf ngTable.factory:NgTableParams
+         * @name NgTableParams#getData
          * @description Called when updated some of parameters for get new data
          *
-         * @param {Object} $defer promise object
          * @param {Object} params New parameters
          */
-        this.getData = function($defer, params) {
-            if (angular.isArray(this.data) && angular.isObject(params)) {
-                $defer.resolve(this.data.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-            } else {
-                $defer.resolve([]);
-            }
-            return $defer.promise;
+        this.getData = function(params) {
+            // note: this === settings
+            return ngTableDefaultGetData(this.data, params);
         };
 
         /**
          * @ngdoc method
-         * @name ngTable.factory:NgTableParams#getGroups
-         * @methodOf ngTable.factory:NgTableParams
+         * @name NgTableParams#getGroups
          * @description Return groups for table grouping
          */
-        this.getGroups = function($defer, column) {
-            var defer = $q.defer();
-
-            defer.promise.then(function(data) {
+        this.getGroups = function(column) {
+            return runGetData().then(function(data) {
                 var groups = {};
                 angular.forEach(data, function(item) {
                     var groupName = angular.isFunction(column) ? column(item) : item[column];
@@ -307,25 +635,33 @@ app.factory('NgTableParams', ['$q', '$log', 'ngTableDefaults', function($q, $log
                     result.push(groups[i]);
                 }
                 log('ngTable: refresh groups', result);
-                $defer.resolve(result);
+                return result;
             });
-            return this.getData(defer, self);
         };
 
         /**
          * @ngdoc method
-         * @name ngTable.factory:NgTableParams#generatePagesArray
-         * @methodOf ngTable.factory:NgTableParams
+         * @name NgTableParams#generatePagesArray
          * @description Generate array of pages
+         *
+         * When no arguments supplied, the current parameter state of this `NgTableParams` instance will be used
          *
          * @param {boolean} currentPage which page must be active
          * @param {boolean} totalItems  Total quantity of items
          * @param {boolean} pageSize    Quantity of items on page
+         * @param {number} maxBlocks    Quantity of blocks for pagination
          * @returns {Array} Array of pages
          */
-        this.generatePagesArray = function(currentPage, totalItems, pageSize) {
-            var maxBlocks, maxPage, maxPivotPages, minPage, numPages, pages;
-            maxBlocks = 11;
+        this.generatePagesArray = function(currentPage, totalItems, pageSize, maxBlocks) {
+            if (!arguments.length){
+                currentPage = this.page();
+                totalItems = this.total();
+                pageSize = this.count();
+            }
+
+            var maxPage, maxPivotPages, minPage, numPages, pages;
+            maxBlocks = maxBlocks && maxBlocks < 6 ? 6 : maxBlocks;
+
             pages = [];
             numPages = Math.ceil(totalItems / pageSize);
             if (numPages > 1) {
@@ -340,7 +676,7 @@ app.factory('NgTableParams', ['$q', '$log', 'ngTableDefaults', function($q, $log
                     active: currentPage > 1,
                     current: currentPage === 1
                 });
-                maxPivotPages = Math.round((maxBlocks - 5) / 2);
+                maxPivotPages = Math.round((settings.paginationMaxBlocks - settings.paginationMinBlocks) / 2);
                 minPage = Math.max(2, currentPage - maxPivotPages);
                 maxPage = Math.min(numPages - 1, currentPage + maxPivotPages * 2 - (currentPage - minPage));
                 minPage = Math.max(2, minPage - (maxPivotPages * 2 - (maxPage - minPage)));
@@ -378,8 +714,39 @@ app.factory('NgTableParams', ['$q', '$log', 'ngTableDefaults', function($q, $log
 
         /**
          * @ngdoc method
-         * @name ngTable.factory:NgTableParams#url
-         * @methodOf ngTable.factory:NgTableParams
+         * @name NgTableParams#isDataReloadRequired
+         * @description Return true when a change to this `NgTableParams` instance should require the reload method
+         * to be run so as to ensure the data presented to the user reflects the `NgTableParams`
+         */
+        this.isDataReloadRequired = function(){
+            // note: using != as want to treat null and undefined the same
+            return !isCommittedDataset || !angular.equals(params, committedParams);
+        };
+
+        /**
+         * @ngdoc method
+         * @name NgTableParams#hasFilter
+         * @description Determines if NgTableParams#filter has significant filter value(s)
+         * (any value except null, undefined, or empty string)
+         * @returns {Boolean} true when NgTableParams#filter has at least one significant field value
+         */
+        this.hasFilter = function(){
+            return Object.keys(this.filter(true)).length > 0;
+        };
+
+        /**
+         * @ngdoc method
+         * @name NgTableParams#hasFilterChanges
+         * @description Return true when a change to `NgTableParams.filters`require the reload method
+         * to be run so as to ensure the data presented to the user reflects these filters
+         */
+        this.hasFilterChanges = function(){
+            return !angular.equals((params && params.filter), (committedParams && committedParams.filter));
+        };
+
+        /**
+         * @ngdoc method
+         * @name NgTableParams#url
          * @description Return groups for table grouping
          *
          * @param {boolean} asString flag indicates return array of string or object
@@ -417,54 +784,86 @@ app.factory('NgTableParams', ['$q', '$log', 'ngTableDefaults', function($q, $log
 
         /**
          * @ngdoc method
-         * @name ngTable.factory:NgTableParams#reload
-         * @methodOf ngTable.factory:NgTableParams
+         * @name NgTableParams#reload
          * @description Reload table data
          */
         this.reload = function() {
-            var $defer = $q.defer(),
-                self = this,
+            var self = this,
                 pData = null;
 
-            if (!settings.$scope) {
-                return;
+            settings.$loading = true;
+
+            committedParams = angular.copy(params);
+            isCommittedDataset = true;
+
+            if (settings.groupBy) {
+                pData = runInterceptorPipeline(runGetGroups);
+            } else {
+                pData = runInterceptorPipeline(runGetData);
             }
 
-            settings.$loading = true;
-            if (settings.groupBy) {
-                pData = settings.getGroups($defer, settings.groupBy, this);
-            } else {
-                pData = settings.getData($defer, this);
-            }
             log('ngTable: reload data');
 
-            if (!pData) {
-                // If getData resolved the $defer, and didn't promise us data,
-                //   create a promise from the $defer. We need to return a promise.
-                pData = $defer.promise;
-            }
+            var oldData = self.data;
             return pData.then(function(data) {
                 settings.$loading = false;
-                log('ngTable: current scope', settings.$scope);
-                if (settings.groupBy) {
-                    self.data = data;
-                    if (settings.$scope) settings.$scope.$groups = data;
-                } else {
-                    self.data = data;
-                    if (settings.$scope) settings.$scope.$data = data;
+                self.data = data;
+                // note: I think it makes sense to publish this event even when data === oldData
+                // subscribers can always set a filter to only receive the event when data !== oldData
+                ngTableEventsChannel.publishAfterReloadData(self, data, oldData);
+                self.reloadPages();
+
+                // todo: remove after acceptable depreciation period
+                if (settings.$scope) {
+                    settings.$scope.$emit('ngTableAfterReloadData');
                 }
-                if (settings.$scope) settings.$scope.pages = self.generatePagesArray(self.page(), self.total(), self.count());
-                settings.$scope.$emit('ngTableAfterReloadData');
+
                 return data;
+            }).catch(function(reason){
+                committedParams = null;
+                isCommittedDataset = false;
+                // "rethrow"
+                return $q.reject(reason);
             });
         };
 
-        this.reloadPages = function() {
-            var self = this;
-            settings.$scope.pages = self.generatePagesArray(self.page(), self.total(), self.count());
-        };
+        this.reloadPages = (function() {
+            var currentPages;
+            return function(){
+                var oldPages = currentPages;
+                var newPages = self.generatePagesArray(self.page(), self.total(), self.count());
+                if (!angular.equals(oldPages, newPages)){
+                    currentPages = newPages;
+                    ngTableEventsChannel.publishPagesChanged(this, newPages, oldPages);
+                }
+            }
+        })();
 
-        var params = this.$params = {
+        function runGetData(){
+            var getDataFn = settings.getDataFnAdaptor(settings.getData);
+            return $q.when(getDataFn.call(settings, self));
+        }
+
+        function runGetGroups(){
+            var getGroupsFn = settings.getGroupsFnAdaptor(settings.getGroups);
+            return $q.when(getGroupsFn.call(settings, settings.groupBy, self));
+        }
+
+        function runInterceptorPipeline(fetchFn){
+            var interceptors = settings.interceptors || [];
+
+            return interceptors.reduce(function(result, interceptor){
+                var thenFn = (interceptor.response && interceptor.response.bind(interceptor)) || $q.when;
+                var rejectFn = (interceptor.responseError && interceptor.responseError.bind(interceptor)) || $q.reject;
+                return result.then(function(data){
+                    return thenFn(data, self);
+                }, function(reason){
+                    return rejectFn(reason, self);
+                });
+            }, fetchFn());
+        }
+
+        var params = {
             page: 1,
             count: 1,
             filter: {},
@@ -475,6 +874,7 @@ app.factory('NgTableParams', ['$q', '$log', 'ngTableDefaults', function($q, $log
         angular.extend(params, ngTableDefaults.params);
 
         var settings = {
+            // todo: remove $scope after acceptable depreciation period as no longer required
             $scope: null, // set by ngTable controller
             $loading: false,
             data: null, //allows data to be set when table is initialized
@@ -482,14 +882,22 @@ app.factory('NgTableParams', ['$q', '$log', 'ngTableDefaults', function($q, $log
             defaultSort: 'desc',
             filterDelay: 750,
             counts: [10, 25, 50, 100],
+            interceptors: [],
+            paginationMaxBlocks: 11,
+            paginationMinBlocks: 5,
             sortingIndicator: 'span',
+            getDataFnAdaptor: angular.identity,
+            getGroupsFnAdaptor: angular.identity,
             getGroups: this.getGroups,
             getData: this.getData
         };
-        angular.extend(settings, ngTableDefaults.settings);
 
+        this.settings(ngTableDefaults.settings);
         this.settings(baseSettings);
         this.parameters(baseParameters, true);
+
+        ngTableEventsChannel.publishAfterCreated(this);
+
         return this;
     };
     return NgTableParams;
@@ -497,7 +905,7 @@ app.factory('NgTableParams', ['$q', '$log', 'ngTableDefaults', function($q, $log
 
 /**
  * @ngdoc service
- * @name ngTable.factory:ngTableParams
+ * @name ngTableParams
  * @description Backwards compatible shim for lowercase 'n' in NgTableParams
  */
 app.factory('ngTableParams', ['NgTableParams', function(NgTableParams) {
@@ -512,16 +920,77 @@ app.factory('ngTableParams', ['NgTableParams', function(NgTableParams) {
  * @license New BSD License <http://creativecommons.org/licenses/BSD/>
  */
 
+(function(){
+    'use strict';
+
+    angular.module('ngTable')
+        .controller('ngTableFilterRowController', ngTableFilterRowController);
+
+    ngTableFilterRowController.$inject = ['$scope', 'ngTableFilterConfig'];
+
+    function ngTableFilterRowController($scope, ngTableFilterConfig){
+
+        $scope.config = ngTableFilterConfig;
+    }
+})();
+
+/**
+ * ngTable: Table + Angular JS
+ *
+ * @author Vitalii Savchuk <esvit666@gmail.com>
+ * @url https://github.com/esvit/ng-table/
+ * @license New BSD License <http://creativecommons.org/licenses/BSD/>
+ */
+
+(function(){
+    'use strict';
+
+    angular.module('ngTable')
+        .controller('ngTableSorterRowController', ngTableSorterRowController);
+
+    ngTableSorterRowController.$inject = ['$scope'];
+
+    function ngTableSorterRowController($scope){
+
+        $scope.sortBy = sortBy;
+
+        ///////////
+
+        function sortBy($column, event) {
+            var parsedSortable = $column.sortable && $column.sortable();
+            if (!parsedSortable) {
+                return;
+            }
+            var defaultSort = $scope.params.settings().defaultSort;
+            var inverseSort = (defaultSort === 'asc' ? 'desc' : 'asc');
+            var sorting = $scope.params.sorting() && $scope.params.sorting()[parsedSortable] && ($scope.params.sorting()[parsedSortable] === defaultSort);
+            var sortingParams = (event.ctrlKey || event.metaKey) ? $scope.params.sorting() : {};
+            sortingParams[parsedSortable] = (sorting ? inverseSort : defaultSort);
+            $scope.params.parameters({
+                sorting: sortingParams
+            });
+        }
+    }
+})();
+
+/**
+ * ngTable: Table + Angular JS
+ *
+ * @author Vitalii Savchuk <esvit666@gmail.com>
+ * @url https://github.com/esvit/ng-table/
+ * @license New BSD License <http://creativecommons.org/licenses/BSD/>
+ */
+
 /**
  * @ngdoc object
- * @name ngTable.directive:ngTable.ngTableController
+ * @name ngTableController
  *
  * @description
- * Each {@link ngTable.directive:ngTable ngTable} directive creates an instance of `ngTableController`
+ * Each {@link ngTable ngTable} directive creates an instance of `ngTableController`
  */
 app.controller('ngTableController', ['$scope', 'NgTableParams', '$timeout', '$parse', '$compile', '$attrs', '$element',
-    'ngTableColumn',
-function($scope, NgTableParams, $timeout, $parse, $compile, $attrs, $element, ngTableColumn) {
+    'ngTableColumn', 'ngTableEventsChannel',
+function($scope, NgTableParams, $timeout, $parse, $compile, $attrs, $element, ngTableColumn, ngTableEventsChannel) {
     var isFirstTimeLoad = true;
     $scope.$filterRow = {};
     $scope.$loading = false;
@@ -530,8 +999,7 @@ function($scope, NgTableParams, $timeout, $parse, $compile, $attrs, $element, ng
     // the params field only consults the "own properties" of the $scope. This is to avoid seeing the params
     // field on a $scope higher up in the prototype chain
     if (!$scope.hasOwnProperty("params")) {
-        $scope.params = new NgTableParams();
-        $scope.params.isNullInstance = true;
+        $scope.params = new NgTableParams(true);
     }
     $scope.params.settings().$scope = $scope;
 
@@ -543,33 +1011,43 @@ function($scope, NgTableParams, $timeout, $parse, $compile, $attrs, $element, ng
         };
     })();
 
-    function resetPage() {
-        $scope.params.$params.page = 1;
-    }
-
-    $scope.$watch('params.$params', function(newParams, oldParams) {
-
-        if (newParams === oldParams) {
+    function onDataReloadStatusChange (newStatus/*, oldStatus*/) {
+        if (!newStatus) {
             return;
         }
 
         $scope.params.settings().$scope = $scope;
 
-        if (!angular.equals(newParams.filter, oldParams.filter)) {
-            var maybeResetPage = isFirstTimeLoad ? angular.noop : resetPage;
-            delayFilter(function() {
-                maybeResetPage();
-                $scope.params.reload();
-            }, $scope.params.settings().filterDelay);
+        var currentParams = $scope.params;
+
+        if (currentParams.hasFilterChanges()) {
+            var applyFilter = function () {
+                currentParams.page(1);
+                currentParams.reload();
+            };
+            if (currentParams.settings().filterDelay) {
+                delayFilter(applyFilter, currentParams.settings().filterDelay);
+            } else {
+                applyFilter();
+            }
         } else {
-            $scope.params.reload();
+            currentParams.reload();
+        }
+    }
+
+    // watch for when a new NgTableParams is bound to the scope
+    // CRITICAL: the watch must be for reference and NOT value equality; this is because NgTableParams maintains
+    // the current data page as a field. Checking this for value equality would be terrible for performance
+    // and potentially cause an error if the items in that array has circular references
+    $scope.$watch('params', function(newParams, oldParams){
+        if (newParams === oldParams || !newParams) {
+            return;
         }
 
-        if (!$scope.params.isNullInstance) {
-            isFirstTimeLoad = false;
-        }
+        newParams.reload();
+    }, false);
 
-    }, true);
+    $scope.$watch('params.isDataReloadRequired()', onDataReloadStatusChange);
 
     this.compileDirectiveTemplates = function () {
         if (!$element.hasClass('ng-table')) {
@@ -579,7 +1057,15 @@ function($scope, NgTableParams, $timeout, $parse, $compile, $attrs, $element, ng
             };
             $element.addClass('ng-table');
             var headerTemplate = null;
-            if ($element.find('> thead').length === 0) {
+
+            // $element.find('> thead').length === 0 doesn't work on jqlite
+            var theadFound = false;
+            angular.forEach($element.children(), function(e) {
+                if (e.tagName === 'THEAD') {
+                    theadFound = true;
+                }
+            });
+            if (!theadFound) {
                 headerTemplate = angular.element(document.createElement('thead')).attr('ng-include', 'templates.header');
                 $element.prepend(headerTemplate);
             }
@@ -616,7 +1102,7 @@ function($scope, NgTableParams, $timeout, $parse, $compile, $attrs, $element, ng
                         data = [];
                     } else if (angular.isArray(data)) {
                         data.unshift({
-                            title: '-',
+                            title: '',
                             id: ''
                         });
                     }
@@ -634,6 +1120,18 @@ function($scope, NgTableParams, $timeout, $parse, $compile, $attrs, $element, ng
         return columns.map(function(col){
             return ngTableColumn.buildColumn(col, $scope)
         })
+    };
+
+    this.parseNgTableDynamicExpr = function (attr) {
+        if (!attr || attr.indexOf(" with ") > -1) {
+            var parts = attr.split(/\s+with\s+/);
+            return {
+                tableParams: parts[0],
+                columns: parts[1]
+            };
+        } else {
+            throw new Error('Parse error (expected example: ng-table-dynamic=\'tableParams with cols\')');
+        }
     };
 
     this.setupBindingsToInternalScope = function(tableParamsExpr){
@@ -664,29 +1162,39 @@ function($scope, NgTableParams, $timeout, $parse, $compile, $attrs, $element, ng
         }
     };
 
-    $scope.sortBy = function($column, event) {
-        var parsedSortable = $column.sortable && $column.sortable();
-        if (!parsedSortable) {
-            return;
+
+
+    function commonInit(){
+        ngTableEventsChannel.onAfterReloadData(bindDataToScope, $scope, isMyPublisher);
+        ngTableEventsChannel.onPagesChanged(bindPagesToScope, $scope, isMyPublisher);
+
+        function bindDataToScope(params, newDatapage){
+            if (params.settings().groupBy) {
+                $scope.$groups = newDatapage;
+            } else {
+                $scope.$data = newDatapage;
+            }
         }
-        var defaultSort = $scope.params.settings().defaultSort;
-        var inverseSort = (defaultSort === 'asc' ? 'desc' : 'asc');
-        var sorting = $scope.params.sorting() && $scope.params.sorting()[parsedSortable] && ($scope.params.sorting()[parsedSortable] === defaultSort);
-        var sortingParams = (event.ctrlKey || event.metaKey) ? $scope.params.sorting() : {};
-        sortingParams[parsedSortable] = (sorting ? inverseSort : defaultSort);
-        $scope.params.parameters({
-            sorting: sortingParams
-        });
-    };
+
+        function bindPagesToScope(params, newPages){
+            $scope.pages = newPages
+        }
+
+        function isMyPublisher(publisher){
+            return $scope.params === publisher;
+        }
+    }
+
+    commonInit();
 }]);
 
 
 /**
  * @ngdoc service
- * @name ngTable.factory:ngTableColumn
- *
+ * @name ngTableColumn
+ * @module ngTable
  * @description
- * Service to construct a $column definition used by {@link ngTable.directive:ngTable ngTable} directive
+ * Service to construct a $column definition used by {@link ngTable ngTable} directive
  */
 app.factory('ngTableColumn', [function () {
 
@@ -704,8 +1212,7 @@ app.factory('ngTableColumn', [function () {
 
     /**
      * @ngdoc method
-     * @name ngTable.factory:ngTableColumn#buildColumn
-     * @methodOf ngTable.factory:ngTableColumn
+     * @name ngTableColumn#buildColumn
      * @description Creates a $column for use within a header template
      *
      * @param {Object} column an existing $column or simple column data object
@@ -760,11 +1267,12 @@ app.factory('ngTableColumn', [function () {
 
 /**
  * @ngdoc directive
- * @name ngTable.directive:ngTable
+ * @name ngTable
+ * @module ngTable
  * @restrict A
  *
  * @description
- * Directive that instantiates {@link ngTable.directive:ngTable.ngTableController ngTableController}.
+ * Directive that instantiates {@link ngTableController ngTableController}.
  */
 app.directive('ngTable', ['$q', '$parse',
     function($q, $parse) {
@@ -828,8 +1336,8 @@ app.directive('ngTable', ['$q', '$parse',
                         filter: parsedAttribute('filter'),
                         headerTemplateURL: parsedAttribute('header'),
                         filterData: parsedAttribute('filter-data'),
-                        show: (el.attr("ng-show") ? function (scope) {
-                            return $parse(el.attr("ng-show"))(scope);
+                        show: (el.attr("ng-if") ? function (scope) {
+                            return $parse(el.attr("ng-if"))(scope);
                         } : undefined)
                     });
                 });
@@ -847,26 +1355,15 @@ app.directive('ngTable', ['$q', '$parse',
 
 /**
  * @ngdoc directive
- * @name ngTable.directive:ngTableDynamic
+ * @name ngTableDynamic
+ * @module ngTable
  * @restrict A
  *
  * @description
- * A dynamic version of the {@link ngTable.directive:ngTable ngTable} directive that accepts a dynamic list of columns
+ * A dynamic version of the {@link ngTable ngTable} directive that accepts a dynamic list of columns
  * definitions to render
  */
 app.directive('ngTableDynamic', ['$parse', function ($parse){
-
-    function parseDirectiveExpression(attr) {
-        if (!attr || attr.indexOf(" with ") > -1) {
-            var parts = attr.split(/\s+with\s+/);
-            return {
-                tableParams: parts[0],
-                columns: parts[1]
-            };
-        } else {
-            throw new Error('Parse error (expected example: ng-table-dynamic=\'tableParams with cols\')');
-        }
-    }
 
     return {
         restrict: 'A',
@@ -898,24 +1395,65 @@ app.directive('ngTableDynamic', ['$parse', function ($parse){
                 if (!titleExpr){
                     el.attr('data-title-text', '{{$columns[$index].titleAlt(this) || $columns[$index].title(this)}}');
                 }
-                var showExpr = el.attr('ng-show');
+                var showExpr = el.attr('ng-if');
                 if (!showExpr){
-                    el.attr('ng-show', '$columns[$index].show(this)');
+                    el.attr('ng-if', '$columns[$index].show(this)');
                 }
             });
-
-            return function(scope, element, attrs, controller) {
-                var expr = parseDirectiveExpression(attrs.ngTableDynamic);
-                var columns = $parse(expr.columns)(scope) || [];
-                scope.$columns = controller.buildColumns(columns);
+            return function (scope, element, attrs, controller) {
+                var expr = controller.parseNgTableDynamicExpr(attrs.ngTableDynamic);
 
                 controller.setupBindingsToInternalScope(expr.tableParams);
-                controller.loadFilterData(scope.$columns);
                 controller.compileDirectiveTemplates();
+
+                scope.$watchCollection(expr.columns, function (newCols/*, oldCols*/) {
+                    scope.$columns = controller.buildColumns(newCols);
+                    controller.loadFilterData(scope.$columns);
+                });
             };
         }
     };
 }]);
+
+(function(){
+    'use strict';
+
+    angular.module('ngTable')
+        .directive('ngTableFilterRow', ngTableFilterRow);
+
+    ngTableFilterRow.$inject = [];
+
+    function ngTableFilterRow(){
+        var directive = {
+            restrict: 'E',
+            replace: true,
+            templateUrl: 'ng-table/filterRow.html',
+            scope: true,
+            controller: 'ngTableFilterRowController'
+        };
+        return directive;
+    }
+})();
+
+(function(){
+    'use strict';
+
+    angular.module('ngTable')
+        .directive('ngTableSorterRow', ngTableSorterRow);
+
+    ngTableSorterRow.$inject = [];
+
+    function ngTableSorterRow(){
+        var directive = {
+            restrict: 'E',
+            replace: true,
+            templateUrl: 'ng-table/sorterRow.html',
+            scope: true,
+            controller: 'ngTableSorterRowController'
+        };
+        return directive;
+    }
+})();
 
 /**
  * ngTable: Table + Angular JS
@@ -927,11 +1465,12 @@ app.directive('ngTableDynamic', ['$parse', function ($parse){
 
 /**
  * @ngdoc directive
- * @name ngTable.directive:ngTablePagination
+ * @name ngTablePagination
+ * @module ngTable
  * @restrict A
  */
-app.directive('ngTablePagination', ['$compile',
-    function($compile) {
+app.directive('ngTablePagination', ['$compile', 'ngTableEventsChannel',
+    function($compile, ngTableEventsChannel) {
         'use strict';
 
         return {
@@ -941,17 +1480,19 @@ app.directive('ngTablePagination', ['$compile',
                 'templateUrl': '='
             },
             replace: false,
-            link: function(scope, element, attrs) {
+            link: function(scope, element/*, attrs*/) {
 
-                scope.params.settings().$scope.$on('ngTableAfterReloadData', function() {
-                    scope.pages = scope.params.generatePagesArray(scope.params.page(), scope.params.total(), scope.params.count());
-                }, true);
+                ngTableEventsChannel.onAfterReloadData(function(pubParams) {
+                    scope.pages = pubParams.generatePagesArray();
+                }, scope, function(pubParams){
+                    return pubParams === scope.params;
+                });
 
                 scope.$watch('templateUrl', function(templateUrl) {
                     if (angular.isUndefined(templateUrl)) {
                         return;
                     }
-                    var template = angular.element(document.createElement('div'))
+                    var template = angular.element(document.createElement('div'));
                     template.attr({
                         'ng-include': 'templateUrl'
                     });
@@ -962,12 +1503,16 @@ app.directive('ngTablePagination', ['$compile',
         };
     }
 ]);
+
 angular.module('ngTable').run(['$templateCache', function ($templateCache) {
-	$templateCache.put('ng-table/filters/select-multiple.html', '<select ng-options="data.id as data.title for data in $column.data" ng-disabled="$filterRow.disabled" multiple ng-multiple="true" ng-model="params.filter()[name]" ng-show="filter==\'select-multiple\'" class="filter filter-select-multiple form-control" name="{{name}}"> </select>');
-	$templateCache.put('ng-table/filters/select.html', '<select ng-options="data.id as data.title for data in $column.data" ng-disabled="$filterRow.disabled" ng-model="params.filter()[name]" ng-show="filter==\'select\'" class="filter filter-select form-control" name="{{name}}"> </select>');
-	$templateCache.put('ng-table/filters/text.html', '<input type="text" name="{{name}}" ng-disabled="$filterRow.disabled" ng-model="params.filter()[name]" ng-if="filter==\'text\'" class="input-filter form-control"/>');
-	$templateCache.put('ng-table/header.html', '<tr> <th title="{{$column.headerTitle(this)}}" ng-repeat="$column in $columns" ng-class="{ \'sortable\': $column.sortable(this), \'sort-asc\': params.sorting()[$column.sortable(this)]==\'asc\', \'sort-desc\': params.sorting()[$column.sortable(this)]==\'desc\' }" ng-click="sortBy($column, $event)" ng-show="$column.show(this)" ng-init="template=$column.headerTemplateURL(this)" class="header {{$column.class(this)}}"> <div ng-if="!template" ng-show="!template" class="ng-table-header" ng-class="{\'sort-indicator\': params.settings().sortingIndicator==\'div\'}"> <span ng-bind="$column.title(this)" ng-class="{\'sort-indicator\': params.settings().sortingIndicator==\'span\'}"></span> </div> <div ng-if="template" ng-show="template" ng-include="template"></div> </th> </tr> <tr ng-show="show_filter" class="ng-table-filters"> <th data-title-text="{{$column.titleAlt(this) || $column.title(this)}}" ng-repeat="$column in $columns" ng-show="$column.show(this)" class="filter"> <div ng-repeat="(name, filter) in $column.filter(this)"> <div ng-if="filter.indexOf(\'/\') !==-1" ng-include="filter"></div> <div ng-if="filter.indexOf(\'/\')===-1" ng-include="\'ng-table/filters/\' + filter + \'.html\'"></div> </div> </th> </tr> ');
+	$templateCache.put('ng-table/filterRow.html', '<tr ng-show="show_filter" class="ng-table-filters"> <th data-title-text="{{$column.titleAlt(this) || $column.title(this)}}" ng-repeat="$column in $columns" ng-if="$column.show(this)" class="filter"> <div ng-repeat="(name, filter) in $column.filter(this)"> <div ng-include="config.getTemplateUrl(filter)"></div> </div> </th> </tr> ');
+	$templateCache.put('ng-table/filters/number.html', '<input type="number" name="{{name}}" ng-disabled="$filterRow.disabled" ng-model="params.filter()[name]" class="input-filter form-control"/> ');
+	$templateCache.put('ng-table/filters/select-multiple.html', '<select ng-options="data.id as data.title for data in $column.data" ng-disabled="$filterRow.disabled" multiple ng-multiple="true" ng-model="params.filter()[name]" class="filter filter-select-multiple form-control" name="{{name}}"> </select> ');
+	$templateCache.put('ng-table/filters/select.html', '<select ng-options="data.id as data.title for data in $column.data" ng-disabled="$filterRow.disabled" ng-model="params.filter()[name]" class="filter filter-select form-control" name="{{name}}"> <option style="display:none" value=""></option> </select> ');
+	$templateCache.put('ng-table/filters/text.html', '<input type="text" name="{{name}}" ng-disabled="$filterRow.disabled" ng-model="params.filter()[name]" class="input-filter form-control"/> ');
+	$templateCache.put('ng-table/header.html', '<ng-table-sorter-row></ng-table-sorter-row> <ng-table-filter-row></ng-table-filter-row> ');
 	$templateCache.put('ng-table/pager.html', '<div class="ng-cloak ng-table-pager" ng-if="params.data.length"> <div ng-if="params.settings().counts.length" class="ng-table-counts btn-group pull-right"> <button ng-repeat="count in params.settings().counts" type="button" ng-class="{\'active\':params.count()==count}" ng-click="params.count(count)" class="btn btn-default"> <span ng-bind="count"></span> </button> </div> <ul class="pagination ng-table-pagination"> <li ng-class="{\'disabled\': !page.active && !page.current, \'active\': page.current}" ng-repeat="page in pages" ng-switch="page.type"> <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;</a> <a ng-switch-when="first" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a> <a ng-switch-when="page" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a> <a ng-switch-when="more" ng-click="params.page(page.number)" href="">&#8230;</a> <a ng-switch-when="last" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a> <a ng-switch-when="next" ng-click="params.page(page.number)" href="">&raquo;</a> </li> </ul> </div> ');
+	$templateCache.put('ng-table/sorterRow.html', '<tr> <th title="{{$column.headerTitle(this)}}" ng-repeat="$column in $columns" ng-class="{ \'sortable\': $column.sortable(this), \'sort-asc\': params.sorting()[$column.sortable(this)]==\'asc\', \'sort-desc\': params.sorting()[$column.sortable(this)]==\'desc\' }" ng-click="sortBy($column, $event)" ng-if="$column.show(this)" ng-init="template=$column.headerTemplateURL(this)" class="header {{$column.class(this)}}"> <div ng-if="!template" class="ng-table-header" ng-class="{\'sort-indicator\': params.settings().sortingIndicator==\'div\'}"> <span ng-bind="$column.title(this)" ng-class="{\'sort-indicator\': params.settings().sortingIndicator==\'span\'}"></span> </div> <div ng-if="template" ng-include="template"></div> </th> </tr> ');
 }]);
     return app;
 }));
