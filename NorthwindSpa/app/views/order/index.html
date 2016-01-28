@@ -9,6 +9,40 @@
 </p>
 
 <br />
+<br />
+
+<div class="container">
+    <div class="row">
+        <form class="form-inline" role="form" method="get">
+            <div class="form-group">
+                <input type="text" name="orderID" size="5" class="form-control" placeholder="Order #" value="" />
+            </div>
+            <div class="form-group">
+                <input type="text" name="customer" class="form-control" placeholder="Customer" value="" />
+            </div>
+            <div class="form-group">
+                <input type="text" name="employee" class="form-control" placeholder="Employee" value="" />
+            </div>
+            <div class="form-group">
+                <input type="text" name="shipper" class="form-control" placeholder="Shipper" value="" />
+            </div>
+            <div class="form-group">
+                <select id="pageSize" name="pageSize" class="form-control list-box tri-state">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary glyphicon glyphicon-search" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<br />
+<br />
 
 <table class="table" ng-table="vm.tableParams">
     <tr ng-repeat="order in $data">

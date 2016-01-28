@@ -121,6 +121,10 @@
             }
         };
 
+        vm.remove = function (index) {
+            vm.order.orderSummaries.splice(index, 1);
+        };
+
         vm.create = function () {
             uow.orderRepository.post(vm.order).then(function (result) {
                 vm.orderResult = result.data;
