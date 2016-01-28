@@ -13,7 +13,7 @@
             <label for="supplierID" class="control-label col-md-2">Supplier</label>
             <div class="col-md-10">
                 <select ng-model="result.model.supplierID" class="form-control">
-                    <option ng-repeat="supplier in supplierResult.model" value="{{ supplier.supplierID }}">{{ supplier.companyName }}</option>
+                    <option ng-repeat="supplier in supplierResult.model" ng-selected="result.model.supplierID == supplier.supplierID" value="{{ supplier.supplierID }}">{{ supplier.companyName }}</option>
                 </select>
             </div>
         </div>
@@ -22,7 +22,7 @@
             <label for="categoryID" class="control-label col-md-2">Category</label>
             <div class="col-md-10">
                 <select ng-model="result.model.categoryID" class="form-control">
-                    <option ng-repeat="category in categoryResult.model" value="{{ category.categoryID }}">{{ category.categoryName }}</option>
+                    <option ng-repeat="category in categoryResult.model" ng-selected="result.model.categoryID == category.categoryID" value="{{ category.categoryID }}">{{ category.categoryName }}</option>
                 </select>
             </div>
         </div>

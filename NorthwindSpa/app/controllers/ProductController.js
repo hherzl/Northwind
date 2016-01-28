@@ -87,19 +87,19 @@
     function EditProductController($scope, $location, $routeParams, uow) {
         $scope.result = {};
 
+        $scope.supplierResult = {};
+        $scope.categoryResult = {};
+
+        uow.supplierRepository.get().then(function (result) {
+            $scope.supplierResult = result.data;
+        });
+
+        uow.categoryRepository.get().then(function (result) {
+            $scope.categoryResult = result.data;
+        });
+
         uow.productRepository.get($routeParams.id).then(function (result) {
             $scope.result = result.data;
-
-            $scope.supplierResult = {};
-            $scope.categoryResult = {};
-
-            uow.supplierRepository.get().then(function (result) {
-                $scope.supplierResult = result.data;
-            });
-
-            uow.categoryRepository.get().then(function (result) {
-                $scope.categoryResult = result.data;
-            });
         });
 
         $scope.edit = function (id) {
