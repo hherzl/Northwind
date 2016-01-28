@@ -13,8 +13,10 @@
 
         $routeProvider
             .when("/", {
-                templateUrl: base + "home.html",
-                controller: "HomeController"
+                templateUrl: base + "supplier/index.html",
+                controller: "SupplierController"
+                //templateUrl: base + "home.html",
+                //controller: "HomeController"
             })
 
             .when("/supplier", {

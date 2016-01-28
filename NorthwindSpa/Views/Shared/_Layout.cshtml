@@ -1,13 +1,14 @@
 ﻿<!DOCTYPE html>
-<html>
+<html ng-app="northwindApp">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Northwind SPA</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/angular")
     @Scripts.Render("~/bundles/modernizr")
 </head>
-<body>
+<body ng-controller="HomeController">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -16,27 +17,42 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Northwind SPA", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li><a href="#supplier">Suppliers</a></li>
+                    <li><a href="#category">Categories</a></li>
+                    <li><a href="#product">Products</a></li>
+                    <li><a href="#shipper">Shippers</a></li>
+                    <li><a href="#region">Regions</a></li>
+                    <li><a href="#employee">Employees</a></li>
+                    <li><a href="#customer">Customers</a></li>
+                    <li><a href="#order">Orders</a></li>
                 </ul>
             </div>
         </div>
     </div>
+
     <div class="container body-content">
         @RenderBody()
+
         <hr />
+
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Northwind SPA</p>
         </footer>
     </div>
 
+    <toaster-container></toaster-container>
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/angular-components")
+    @Scripts.Render("~/bundles/app")
+    @Scripts.Render("~/bundles/services")
+    @Scripts.Render("~/bundles/controllers")
     @RenderSection("scripts", required: false)
 </body>
 </html>
