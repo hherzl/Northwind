@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
 
 namespace Northwind.Core.DataLayer
 {
     public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        protected DbContext DbCtx;
+        protected DbContext DbContext;
         protected DbSet<TEntity> DbSet;
 
         public Repository(DbContext dbContext)
         {
-            DbCtx = dbContext;
+            DbContext = dbContext;
 
-            DbSet = DbCtx.Set<TEntity>();
+            DbSet = DbContext.Set<TEntity>();
         }
 
         public virtual IEnumerable<TEntity> GetAll()
@@ -29,7 +28,7 @@ namespace Northwind.Core.DataLayer
 
         public virtual void Add(TEntity entity)
         {
-            var dbEntityEntry = DbCtx.Entry(entity);
+            var dbEntityEntry = DbContext.Entry(entity);
 
             if (dbEntityEntry.State != EntityState.Detached)
             {
@@ -43,7 +42,7 @@ namespace Northwind.Core.DataLayer
 
         public virtual void Update(TEntity entity)
         {
-            var dbEntityEntry = DbCtx.Entry(entity);
+            var dbEntityEntry = DbContext.Entry(entity);
 
             if (dbEntityEntry.State == EntityState.Detached)
             {
@@ -55,7 +54,7 @@ namespace Northwind.Core.DataLayer
 
         public virtual void Remove(TEntity entity)
         {
-            var dbEntityEntry = DbCtx.Entry(entity);
+            var dbEntityEntry = DbContext.Entry(entity);
 
             if (dbEntityEntry.State == EntityState.Deleted)
             {

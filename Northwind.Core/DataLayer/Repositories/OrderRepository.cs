@@ -16,10 +16,10 @@ namespace Northwind.Core.DataLayer.Repositories
 
         public IEnumerable<OrderSummary> GetSummaries()
         {
-            return from order in DbCtx.Set<Order>()
-                   join customer in DbCtx.Set<Customer>() on order.CustomerID equals customer.CustomerID
-                   join employee in DbCtx.Set<Employee>() on order.EmployeeID equals employee.EmployeeID
-                   join shipper in DbCtx.Set<Shipper>() on order.ShipVia equals shipper.ShipperID
+            return from order in DbContext.Set<Order>()
+                   join customer in DbContext.Set<Customer>() on order.CustomerID equals customer.CustomerID
+                   join employee in DbContext.Set<Employee>() on order.EmployeeID equals employee.EmployeeID
+                   join shipper in DbContext.Set<Shipper>() on order.ShipVia equals shipper.ShipperID
                    select new OrderSummary()
                    {
                        OrderID = order.OrderID,
