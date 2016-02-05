@@ -5,124 +5,130 @@
     angular.module("northwindApp").controller("CreateProductController", CreateProductController);
     angular.module("northwindApp").controller("EditProductController", EditProductController);
 
-    ProductController.$inject = ["$log", "$scope", "$location", "$routeParams", "toaster", "ngTableParams", "$filter", "UnitOfWork"];
-    CreateProductController.$inject = ["$scope", "$location", "UnitOfWork"];
-    EditProductController.$inject = ["$scope", "$location", "$routeParams", "UnitOfWork"];
+    ProductController.$inject = ["$log", "$location", "$routeParams", "toaster", "ngTableParams", "$filter", "UnitOfWork"];
+    CreateProductController.$inject = ["$log", "$location", "UnitOfWork"];
+    EditProductController.$inject = ["$log", "$location", "$routeParams", "UnitOfWork"];
 
-    function ProductController($log, $scope, $location, $routeParams, toaster, ngTableParams, $filter, uow) {
-        $scope.productName = " ";
-        $scope.supplierID = " ";
-        $scope.categoryID = " ";
-        $scope.result = {};
+    function ProductController($log, $location, $routeParams, toaster, ngTableParams, $filter, uow) {
+        var vm = this;
 
-        uow.productRepository.get("", $scope.productName, $scope.supplierID, $scope.categoryID).then(function (result) {
-            $scope.result = result.data;
+        vm.productName = " ";
+        vm.supplierID = " ";
+        vm.categoryID = " ";
+        vm.result = {};
 
-            if (!$scope.result.didError) {
+        uow.productRepository.get("", vm.productName, vm.supplierID, vm.categoryID).then(function (result) {
+            vm.result = result.data;
+
+            if (!vm.result.didError) {
                 toaster.pop("success", "Message", "Products data was loaded successfully!");
             }
 
-            $scope.tableParams = new ngTableParams({
+            vm.tableParams = new ngTableParams({
                 page: 1,
                 count: 10,
                 sorting: {
                     name: "asc"
                 }
             }, {
-                total: $scope.result.model.length,
+                total: vm.result.model.length,
                 getData: function ($defer, params) {
-                    var orderedData = params.sorting() ? $filter("orderBy")($scope.result.model, params.orderBy()) : $scope.result.model;
+                    var orderedData = params.sorting() ? $filter("orderBy")(vm.result.model, params.orderBy()) : vm.result.model;
 
                     $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
                 }
             });
         });
 
-        $scope.create = function () {
+        vm.create = function () {
             $location.path("/product-create");
         };
 
-        $scope.details = function (entity) {
+        vm.details = function (entity) {
             $location.path("/product-details/" + entity.productID);
         };
 
-        $scope.edit = function (entity) {
+        vm.edit = function (entity) {
             $location.path("product-edit/" + entity.productID);
         };
 
-        $scope.delete = function (entity) {
+        vm.delete = function (entity) {
             $location.path("/product-delete/" + entity.productID);
         };
     };
 
-    function CreateProductController($scope, $location, uow) {
-        $scope.result = {};
+    function CreateProductController($log, $location, uow) {
+        var vm = this;
 
-        $scope.supplierResult = {};
-        $scope.categoryResult = {};
+        vm.result = {};
+
+        vm.supplierResult = {};
+        vm.categoryResult = {};
 
         uow.supplierRepository.get().then(function (result) {
-            $scope.supplierResult = result.data;
+            vm.supplierResult = result.data;
         });
 
         uow.categoryRepository.get().then(function (result) {
-            $scope.categoryResult = result.data;
+            vm.categoryResult = result.data;
         });
 
-        $scope.create = function () {
-            uow.productRepository.post($scope.result.model).then(function (result) {
+        vm.create = function () {
+            uow.productRepository.post(vm.result.model).then(function (result) {
                 if (result.data.didError) {
-                    $scope.result = result.data;
+                    vm.result = result.data;
                 } else {
                     $location.path("/product");
                 }
             });
         };
 
-        $scope.cancel = function () {
+        vm.cancel = function () {
             $location.path("/product");
         };
     };
 
-    function EditProductController($scope, $location, $routeParams, uow) {
-        $scope.result = {};
+    function EditProductController($log, $location, $routeParams, uow) {
+        var vm = this;
 
-        $scope.supplierResult = {};
-        $scope.categoryResult = {};
+        vm.result = {};
+
+        vm.supplierResult = {};
+        vm.categoryResult = {};
 
         uow.supplierRepository.get().then(function (result) {
-            $scope.supplierResult = result.data;
+            vm.supplierResult = result.data;
         });
 
         uow.categoryRepository.get().then(function (result) {
-            $scope.categoryResult = result.data;
+            vm.categoryResult = result.data;
         });
 
         uow.productRepository.get($routeParams.id).then(function (result) {
-            $scope.result = result.data;
+            vm.result = result.data;
         });
 
-        $scope.edit = function (id) {
+        vm.edit = function (id) {
             $location.path("/product-edit/" + id);
         };
 
-        $scope.update = function () {
-            productService.update($scope.result.model).then(function (result) {
+        vm.update = function () {
+            productService.update(vm.result.model).then(function (result) {
                 if (result.data.didError) {
-                    $scope.result = result.data;
+                    vm.result = result.data;
                 } else {
                     $location.path("/product");
                 }
             });
         };
 
-        $scope.delete = function () {
-            uow.productRepository.delete($scope.result.model.productID, $scope.result.model);
+        vm.delete = function () {
+            uow.productRepository.delete(vm.result.model.productID, vm.result.model);
 
             $location.path("/products");
         };
 
-        $scope.cancel = function () {
+        vm.cancel = function () {
             $location.path("/product");
         };
     };

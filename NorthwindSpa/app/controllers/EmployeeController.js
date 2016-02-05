@@ -3,49 +3,51 @@
 
     angular.module("northwindApp").controller("EmployeeController", EmployeeController);
 
-    EmployeeController.$inject = ["$log", "$scope", "$location", "$routeParams", "toaster", "ngTableParams", "$filter", "UnitOfWork"];
+    EmployeeController.$inject = ["$log", "$location", "$routeParams", "toaster", "ngTableParams", "$filter", "UnitOfWork"];
 
-    function EmployeeController($log, $scope, $location, $routeParams, toaster, ngTableParams, $filter, uow) {
+    function EmployeeController($log, $location, $routeParams, toaster, ngTableParams, $filter, uow) {
+        var vm = this;
+
         toaster.pop("wait", "Message", "Loading Regions...");
 
-        $scope.result = {};
+        vm.result = {};
 
         uow.employeeRepository.get().then(function (result) {
-            $scope.result = result.data;
+            vm.result = result.data;
 
-            if (!$scope.result.didError) {
+            if (!vm.result.didError) {
                 toaster.pop("success", "Message", "Employees data was loaded successfully!");
             }
 
-            $scope.tableParams = new ngTableParams({
+            vm.tableParams = new ngTableParams({
                 page: 1,
                 count: 10,
                 sorting: {
                     name: "asc"
                 }
             }, {
-                total: $scope.result.model.length,
+                total: vm.result.model.length,
                 getData: function ($defer, params) {
-                    var orderedData = params.sorting() ? $filter("orderBy")($scope.result.model, params.orderBy()) : $scope.result.model;
+                    var orderedData = params.sorting() ? $filter("orderBy")(vm.result.model, params.orderBy()) : vm.result.model;
 
                     $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
                 }
             });
         });
 
-        $scope.create = function () {
+        vm.create = function () {
             $location.path("/employee-create");
         };
 
-        $scope.details = function (id) {
+        vm.details = function (id) {
             $location.path("/employee-details/" + id);
         };
 
-        $scope.edit = function (id) {
+        vm.edit = function (id) {
             $location.path("employee-edit/" + id);
         };
 
-        $scope.delete = function (id) {
+        vm.delete = function (id) {
             $location.path("/employee-delete/" + id);
         };
     };

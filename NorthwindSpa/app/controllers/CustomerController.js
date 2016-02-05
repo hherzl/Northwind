@@ -5,95 +5,101 @@
     angular.module("northwindApp").controller("CreateCustomerController", CreateCustomerController);
     angular.module("northwindApp").controller("EditCustomerController", EditCustomerController);
 
-    CustomerController.$inject = ["$log", "$scope", "$location", "$routeParams", "ngTableParams", "$filter", "UnitOfWork"];
-    CreateCustomerController.$inject = ["$scope", "$location", "UnitOfWork"];
-    EditCustomerController.$inject = ["$scope", "$location", "$routeParams", "UnitOfWork"];
+    CustomerController.$inject = ["$log", "$location", "$routeParams", "ngTableParams", "$filter", "UnitOfWork"];
+    CreateCustomerController.$inject = ["$log", "$location", "UnitOfWork"];
+    EditCustomerController.$inject = ["$log", "$location", "$routeParams", "UnitOfWork"];
 
-    function CustomerController($log, $scope, $location, $routeParams, ngTableParams, $filter, uow) {
-        $scope.result = {};
+    function CustomerController($log, $location, $routeParams, ngTableParams, $filter, uow) {
+        var vm = this;
+
+        vm.result = {};
 
         uow.customerRepository.get().then(function (result) {
-            $scope.result = result.data;
+            vm.result = result.data;
 
-            $scope.tableParams = new ngTableParams({
+            vm.tableParams = new ngTableParams({
                 page: 1,
                 count: 10,
                 sorting: {
                     name: "asc"
                 }
             }, {
-                total: $scope.result.model.length,
+                total: vm.result.model.length,
                 getData: function ($defer, params) {
-                    var orderedData = params.sorting() ? $filter("orderBy")($scope.result.model, params.orderBy()) : $scope.result.model;
+                    var orderedData = params.sorting() ? $filter("orderBy")(vm.result.model, params.orderBy()) : vm.result.model;
 
                     $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
                 }
             });
         });
 
-        $scope.create = function () {
+        vm.create = function () {
             $location.path("/customer-create");
         };
 
-        $scope.details = function (id) {
+        vm.details = function (id) {
             $location.path("/customer-details/" + id);
         };
 
-        $scope.edit = function (id) {
+        vm.edit = function (id) {
             $location.path("/customer-edit/" + id);
         };
 
-        $scope.delete = function (id) {
+        vm.delete = function (id) {
             $location.path("/customer-delete/" + id);
         };
     };
 
-    function CreateCustomerController($scope, $location, uow) {
-        $scope.result = {};
+    function CreateCustomerController($log, $location, uow) {
+        var vm = this;
 
-        $scope.create = function () {
-            uow.customerRepository.create($scope.result.model).then(function (result) {
+        vm.result = {};
+
+        vm.create = function () {
+            uow.customerRepository.create(vm.result.model).then(function (result) {
                 if (result.data.didError) {
-                    $scope.result = result.data;
+                    vm.result = result.data;
                 } else {
                     $location.path("/customer");
                 }
             });
         };
 
-        $scope.cancel = function () {
+        vm.cancel = function () {
             $location.path("/customer");
         };
     };
 
-    function EditCustomerController($scope, $location, $routeParams, uow) {
-        $scope.result = {};
+    function EditCustomerController($log, $location, $routeParams, uow) {
+        var vm = this;
+
+        vm.result = {};
 
         uow.customerRepository.get($routeParams.id).then(function (result) {
-            $scope.result = result.data;
+            vm.result = result.data;
         });
 
-        $scope.edit = function (id) {
+        vm.edit = function (id) {
             $location.path("/customer-edit/" + id);
         };
 
-        $scope.update = function () {
-            uow.customerRepository.update($scope.result.model).then(function (result) {
+        vm.update = function () {
+            uow.customerRepository.update(vm.result.model).then(function (result) {
                 if (result.data.didError) {
-                    $scope.result = result.data;
+                    vm.result = result.data;
                 } else {
                     $location.path("/customer");
                 }
             });
         };
 
-        $scope.delete = function () {
-            uow.customerRepository.delete($scope.model);
+        vm.delete = function () {
+            uow.customerRepository.delete(vm.model);
 
             $location.path("/customer");
         };
 
-        $scope.cancel = function () {
+        vm.cancel = function () {
             $location.path("/customer");
         };
     };

@@ -5,54 +5,58 @@
     angular.module("northwindApp").controller("CreateSupplierController", CreateSupplierController);
     angular.module("northwindApp").controller("EditSupplierController", EditSupplierController);
 
-    SupplierController.$inject = ["$log", "$scope", "$location", "$routeParams", "ngTableParams", "$filter", "UnitOfWork"];
-    CreateSupplierController.$inject = ["$scope", "$location", "UnitOfWork"];
-    EditSupplierController.$inject = ["$scope", "$location", "$routeParams", "UnitOfWork"];
+    SupplierController.$inject = ["$log", "$location", "$routeParams", "ngTableParams", "$filter", "UnitOfWork"];
+    CreateSupplierController.$inject = ["$log", "$location", "UnitOfWork"];
+    EditSupplierController.$inject = ["$log", "$location", "$routeParams", "UnitOfWork"];
 
-    function SupplierController($log, $scope, $location, $routeParams, ngTableParams, $filter, uow) {
-        $scope.result = {};
+    function SupplierController($log, $location, $routeParams, ngTableParams, $filter, uow) {
+        var vm = this;
+
+        vm.result = {};
 
         uow.supplierRepository.get().then(function (result) {
-            $scope.result = result.data;
+            vm.result = result.data;
 
-            $scope.tableParams = new ngTableParams({
+            vm.tableParams = new ngTableParams({
                 page: 1,
                 count: 10,
                 sorting: {
                     name: "asc"
                 }
             }, {
-                total: $scope.result.model.length,
+                total: vm.result.model.length,
                 getData: function ($defer, params) {
-                    var orderedData = params.sorting() ? $filter("orderBy")($scope.result.model, params.orderBy()) : $scope.result.model;
+                    var orderedData = params.sorting() ? $filter("orderBy")(vm.result.model, params.orderBy()) : vm.result.model;
 
                     $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
                 }
             });
         });
 
-        $scope.create = function () {
+        vm.create = function () {
             $location.path("/supplier-create");
         };
 
-        $scope.details = function (obj) {
+        vm.details = function (obj) {
             $location.path("/supplier-details/" + obj.supplierID);
         };
 
-        $scope.edit = function (id) {
+        vm.edit = function (id) {
             $location.path("/supplier-edit/" + id);
         };
 
-        $scope.delete = function (id) {
+        vm.delete = function (id) {
             $location.path("/supplier-delete/" + id);
         };
     };
 
-    function CreateSupplierController($scope, $location, uow) {
-        $scope.model = {};
+    function CreateSupplierController($log, $location, uow) {
+        var vm = this;
 
-        $scope.create = function () {
-            uow.supplierRepository.post($scope.result.model).then(function (result) {
+        vm.model = {};
+
+        vm.create = function () {
+            uow.supplierRepository.post(vm.result.model).then(function (result) {
                 if (result.data.didError) {
 
                 } else {
@@ -61,35 +65,37 @@
             });
         };
 
-        $scope.cancel = function () {
+        vm.cancel = function () {
             $location.path("/suppliers");
         };
     };
 
-    function EditSupplierController($scope, $location, $routeParams, uow) {
-        $scope.result = {};
+    function EditSupplierController($log, $location, $routeParams, uow) {
+        var vm = this;
+
+        vm.result = {};
 
         uow.supplierRepository.get($routeParams.id).then(function (result) {
-            $scope.result = result.data;
+            vm.result = result.data;
         });
 
-        $scope.edit = function (id) {
+        vm.edit = function (id) {
             $location.path("/supplier-edit/" + id);
         };
 
-        $scope.update = function () {
-            uow.supplierRepository.put($scope.result.model.supplierID, $scope.result.model);
+        vm.update = function () {
+            uow.supplierRepository.put(vm.result.model.supplierID, vm.result.model);
 
             $location.path("/suppliers");
         };
 
-        $scope.delete = function () {
-            uow.supplierRepository.delete($scope.result.model.supplierID, $scope.result.model);
+        vm.delete = function () {
+            uow.supplierRepository.delete(vm.result.model.supplierID, vm.result.model);
 
             $location.path("/suppliers");
         };
 
-        $scope.cancel = function () {
+        vm.cancel = function () {
             $location.path("/suppliers");
         };
     };
