@@ -1,16 +1,16 @@
 ﻿<h2>Regions</h2>
 
-<div class="alert alert-danger" role="alert" ng-show="result.didError">
-    {{ result.errorMessage }}
+<div class="alert alert-danger" role="alert" ng-show="vm.result.didError">
+    {{ vm.result.errorMessage }}
 </div>
 
 <p>
-    <a ng-click="create()">Create new</a>
+    <a ng-click="vm.create()">Create new</a>
 </p>
 
 <br />
 
-<table ng-table="tableParams" class="table">
+<table ng-table="vm.tableParams" class="table">
     <tr ng-repeat="region in $data">
         <td data-title="'Description'" sortable="'regionDescription'">
             {{ region.regionDescription }}
@@ -21,9 +21,9 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a ng-click="edit(region)">Edit</a></li>
-                    <li><a ng-click="details(region)">Details</a></li>
-                    <li><a ng-click="delete(region)">Delete</a></li>
+                    <li><a ng-click="vm.edit(region)">Edit</a></li>
+                    <li><a ng-click="vm.details(region)">Details</a></li>
+                    <li><a ng-click="vm.delete(region)">Delete</a></li>
                 </ul>
             </div>
         </td>

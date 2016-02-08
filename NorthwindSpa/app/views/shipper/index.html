@@ -1,21 +1,21 @@
 ﻿<h2>{{ translation.shippers }}</h2>
 
-<div class="alert alert-danger" role="alert" ng-show="result.didError">
-    {{ result.errorMessage }}
+<div class="alert alert-danger" role="alert" ng-show="vm.result.didError">
+    {{ vm.result.errorMessage }}
 </div>
 
 <p>
-    <a ng-click="create()">{{ translation.createNew }}</a>
+    <a ng-click="vm.create()">{{ translation.createNew }}</a>
 </p>
 
 <br />
 
-<table ng-table="tableParams" class="table">
+<table ng-table="vm.tableParams" class="table">
     <tr ng-repeat="shipper in $data">
-        <td data-title="translation.companyName" sortable="'companyName'">
+        <td data-title="vm.translation.companyName" sortable="'companyName'">
             {{ shipper.companyName }}
         </td>
-        <td data-title="translation.phone" sortable="'phone'">
+        <td data-title="vm.translation.phone" sortable="'phone'">
             {{ shipper.phone }}
         </td>
         <td>
@@ -24,9 +24,9 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a ng-click="edit(shipper.shipperID)">{{ translation.edit }}</a></li>
-                    <li><a ng-click="details(shipper.shipperID)">{{ translation.details }}</a></li>
-                    <li><a ng-click="delete(shipper.shipperID)">{{ translation.delete }}</a></li>
+                    <li><a ng-click="vm.edit(shipper.shipperID)">{{ vm.translation.edit }}</a></li>
+                    <li><a ng-click="vm.details(shipper.shipperID)">{{ vm.translation.details }}</a></li>
+                    <li><a ng-click="vm.delete(shipper.shipperID)">{{ vm.translation.delete }}</a></li>
                 </ul>
             </div>
         </td>

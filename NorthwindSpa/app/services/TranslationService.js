@@ -11,9 +11,9 @@
         svc.language = $cookies.lang;
         svc.languageFilePath = "/app/translations/app_" + svc.language + ".json";
 
-        svc.setResource = function ($scope) {
+        svc.setResource = function (vm) {
             $resource(svc.languageFilePath).get(function (data) {
-                $scope.translation = data;
+                vm.translation = data;
             });
         };
     };

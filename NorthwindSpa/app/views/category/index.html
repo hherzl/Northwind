@@ -1,16 +1,16 @@
 ﻿<h2>Categories</h2>
 
-<div class="alert alert-danger" role="alert" ng-show="result.didError">
-    {{ result.errorMessage }}
+<div class="alert alert-danger" role="alert" ng-show="vm.result.didError">
+    {{ vm.result.errorMessage }}
 </div>
 
 <p>
-    <a ng-click="create()">Create new</a>
+    <a ng-click="vm.create()">Create new</a>
 </p>
 
 <br />
 
-<table ng-table="tableParams" class="table">
+<table ng-table="vm.tableParams" class="table">
     <tr ng-repeat="category in $data">
         <td data-title="'Category name'" sortable="'categoryName'">
             {{ category.categoryName }}
@@ -24,9 +24,9 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a ng-click="edit(category)">Edit</a></li>
-                    <li><a ng-click="details(category)">Details</a></li>
-                    <li><a ng-click="delete(category)">Delete</a></li>
+                    <li><a ng-click="vm.edit(category)">Edit</a></li>
+                    <li><a ng-click="vm.details(category)">Details</a></li>
+                    <li><a ng-click="vm.delete(category)">Delete</a></li>
                 </ul>
             </div>
         </td>

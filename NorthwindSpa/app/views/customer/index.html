@@ -1,16 +1,16 @@
 ﻿<h2>Customers</h2>
 
-<div class="alert alert-danger" role="alert" ng-show="result.didError">
-    {{ result.errorMessage }}
+<div class="alert alert-danger" role="alert" ng-show="vm.result.didError">
+    {{ vm.result.errorMessage }}
 </div>
 
 <p>
-    <a ng-click="create()">Create new</a>
+    <a ng-click="vm.create()">Create new</a>
 </p>
 
 <br />
 
-<table ng-table="tableParams" class="table">
+<table ng-table="vm.tableParams" class="table">
     <tr ng-repeat="customer in $data">
         <td data-title="'Company name'" sortable="'companyName'">
             {{ customer.companyName }}
@@ -30,9 +30,9 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a ng-click="edit(customer)">Edit</a></li>
-                    <li><a ng-click="details(customer)">Details</a></li>
-                    <li><a ng-click="delete(customer)">Delete</a></li>
+                    <li><a ng-click="vm.edit(customer)">Edit</a></li>
+                    <li><a ng-click="vm.details(customer)">Details</a></li>
+                    <li><a ng-click="vm.delete(customer)">Delete</a></li>
                 </ul>
             </div>
         </td>

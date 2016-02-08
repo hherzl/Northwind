@@ -5,16 +5,16 @@
     angular.module("northwindApp").controller("CreateProductController", CreateProductController);
     angular.module("northwindApp").controller("EditProductController", EditProductController);
 
-    ProductController.$inject = ["$log", "$location", "$routeParams", "toaster", "ngTableParams", "$filter", "UnitOfWork"];
+    ProductController.$inject = ["$log", "$location", "$routeParams", "$filter", "toaster", "ngTableParams", "UnitOfWork"];
     CreateProductController.$inject = ["$log", "$location", "UnitOfWork"];
     EditProductController.$inject = ["$log", "$location", "$routeParams", "UnitOfWork"];
 
-    function ProductController($log, $location, $routeParams, toaster, ngTableParams, $filter, uow) {
+    function ProductController($log, $location, $routeParams, $filter, toaster, ngTableParams, uow) {
         var vm = this;
 
-        vm.productName = " ";
-        vm.supplierID = " ";
-        vm.categoryID = " ";
+        vm.productName = "";
+        vm.supplierID = "";
+        vm.categoryID = "";
         vm.result = {};
 
         uow.productRepository.get("", vm.productName, vm.supplierID, vm.categoryID).then(function (result) {

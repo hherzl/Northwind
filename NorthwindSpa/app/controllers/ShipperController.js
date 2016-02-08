@@ -12,7 +12,7 @@
     function ShipperController($log, $location, $routeParams, ngTableParams, $filter, uow, translationService) {
         var vm = this;
 
-        vm.result = [];
+        vm.result = {};
 
         uow.shipperRepository.get().then(function (result) {
             vm.result = result.data;
@@ -33,7 +33,7 @@
             });
         });
 
-        translationService.setResource($scope);
+        translationService.setResource(vm);
 
         vm.create = function () {
             $location.path("/shipper-create");
