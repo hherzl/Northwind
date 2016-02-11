@@ -57,6 +57,11 @@
     <Compile Include="BusinessLayer\DiscontinuedProductException.cs" />
     <Compile Include="BusinessLayer\NullEntityException.cs" />
     <Compile Include="BusinessLayer\SalesBusinessObject.cs" />
+    <Compile Include="BusinessLayer\SalesBusinessObject.Customer.cs" />
+    <Compile Include="BusinessLayer\SalesBusinessObject.Employee.cs" />
+    <Compile Include="BusinessLayer\SalesBusinessObject.Region.cs" />
+    <Compile Include="BusinessLayer\SalesBusinessObject.Shipper.cs" />
+    <Compile Include="BusinessLayer\SalesBusinessObject.Supplier.cs" />
     <Compile Include="DataLayer\Repositories\ChangeLogRepository.cs" />
     <Compile Include="DataLayer\Contracts\IChangeLogRepository.cs" />
     <Compile Include="DataLayer\Contracts\IOrderDetailSummaryRepository.cs" />
@@ -129,6 +134,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Compile Include="BusinessLayer\SalesBusinessObject.Order.cs" />
+    <Compile Include="BusinessLayer\SalesBusinessObject.Product.cs" />
+    <Compile Include="BusinessLayer\SalesBusinessObject.Category.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
