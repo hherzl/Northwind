@@ -14,96 +14,118 @@
         $routeProvider
             .when("/", {
                 templateUrl: base + "home.html",
-                controller: "HomeController"
+                controller: "HomeController",
+                controllerAs: "vm"
             })
 
             .when("/supplier", {
                 templateUrl: base + "supplier/index.html",
-                controller: "SupplierController"
+                controller: "SupplierController",
+                controllerAs: "vm"
             })
             .when("/supplier-details/:id", {
                 templateUrl: base + "supplier/details.html",
-                controller: "EditSupplierController"
+                controller: "EditSupplierController",
+                controllerAs: "vm"
             })
             .when("/supplier-create", {
                 templateUrl: base + "supplier/create.html",
-                controller: "CreateSupplierController"
+                controller: "CreateSupplierController",
+                controllerAs: "vm"
             })
             .when("/supplier-edit/:id", {
                 templateUrl: base + "supplier/edit.html",
-                controller: "EditSupplierController"
+                controller: "EditSupplierController",
+                controllerAs: "vm"
             })
             .when("/supplier-delete/:id", {
                 templateUrl: base + "supplier/delete.html",
-                controller: "EditSupplierController"
+                controller: "EditSupplierController",
+                controllerAs: "vm"
             })
 
             .when("/category", {
                 templateUrl: base + "category/index.html",
-                controller: "CategoryController"
+                controller: "CategoryController",
+                controllerAs: "vm"
             })
 
             .when("/product", {
                 templateUrl: base + "product/index.html",
-                controller: "ProductController"
+                controller: "ProductController",
+                controllerAs: "vm"
             })
             .when("/product-create", {
                 templateUrl: base + "product/create.html",
-                controller: "CreateProductController"
+                controller: "CreateProductController",
+                controllerAs: "vm"
             })
             .when("/product-details/:id", {
                 templateUrl: base + "product/details.html",
-                controller: "EditProductController"
+                controller: "EditProductController",
+                controllerAs: "vm"
             })
             .when("/product-edit/:id", {
                 templateUrl: base + "product/edit.html",
-                controller: "EditProductController"
+                controller: "EditProductController",
+                controllerAs: "vm"
             })
             .when("/product-delete/:id", {
                 templateUrl: base + "product/delete.html",
-                controller: "EditProductController"
+                controller: "EditProductController",
+                controllerAs: "vm"
             })
 
             .when("/shipper", {
                 templateUrl: base + "shipper/index.html",
-                controller: "ShipperController"
+                controller: "ShipperController",
+                controllerAs: "vm"
             })
             .when("/shipper-create", {
                 templateUrl: base + "shipper/create.html",
-                controller: "CreateShipperController"
+                controller: "CreateShipperController",
+                controllerAs: "vm"
             })
             .when("/shipper-details/:id", {
                 templateUrl: base + "shipper/details.html",
-                controller: "EditShipperController"
+                controller: "EditShipperController",
+                controllerAs: "vm"
             })
             .when("/shipper-edit/:id", {
                 templateUrl: base + "shipper/edit.html",
-                controller: "EditShipperController"
+                controller: "EditShipperController",
+                controllerAs: "vm"
             })
             .when("/shipper-delete/:id", {
                 templateUrl: base + "shipper/delete.html",
-                controller: "EditShipperController"
+                controller: "EditShipperController",
+                controllerAs: "vm"
             })
 
             .when("/customer", {
                 templateUrl: base + "customer/index.html",
-                controller: "CustomerController"
+                controller: "CustomerController",
+                controllerAs: "vm"
             })
             .when("/customer-create", {
                 templateUrl: base + "customer/create.html",
-                controller: "CreateCustomerController"
+                controller: "CreateCustomerController",
+                controllerAs: "vm"
             })
             .when("/customer-details/:id", {
                 templateUrl: base + "customer/details.html",
-                controller: "EditCustomerController"
+                controller: "EditCustomerController",
+                controllerAs: "vm"
             })
             .when("/customer-edit/:id", {
                 templateUrl: base + "customer/edit.html",
-                controller: "EditCustomerController"
+                controller: "EditCustomerController",
+                controllerAs: "vm"
             })
             .when("/customer-delete/:id", {
                 templateUrl: base + "customer/delete.html",
-                controller: "EditCustomerController"
+                controller: "EditCustomerController",
+                controllerAs: "vm"
             })
 
             .when("/order", {
@@ -124,12 +146,14 @@
 
             .when("/region", {
                 templateUrl: base + "region/index.html",
-                controller: "RegionController"
+                controller: "RegionController",
+                controllerAs: "vm"
             })
 
             .when("/employee", {
                 templateUrl: base + "employee/index.html",
-                controller: "EmployeeController"
+                controller: "EmployeeController",
+                controllerAs: "vm"
             });
     });
 })();
