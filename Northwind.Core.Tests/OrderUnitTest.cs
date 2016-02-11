@@ -35,9 +35,9 @@ namespace Northwind.Core.Tests
             header.OrderSummaries = new Collection<OrderDetailSummary>()
             {
                 new OrderDetailSummary { ProductID = 1, Quantity = 3, Discount = 0.0m },
-                new OrderDetailSummary { ProductID = 5, Quantity = 2, Discount = 0.0m },
-                new OrderDetailSummary { ProductID = 10, Quantity = 1, Discount = 0.0m },
-                new OrderDetailSummary { ProductID = 15, Quantity = 1, Discount = 0.0m }
+                new OrderDetailSummary { ProductID = 10, Quantity = 2, Discount = 0.0m },
+                new OrderDetailSummary { ProductID = 20, Quantity = 1, Discount = 0.0m },
+                new OrderDetailSummary { ProductID = 30, Quantity = 1, Discount = 0.0m }
             };
 
             var dbContext = new SalesDbContext();

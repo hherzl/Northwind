@@ -54,6 +54,8 @@
   <ItemGroup>
     <Compile Include="BusinessLayer\Contracts\IBusinessObject.cs" />
     <Compile Include="BusinessLayer\Contracts\ISalesBusinessObject.cs" />
+    <Compile Include="BusinessLayer\DiscontinuedProductException.cs" />
+    <Compile Include="BusinessLayer\NullEntityException.cs" />
     <Compile Include="BusinessLayer\SalesBusinessObject.cs" />
     <Compile Include="DataLayer\Repositories\ChangeLogRepository.cs" />
     <Compile Include="DataLayer\Contracts\IChangeLogRepository.cs" />

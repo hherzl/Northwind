@@ -74,7 +74,17 @@ namespace Northwind.Core.BusinessLayer
                     {
                         var detail = new OrderDetail();
 
-                        var product = Uow.ProductRepository.Get(new Product(detail.ProductID));
+                        var product = Uow.ProductRepository.Get(new Product(summary.ProductID));
+
+                        if (product == null)
+                        {
+                            throw new NullEntityException(String.Format("The product with ID : '{0}' is not exists in database.", detail.ProductID));
+                        }
+
+                        if (product.Discontinued == true)
+                        {
+                            throw new DiscontinuedProductException(String.Format("The product with ID : '{0}' is discontinued.", product.ProductID));
+                        }
 
                         detail.OrderID = header.OrderID;
                         detail.ProductID = summary.ProductID;
