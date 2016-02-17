@@ -41,8 +41,10 @@ namespace Northwind.Core.BusinessLayer
                 {
                     header.CustomerID = entity.CustomerID;
                     header.EmployeeID = entity.EmployeeID;
-                    header.OrderDate = DateTime.Now;
+                    header.OrderDate = entity.OrderDate;
+                    header.RequiredDate = entity.RequiredDate;
                     header.ShipVia = entity.ShipVia;
+                    header.Freight = entity.Freight;
                     header.ShipName = entity.ShipName;
                     header.ShipAddress = entity.ShipAddress;
                     header.ShipCity = entity.ShipCity;

@@ -29,7 +29,7 @@ namespace Northwind.Core.Mocks
             {
                 var entity = await businessObject.GetProduct(new Product(item.ProductID));
 
-                entity.UnitsInStock += 10000;
+                entity.UnitsInStock += 9999;
 
                 await businessObject.UpdateProduct(entity);
             }
@@ -40,6 +40,8 @@ namespace Northwind.Core.Mocks
         async Task CreateData(DateTime startDate, DateTime endDate, Int32 limit, Decimal?[] freights)
         {
             var date = new DateTime(startDate.Year, startDate.Month, startDate.Day);
+
+            var random = new Random();
 
             while (date <= endDate)
             {
@@ -52,25 +54,25 @@ namespace Northwind.Core.Mocks
                     var customersTask = await businessObject.GetCustomers();
                     var employeesTask = await businessObject.GetEmployees();
                     var shippersTask = await businessObject.GetShippers();
+                    var productsTask = await businessObject.GetProductsDetails(null, null, null);
 
                     var customers = customersTask.ToList();
                     var employees = employeesTask.ToList();
                     var shippers = shippersTask.ToList();
-
-                    var random = new Random();
+                    var products = productsTask.Where(item => item.Discontinued == false).ToList();
 
                     for (var j = 0; j < limit; j++)
                     {
                         var header = new Order();
 
-                        var selectecCustomer = customers[random.Next(0, customers.Count)];
-                        var selectedEmployee = employees[random.Next(0, employees.Count)];
-                        var selectedShipper = shippers[random.Next(0, shippers.Count)];
+                        var selectecCustomer = customers[random.Next(0, customers.Count - 1)];
+                        var selectedEmployee = employees[random.Next(0, employees.Count - 1)];
+                        var selectedShipper = shippers[random.Next(0, shippers.Count - 1)];
 
                         header.CustomerID = selectecCustomer.CustomerID;
                         header.EmployeeID = selectedEmployee.EmployeeID;
-                        header.OrderDate = DateTime.Now;
-                        header.RequiredDate = DateTime.Now.AddDays(7);
+                        header.OrderDate = date;
+                        header.RequiredDate = date.AddDays(7);
                         header.ShippedDate = null;
                         header.ShipVia = selectedShipper.ShipperID;
                         header.Freight = freights[random.Next(0, freights.Length)];
@@ -81,12 +83,24 @@ namespace Northwind.Core.Mocks
                         header.ShipPostalCode = selectecCustomer.PostalCode;
                         header.ShipCountry = selectecCustomer.Country;
 
-                        header.OrderSummaries = new Collection<OrderDetailSummary>()
+                        header.OrderSummaries = new Collection<OrderDetailSummary>() { };
+
+                        var summaries = random.Next(1, 10);
+
+                        for (var i = 0; i < summaries; i++)
                         {
-                            new OrderDetailSummary { ProductID = 1, Quantity = 3, Discount = 0.0m },
-                            new OrderDetailSummary { ProductID = 10, Quantity = 2, Discount = 0.0m },
-                            new OrderDetailSummary { ProductID = 20, Quantity = 1, Discount = 0.0m }
-                        };
+                            var summary = new OrderDetailSummary
+                            {
+                                ProductID = products[random.Next(0, products.Count - 1)].ProductID,
+                                Quantity = (Int16)random.Next(1, 10),
+                                Discount = 0.0m
+                            };
+
+                            if (header.OrderSummaries.Where(item => item.ProductID == summary.ProductID).Count() == 0)
+                            {
+                                header.OrderSummaries.Add(summary);
+                            }
+                        }
 
                         var entity = await businessObject.CreateOrder(header);
 
@@ -104,10 +118,10 @@ namespace Northwind.Core.Mocks
         public async Task CreateOrder()
         {
             await CreateData(
-                startDate: new DateTime(2015, 5, 1),
-                endDate: new DateTime(2015, 5, 30),
-                limit: 1,
-                freights: new Decimal?[] { 15.99m, 25.99m, 35.99m }
+                startDate: new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1),
+                endDate: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month)),
+                limit: 10,
+                freights: new Decimal?[] { 15.99m, 19.99m, 24.99m, 29.99m  }
             );
         }
     }
