@@ -29,7 +29,7 @@ namespace Northwind.Core.Mocks
             {
                 var entity = await businessObject.GetProduct(new Product(item.ProductID));
 
-                entity.UnitsInStock += 100;
+                entity.UnitsInStock += 10000;
 
                 await businessObject.UpdateProduct(entity);
             }
@@ -37,53 +37,78 @@ namespace Northwind.Core.Mocks
             businessObject.Release();
         }
 
+        async Task CreateData(DateTime startDate, DateTime endDate, Int32 limit, Decimal?[] freights)
+        {
+            var date = new DateTime(startDate.Year, startDate.Month, startDate.Day);
+
+            while (date <= endDate)
+            {
+                if (date.DayOfWeek != DayOfWeek.Sunday)
+                {
+                    var uow = new SalesUow(new SalesDbContext()) as ISalesUow;
+
+                    var businessObject = new SalesBusinessObject(uow) as ISalesBusinessObject;
+
+                    var customersTask = await businessObject.GetCustomers();
+                    var employeesTask = await businessObject.GetEmployees();
+                    var shippersTask = await businessObject.GetShippers();
+
+                    var customers = customersTask.ToList();
+                    var employees = employeesTask.ToList();
+                    var shippers = shippersTask.ToList();
+
+                    var random = new Random();
+
+                    for (var j = 0; j < limit; j++)
+                    {
+                        var header = new Order();
+
+                        var selectecCustomer = customers[random.Next(0, customers.Count)];
+                        var selectedEmployee = employees[random.Next(0, employees.Count)];
+                        var selectedShipper = shippers[random.Next(0, shippers.Count)];
+
+                        header.CustomerID = selectecCustomer.CustomerID;
+                        header.EmployeeID = selectedEmployee.EmployeeID;
+                        header.OrderDate = DateTime.Now;
+                        header.RequiredDate = DateTime.Now.AddDays(7);
+                        header.ShippedDate = null;
+                        header.ShipVia = selectedShipper.ShipperID;
+                        header.Freight = freights[random.Next(0, freights.Length)];
+                        header.ShipName = selectecCustomer.CompanyName;
+                        header.ShipAddress = selectecCustomer.Address;
+                        header.ShipCity = selectecCustomer.City;
+                        header.ShipRegion = selectecCustomer.Region;
+                        header.ShipPostalCode = selectecCustomer.PostalCode;
+                        header.ShipCountry = selectecCustomer.Country;
+
+                        header.OrderSummaries = new Collection<OrderDetailSummary>()
+                        {
+                            new OrderDetailSummary { ProductID = 1, Quantity = 3, Discount = 0.0m },
+                            new OrderDetailSummary { ProductID = 10, Quantity = 2, Discount = 0.0m },
+                            new OrderDetailSummary { ProductID = 20, Quantity = 1, Discount = 0.0m }
+                        };
+
+                        var entity = await businessObject.CreateOrder(header);
+
+                        Console.WriteLine("Order #: {0}", entity.OrderID);
+                    }
+
+                    businessObject.Release();
+                }
+
+                date = date.AddDays(1);
+            }
+        }
+
         [TestMethod]
         public async Task CreateOrder()
         {
-            var uow = new SalesUow(new SalesDbContext()) as ISalesUow;
-
-            var businessObject = new SalesBusinessObject(uow) as ISalesBusinessObject;
-
-            var customersTask = await businessObject.GetCustomers();
-            var employeesTask = await businessObject.GetEmployees();
-            var shippersTask = await businessObject.GetShippers();
-
-            var customers = customersTask.ToList();
-            var employees = employeesTask.ToList();
-            var shippers = shippersTask.ToList();
-
-            var header = new Order();
-
-            var selectecCustomer = customers[0];
-            var selectedEmployee = employees[0];
-            var selectedShipper = shippers[0];
-
-            header.CustomerID = selectecCustomer.CustomerID;
-            header.EmployeeID = selectedEmployee.EmployeeID;
-            header.OrderDate = DateTime.Now;
-            header.RequiredDate = DateTime.Now.AddDays(7);
-            header.ShippedDate = null;
-            header.ShipVia = selectedShipper.ShipperID;
-            header.Freight = 25.0m;
-            header.ShipName = selectecCustomer.CompanyName;
-            header.ShipAddress = selectecCustomer.Address;
-            header.ShipCity = selectecCustomer.City;
-            header.ShipRegion = selectecCustomer.Region;
-            header.ShipPostalCode = selectecCustomer.PostalCode;
-            header.ShipCountry = selectecCustomer.Country;
-
-            header.OrderSummaries = new Collection<OrderDetailSummary>()
-            {
-                new OrderDetailSummary { ProductID = 1, Quantity = 3, Discount = 0.0m },
-                new OrderDetailSummary { ProductID = 10, Quantity = 2, Discount = 0.0m },
-                new OrderDetailSummary { ProductID = 20, Quantity = 1, Discount = 0.0m }
-            };
-
-            var entity = await businessObject.CreateOrder(header);
-
-            Console.WriteLine("Order #: {0}", entity.OrderID);
-
-            businessObject.Release();
+            await CreateData(
+                startDate: new DateTime(2015, 5, 1),
+                endDate: new DateTime(2015, 5, 30),
+                limit: 1,
+                freights: new Decimal?[] { 15.99m, 25.99m, 35.99m }
+            );
         }
     }
 }
