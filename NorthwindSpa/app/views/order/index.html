@@ -15,27 +15,25 @@
     <div class="row">
         <form class="form-inline" role="form" method="get">
             <div class="form-group">
-                <input type="text" name="orderID" size="5" class="form-control" placeholder="Order #" value="" />
+                <input type="text" name="orderID" size="5" class="form-control" placeholder="Order #" ng-model="vm.orderID" />
             </div>
             <div class="form-group">
-                <input type="text" name="customer" class="form-control" placeholder="Customer" value="" />
-            </div>
-            <div class="form-group">
-                <input type="text" name="employee" class="form-control" placeholder="Employee" value="" />
-            </div>
-            <div class="form-group">
-                <input type="text" name="shipper" class="form-control" placeholder="Shipper" value="" />
-            </div>
-            <div class="form-group">
-                <select id="pageSize" name="pageSize" class="form-control list-box tri-state">
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
+                <select class="form-control" ng-model="vm.customerID">
+                    <option ng-repeat="customer in vm.customerResult.model" value="{{ customer.customerID }}">{{ customer.companyName }}</option>
                 </select>
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary glyphicon glyphicon-search" />
+                <select class="form-control" ng-model="vm.employeeID">
+                    <option ng-repeat="employee in vm.employeeResult.model" value="{{ employee.employeeID }}">{{ employee.fullName }}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <select class="form-control" ng-model="vm.shipperID">
+                    <option ng-repeat="shipper in vm.shipperResult.model" value="{{ shipper.shipperID }}">{{ shipper.companyName }}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary glyphicon glyphicon-search" ng-click="vm.search()" />
             </div>
         </form>
     </div>
@@ -43,6 +41,10 @@
 
 <br />
 <br />
+
+<div class="alert alert-info" role="alert" ng-show="vm.result.model.length > 0">
+    <strong>{{ vm.result.message }}</strong>
+</div>
 
 <table class="table" ng-table="vm.tableParams">
     <tr ng-repeat="order in $data">
@@ -52,14 +54,14 @@
         <td data-title="'Date'" sortable="'orderDate'">
             {{ order.orderDate | date: "dd/MM/yyyy" }}
         </td>
-        <td data-title="'Customer'" sortable="'customer'">
-            {{ order.customer }}
+        <td data-title="'Customer'" sortable="'customerName'">
+            {{ order.customerName }}
         </td>
-        <td data-title="'Employee'" sortable="'employee'">
-            {{ order.employee }}
+        <td data-title="'Employee'" sortable="'employeeName'">
+            {{ order.employeeName }}
         </td>
-        <td data-title="'Shipper'" sortable="'shipper'">
-            {{ order.shipper }}
+        <td data-title="'Shipper'" sortable="'shipperName'">
+            {{ order.shipperName }}
         </td>
         <td class="text-right" data-title="'Lines'" sortable="'lines'">
             {{ order.lines }}

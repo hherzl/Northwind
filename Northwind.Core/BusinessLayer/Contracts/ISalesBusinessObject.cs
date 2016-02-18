@@ -8,7 +8,7 @@ namespace Northwind.Core.BusinessLayer.Contracts
 {
     public interface ISalesBusinessObject : IBusinessObject
     {
-        Task<IEnumerable<OrderSummary>> GetOrderSummaries();
+        Task<IEnumerable<OrderSummary>> GetOrderSummaries(String customerID, Int32? employeeID, Int32? shipperID);
 
         Task<Order> GetOrder(Order entity);
 

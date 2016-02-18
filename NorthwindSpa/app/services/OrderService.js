@@ -10,6 +10,10 @@
 
         var svc = this;
 
+        svc.getSummaries = function (orderID, customerID, employeeID, shipperID) {
+            return $http.get(rest.get(null, ["orderID", orderID, "customerID", customerID, "employeeID", employeeID, "shipperID", shipperID]));
+        };
+
         svc.get = function (id) {
             return $http.get(rest.get(id));
         };

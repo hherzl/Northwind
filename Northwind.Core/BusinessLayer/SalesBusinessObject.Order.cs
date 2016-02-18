@@ -10,13 +10,13 @@ namespace Northwind.Core.BusinessLayer
 {
     public partial class SalesBusinessObject : ISalesBusinessObject
     {
-        public async Task<IEnumerable<OrderSummary>> GetOrderSummaries()
+        public async Task<IEnumerable<OrderSummary>> GetOrderSummaries(String customerID, Int32? employeeID, Int32? shipperID)
         {
             return await Task.Run(() =>
             {
                 return Uow
                     .OrderRepository
-                    .GetSummaries()
+                    .GetSummaries(customerID, employeeID, shipperID)
                     .OrderByDescending(item => item.OrderDate);
             });
         }

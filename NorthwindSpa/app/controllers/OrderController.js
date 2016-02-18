@@ -5,31 +5,64 @@
     angular.module("northwindApp").controller("CreateOrderController", CreateOrderController);
     angular.module("northwindApp").controller("OrderDetailsController", OrderDetailsController);
 
-    OrderController.$inject = ["$log", "$location", "$routeParams", "ngTableParams", "$filter", "UnitOfWork"];
+    OrderController.$inject = ["$log", "$location", "$routeParams", "$filter", "ngTableParams", "toaster", "UnitOfWork"];
     CreateOrderController.$inject = ["$log", "$location", "toaster", "UnitOfWork"];
     OrderDetailsController.$inject = ["$log", "$location", "$routeParams", "UnitOfWork"];
 
-    function OrderController($log, $location, $routeParams, ngTableParams, $filter, uow) {
+    function OrderController($log, $location, $routeParams, $filter, ngTableParams, toaster, uow) {
         var vm = this;
 
-        uow.orderRepository.get().then(function (result) {
+        uow.customerRepository.get().then(function (result) {
+            vm.customerResult = result.data;
+        });
+
+        uow.employeeRepository.get().then(function (result) {
+            vm.employeeResult = result.data;
+        });
+
+        uow.shipperRepository.get().then(function (result) {
+            vm.shipperResult = result.data;
+        });
+
+        vm.customerID = "";
+        vm.employeeID = "";
+        vm.shipperID = "";
+        vm.result = {
+            model: []
+        };
+
+        vm.tableParams = new ngTableParams({
+            page: 1,
+            count: 50,
+            sorting: {
+                name: "asc"
+            }
+        }, {
+            total: vm.result.model.length,
+            getData: function ($defer, params) {
+                var orderedData = params.sorting() ? $filter("orderBy")(vm.result.model, params.orderBy()) : vm.result.model;
+
+                $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+            }
+        });
+
+        uow.orderRepository.getSummaries(vm.orderID, vm.customerID, vm.employeeID, vm.shipperID).then(function (result) {
             vm.result = result.data;
 
-            vm.tableParams = new ngTableParams({
-                page: 1,
-                count: 50,
-                sorting: {
-                    name: "asc"
-                }
-            }, {
-                total: vm.result.model.length,
-                getData: function ($defer, params) {
-                    var orderedData = params.sorting() ? $filter("orderBy")(vm.result.model, params.orderBy()) : vm.result.model;
-
-                    $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-                }
-            });
+            vm.tableParams.total(vm.result.model.length);
+            vm.tableParams.reload();
         });
+
+        vm.search = function () {
+            uow.orderRepository.getSummaries(vm.orderID, vm.customerID, vm.employeeID, vm.shipperID).then(function (result) {
+                toaster.pop("wait", "Notification", "Searching orders...");
+
+                vm.result = result.data;
+
+                vm.tableParams.total(vm.result.model.length);
+                vm.tableParams.reload();
+            });
+        };
 
         vm.create = function () {
             $location.path("/order-create");

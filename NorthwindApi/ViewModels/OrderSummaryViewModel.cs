@@ -15,9 +15,12 @@ namespace NorthwindApi.ViewModels
         {
             OrderID = entity.OrderID;
             OrderDate = entity.OrderDate;
-            Customer = entity.Customer;
-            Employee = entity.Employee;
-            Shipper = entity.Shipper;
+            CustomerID = entity.CustomerID;
+            CustomerName = entity.CustomerName;
+            EmployeeID = entity.EmployeeID;
+            EmployeeName = entity.EmployeeName;
+            ShipperID = entity.ShipperID;
+            ShipperName = entity.ShipperName;
             Lines = entity.Lines;
             Total = entity.Total;
         }
@@ -27,11 +30,17 @@ namespace NorthwindApi.ViewModels
 
         public DateTime? OrderDate { get; set; }
 
-        public String Customer { get; set; }
+        public String CustomerID { get; set; }
 
-        public String Employee { get; set; }
+        public String CustomerName { get; set; }
 
-        public String Shipper { get; set; }
+        public Int32? EmployeeID { get; set; }
+
+        public String EmployeeName { get; set; }
+
+        public Int32? ShipperID { get; set; }
+
+        public String ShipperName { get; set; }
 
         public Int32 Lines { get; set; }
 

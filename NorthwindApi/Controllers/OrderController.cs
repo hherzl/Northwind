@@ -32,15 +32,24 @@ namespace NorthwindApi.Controllers
         }
 
         // GET: api/Order
-        public async Task<HttpResponseMessage> Get()
+        public async Task<HttpResponseMessage> Get(Int32? orderID, String customerID, Int32? employeeID, Int32? shipperID)
         {
             var response = new ComposedOrderSummaryResponse();
 
             try
             {
-                var task = await Uow.GetOrderSummaries();
+                var task = await Uow.GetOrderSummaries(customerID, employeeID, shipperID);
 
-                response.Model = task.Select(item => new OrderSummaryViewModel(item)).ToList();
+                if (String.IsNullOrEmpty(customerID) && !employeeID.HasValue && !shipperID.HasValue)
+                {
+                    response.Model = task.Select(item => new OrderSummaryViewModel(item)).Take(100).ToList();
+                }
+                else
+                {
+                    response.Model = task.Select(item => new OrderSummaryViewModel(item)).ToList();
+                }
+
+                response.Message = String.Format("Total of records: {0}.", response.Model.Count());
             }
             catch (Exception ex)
             {

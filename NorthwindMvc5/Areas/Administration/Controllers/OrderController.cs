@@ -30,7 +30,7 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
         }
 
         // GET: Administration/Order
-        public ActionResult Index(Int32? pageNumber, Int32? pageSize, String sortName, String orderID, String customer, String employee, String shipper)
+        public ActionResult Index(Int32? pageNumber, Int32? pageSize, String sortName, Int32? orderID, String customer, Int32? employee, Int32? shipper)
         {
             ViewBag.PageNumber = pageNumber ?? 1;
             ViewBag.PageSize = pageSize ?? 10;
@@ -42,27 +42,7 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
 
             ViewBag.OrderSortName = sortName == "Order" ? "Order_desc" : "Order";
 
-            var query = Uow.OrderRepository.GetSummaries();
-
-            if (!String.IsNullOrEmpty(orderID))
-            {
-                query = query.Where(item => item.OrderID.ToString().Contains(orderID));
-            }
-
-            if (!String.IsNullOrEmpty(customer))
-            {
-                query = query.Where(item => item.Customer.Contains(customer));
-            }
-
-            if (!String.IsNullOrEmpty(employee))
-            {
-                query = query.Where(item => item.Employee.Contains(employee));
-            }
-
-            if (!String.IsNullOrEmpty(shipper))
-            {
-                query = query.Where(item => item.Shipper.Contains(shipper));
-            }
+            var query = Uow.OrderRepository.GetSummaries(customer, employee, shipper);
 
             switch (sortName)
             {
