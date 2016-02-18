@@ -7,26 +7,26 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>Product name</dt>
-        <dd>{{ result.model.productName }}</dd>
+        <dd>{{ vm.result.model.productName }}</dd>
 
         <dt>Supplier name</dt>
-        <dd>{{ result.model.fkProductsSuppliers.companyName }}</dd>
+        <dd>{{ vm.result.model.fkProductsSuppliers.companyName }}</dd>
 
         <dt>Category name</dt>
-        <dd>{{ result.model.fkProductsCategories.categoryName }}</dd>
+        <dd>{{ vm.result.model.fkProductsCategories.categoryName }}</dd>
 
         <dt>Quantity per unit</dt>
-        <dd>{{ result.model.quantityPerUnit }}</dd>
+        <dd>{{ vm.result.model.quantityPerUnit }}</dd>
 
         <dt>Unit price</dt>
-        <dd>{{ result.model.unitPrice | currency }}</dd>
+        <dd>{{ vm.result.model.unitPrice | currency }}</dd>
 
         <dt>Units in stock</dt>
-        <dd>{{ result.model.unitsInStock }}</dd>
+        <dd>{{ vm.result.model.unitsInStock }}</dd>
     </dl>
 
     <div class="form-actions no-color">
-        <a ng-click="delete(result.model.productID)" class="btn btn-default">Delete</a>
-        <a ng-click="cancel()" class="btn btn-small">Cancel</a>
+        <a ng-click="delete(vm.result.model.productID)" class="btn btn-default">Delete</a>
+        <a ng-click="vm.cancel()" class="btn btn-small">Cancel</a>
     </div>
 </div>

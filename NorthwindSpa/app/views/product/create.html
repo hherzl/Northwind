@@ -1,10 +1,10 @@
 ﻿<h2>Create</h2>
 
-<div class="alert alert-danger" role="alert" ng-show="result.didError">
-    {{ result.errorMessage }}
+<div class="alert alert-danger" role="alert" ng-show="vm.result.didError">
+    {{ vm.result.errorMessage }}
 </div>
 
-<form name="form" novalidate ng-submit="create()">
+<form name="form" novalidate ng-submit="vm.create()">
     <div class="form-horizontal">
         <h4>Product</h4>
         <hr />
@@ -12,8 +12,8 @@
         <div class="form-group">
             <label for="supplierID" class="control-label col-md-2">Supplier</label>
             <div class="col-md-10">
-                <select ng-model="result.model.supplierID" class="form-control">
-                    <option ng-repeat="supplier in supplierResult.model" value="{{ supplier.supplierID }}">{{ supplier.companyName }}</option>
+                <select ng-model="vm.result.model.supplierID" class="form-control">
+                    <option ng-repeat="supplier in vm.supplierResult.model" value="{{ supplier.supplierID }}">{{ supplier.companyName }}</option>
                 </select>
             </div>
         </div>
@@ -21,8 +21,8 @@
         <div class="form-group">
             <label for="categoryID" class="control-label col-md-2">Category</label>
             <div class="col-md-10">
-                <select ng-model="result.model.categoryID" class="form-control">
-                    <option ng-repeat="category in categoryResult.model" value="{{ category.categoryID }}">{{ category.categoryName }}</option>
+                <select ng-model="vm.result.model.categoryID" class="form-control">
+                    <option ng-repeat="category in vm.categoryResult.model" value="{{ category.categoryID }}">{{ category.categoryName }}</option>
                 </select>
             </div>
         </div>
@@ -30,7 +30,7 @@
         <div class="form-group" ng-class="{ 'has-error': form.productName.$invalid }">
             <label for="productName" class="control-label col-md-2">Product name</label>
             <div class="col-md-10">
-                <input type="text" name="productName" ng-model="result.model.productName" required class="form-control" />
+                <input type="text" name="productName" ng-model="vm.result.model.productName" required class="form-control" />
                 <span class="text-danger help-block" ng-show="form.productName.$error.required">(*) Required</span>
             </div>
         </div>
@@ -38,21 +38,21 @@
         <div class="form-group">
             <label for="quantityPerUnit" class="control-label col-md-2">Quantity per unit</label>
             <div class="col-md-10">
-                <input type="text" name="quantityPerUnit" ng-model="result.model.quantityPerUnit" class="form-control" />
+                <input type="text" name="quantityPerUnit" ng-model="vm.result.model.quantityPerUnit" class="form-control" />
             </div>
         </div>
 
         <div class="form-group">
             <label for="unitPrice" class="control-label col-md-2">Unit price</label>
             <div class="col-md-10">
-                <input type="number" name="unitPrice" ng-model="result.model.unitPrice" class="form-control" />
+                <input type="number" name="unitPrice" ng-model="vm.result.model.unitPrice" class="form-control" />
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" ng-disabled="!form.$valid" class="btn btn-default" />
-                <a ng-click="cancel()">Cancel</a>
+                <a ng-click="vm.cancel()">Cancel</a>
             </div>
         </div>
     </div>

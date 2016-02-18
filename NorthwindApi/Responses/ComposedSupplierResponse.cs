@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Northwind.Core.EntityLayer;
+using NorthwindApi.ViewModels;
 
 namespace NorthwindApi.Responses
 {
     [DataContract]
-    public class ComposedSupplierResponse : Response, IComposedViewModelResponse<Supplier>
+    public class ComposedSupplierResponse : Response, IComposedViewModelResponse<SupplierDetailViewModel>
     {
         public ComposedSupplierResponse()
         {
@@ -13,6 +13,6 @@ namespace NorthwindApi.Responses
         }
 
         [DataMember(Name = "model")]
-        public IEnumerable<Supplier> Model { get; set; }
+        public IEnumerable<SupplierDetailViewModel> Model { get; set; }
     }
 }

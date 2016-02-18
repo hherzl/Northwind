@@ -113,7 +113,7 @@
         };
 
         vm.update = function () {
-            productService.update(vm.result.model).then(function (result) {
+            uow.productRepository.put(vm.result.model.productID, vm.result.model).then(function (result) {
                 if (result.data.didError) {
                     vm.result = result.data;
                 } else {

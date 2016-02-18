@@ -8,6 +8,7 @@ using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.EntityLayer;
 using NorthwindApi.Responses;
 using NorthwindApi.Services;
+using NorthwindApi.ViewModels;
 
 namespace NorthwindApi.Controllers
 {
@@ -39,7 +40,7 @@ namespace NorthwindApi.Controllers
             {
                 var task = await BusinessObject.GetSuppliers();
 
-                response.Model = task.ToList();
+                response.Model = task.Select(item => new SupplierDetailViewModel(item)).ToList();
             }
             catch (Exception ex)
             {

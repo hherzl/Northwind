@@ -46,6 +46,7 @@ namespace Northwind.Core.BusinessLayer
                 entity.SupplierID = value.SupplierID;
                 entity.CategoryID = value.CategoryID;
                 entity.QuantityPerUnit = value.QuantityPerUnit;
+                entity.UnitPrice = value.UnitPrice;
 
                 Uow.ProductRepository.Update(entity);
 

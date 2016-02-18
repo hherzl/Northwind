@@ -233,6 +233,7 @@
     <Compile Include="ViewModels\EmployeeDetailViewModel.cs" />
     <Compile Include="ViewModels\OrderSummaryViewModel.cs" />
     <Compile Include="ViewModels\ProductDetailViewModel.cs" />
+    <Compile Include="ViewModels\SupplierDetailViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
