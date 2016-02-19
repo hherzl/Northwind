@@ -10,6 +10,8 @@
 
     "save": "Save",
 
+    "deleteConfirmation":  "Are you sure to want delete this record?",
+
     "shippers": "Shippers",
     "shipper": "Shipper",
     "shipperID": "ID",

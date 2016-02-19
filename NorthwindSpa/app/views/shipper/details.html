@@ -1,20 +1,20 @@
-﻿<h2>{{ translation.details }}</h2>
+﻿<h2>{{ vm.translation.details }}</h2>
 
 <div>
-    <h4>{{ translation.shipper }}</h4>
+    <h4>{{ vm.translation.shipper }}</h4>
 
     <hr />
 
     <dl class="dl-horizontal">
-        <dt>{{ translation.companyName }}</dt>
-        <dd>{{ result.model.companyName }}</dd>
+        <dt>{{ vm.translation.companyName }}</dt>
+        <dd>{{ vm.result.model.companyName }}</dd>
 
-        <dt>{{ translation.phone }}</dt>
-        <dd>{{ result.model.phone }}</dd>
+        <dt>{{ vm.translation.phone }}</dt>
+        <dd>{{ vm.result.model.phone }}</dd>
     </dl>
 </div>
 
 <p>
-    <a ng-click="edit(result.model.shipperID)">{{ translation.edit }}</a>
-    <a ng-click="cancel()">{{ translation.cancel }}</a>
+    <a ng-click="vm.edit(result.model.shipperID)">{{ vm.translation.edit }}</a>
+    <a ng-click="vm.cancel()">{{ vm.translation.cancel }}</a>
 </p>

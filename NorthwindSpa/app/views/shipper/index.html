@@ -1,11 +1,11 @@
-﻿<h2>{{ translation.shippers }}</h2>
+﻿<h2>{{ vm.translation.shippers }}</h2>
 
 <div class="alert alert-danger" role="alert" ng-show="vm.result.didError">
     {{ vm.result.errorMessage }}
 </div>
 
 <p>
-    <a ng-click="vm.create()">{{ translation.createNew }}</a>
+    <a ng-click="vm.create()">{{ vm.translation.createNew }}</a>
 </p>
 
 <br />

@@ -1,22 +1,22 @@
-﻿<h2>{{ translation.delete }}</h2>
+﻿<h2>{{ vm.translation.delete }}</h2>
 
-<h3>Are you sure to want delete this record?</h3>
+<h3>{{ vm.translation.deleteConfirmation }}</h3>
 
 <div>
-    <h4>{{ translation.shipper }}</h4>
+    <h4>{{ vm.translation.shipper }}</h4>
 
     <hr />
 
     <dl class="dl-horizontal">
-        <dt>{{ translation.companyName }}</dt>
-        <dd>{{ model.companyName }}</dd>
+        <dt>{{ vm.translation.companyName }}</dt>
+        <dd>{{ vm.model.companyName }}</dd>
 
-        <dt>{{ translation.phone }}</dt>
-        <dd>{{ model.phone }}</dd>
+        <dt>{{ vm.translation.phone }}</dt>
+        <dd>{{ vm.model.phone }}</dd>
     </dl>
 
     <div class="form-actions no-color">
-        <a ng-click="delete(model.shipperID)" class="btn btn-default">{{ translation.delete }}</a>
-        <a ng-click="cancel()" class="btn btn-small">cancel</a>
+        <a ng-click="vm.delete(model.shipperID)" class="btn btn-default">{{ vm.translation.delete }}</a>
+        <a ng-click="vm.cancel()" class="btn btn-small">{{ vm.translation.cancel }}</a>
     </div>
 </div>

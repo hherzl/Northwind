@@ -5,11 +5,11 @@
     angular.module("northwindApp").controller("CreateShipperController", CreateShipperController);
     angular.module("northwindApp").controller("EditShipperController", EditShipperController);
 
-    ShipperController.$inject = ["$log", "$location", "$routeParams", "ngTableParams", "$filter", "UnitOfWork", "TranslationService"];
+    ShipperController.$inject = ["$log", "$location", "$routeParams", "$filter", "ngTableParams", "UnitOfWork", "TranslationService"];
     CreateShipperController.$inject = ["$log", "$location", "UnitOfWork", "TranslationService"];
     EditShipperController.$inject = ["$log", "$location", "$routeParams", "UnitOfWork", "TranslationService"];
 
-    function ShipperController($log, $location, $routeParams, ngTableParams, $filter, uow, translationService) {
+    function ShipperController($log, $location, $routeParams, $filter, ngTableParams, uow, translationService) {
         var vm = this;
 
         vm.result = {};
@@ -57,12 +57,12 @@
 
         vm.result = {};
 
-        translationService.setResource($scope);
+        translationService.setResource(vm);
 
         vm.create = function () {
-            uow.shipperRepository.create(vm.result.model);
-
-            $location.path("/shipper");
+            uow.shipperRepository.create(vm.result.model).then(function (result) {
+                $location.path("/shipper");
+            });
         };
 
         vm.cancel = function () {
@@ -79,22 +79,22 @@
             vm.result = result.data;
         });
 
-        translationService.setResource($scope);
+        translationService.setResource(vm);
 
         vm.edit = function (id) {
             $location.path("/shipper-edit/" + id);
         };
 
         vm.update = function () {
-            uow.shipperRepository.put(vm.result.model.shipperID, vm.result.model);
-
-            $location.path("/shipper");
+            uow.shipperRepository.put(vm.result.model.shipperID, vm.result.model).then(function (result) {
+                $location.path("/shipper");
+            });
         };
 
         vm.delete = function () {
-            uow.shipperRepository.delete(vm.result.model.shipperID, vm.result.model);
-
-            $location.path("/shipper");
+            uow.shipperRepository.delete(vm.result.model.shipperID, vm.result.model).then(function (result) {
+                $location.path("/shipper");
+            });
         };
 
         vm.cancel = function () {

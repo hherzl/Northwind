@@ -10,6 +10,8 @@
 
     "save": "Guardar",
 
+    "deleteConfirmation":  "¿Está seguro que desea eliminar este registro?",
+
     "shippers": "Expedidores",
     "shipper": "Expedidor",
     "shipperID": "ID",
