@@ -98,7 +98,7 @@
             })
             .when("/shipper-delete/:id", {
                 templateUrl: base + "shipper/delete.html",
-                controller: "EditShipperController",
+                controller: "DeleteShipperController",
                 controllerAs: "vm"
             })
 

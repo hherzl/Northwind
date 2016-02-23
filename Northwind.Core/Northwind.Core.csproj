@@ -55,6 +55,7 @@
     <Compile Include="BusinessLayer\Contracts\IBusinessObject.cs" />
     <Compile Include="BusinessLayer\Contracts\ISalesBusinessObject.cs" />
     <Compile Include="BusinessLayer\DiscontinuedProductException.cs" />
+    <Compile Include="BusinessLayer\ForeignKeyDependencyException.cs" />
     <Compile Include="BusinessLayer\NullEntityException.cs" />
     <Compile Include="BusinessLayer\SalesBusinessObject.cs" />
     <Compile Include="BusinessLayer\SalesBusinessObject.Customer.cs" />

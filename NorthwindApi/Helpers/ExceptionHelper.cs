@@ -57,38 +57,38 @@ namespace NorthwindApi.Helpers
 
         public static void Publish(Exception ex)
         {
-            var httpContext = HttpContext.Current;
+            //var httpContext = HttpContext.Current;
 
-            var errorLog = new ErrorLog();
+            //var errorLog = new ErrorLog();
 
-            errorLog.Date = DateTime.Now;
-            errorLog.User = httpContext.User.Identity.Name;
+            //errorLog.Date = DateTime.Now;
+            //errorLog.User = httpContext.User.Identity.Name;
 
-            if (HttpContext.Current.Request.UrlReferrer != null)
-            {
-                errorLog.UrlReferrer = httpContext.Request.UrlReferrer.ToString();
-            }
+            //if (HttpContext.Current.Request.UrlReferrer != null)
+            //{
+            //    errorLog.UrlReferrer = httpContext.Request.UrlReferrer.ToString();
+            //}
 
-            errorLog.Url = httpContext.Request.Url.ToString();
+            //errorLog.Url = httpContext.Request.Url.ToString();
 
-            errorLog.Browser = httpContext.Request.Browser.Browser;
-            errorLog.BrowserVersion = httpContext.Request.Browser.Version;
+            //errorLog.Browser = httpContext.Request.Browser.Browser;
+            //errorLog.BrowserVersion = httpContext.Request.Browser.Version;
 
-            var dbEntityValidationException = ex as DbEntityValidationException;
+            //var dbEntityValidationException = ex as DbEntityValidationException;
 
-            if (dbEntityValidationException != null)
-            {
-                foreach (var validationError in dbEntityValidationException.EntityValidationErrors.SelectMany(item => item.ValidationErrors))
-                {
-                    errorLog.ValidationMessages.Add(String.Format("{0}: {1}", validationError.PropertyName, validationError.ErrorMessage));
-                }
-            }
+            //if (dbEntityValidationException != null)
+            //{
+            //    foreach (var validationError in dbEntityValidationException.EntityValidationErrors.SelectMany(item => item.ValidationErrors))
+            //    {
+            //        errorLog.ValidationMessages.Add(String.Format("{0}: {1}", validationError.PropertyName, validationError.ErrorMessage));
+            //    }
+            //}
 
-            errorLog.Exception = ex.ToString();
+            //errorLog.Exception = ex.ToString();
 
-            SaveToLog(httpContext.Server.MapPath(AppSettingsHelper.JsonErrorLogPath), errorLog);
+            //SaveToLog(httpContext.Server.MapPath(AppSettingsHelper.JsonErrorLogPath), errorLog);
 
-            WriteToLog(httpContext.Server.MapPath(AppSettingsHelper.ErrorLogPath), errorLog);
+            //WriteToLog(httpContext.Server.MapPath(AppSettingsHelper.ErrorLogPath), errorLog);
         }
 
         public static String GetMessage(Exception ex)

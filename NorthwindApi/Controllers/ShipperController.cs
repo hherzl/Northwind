@@ -132,6 +132,7 @@ namespace NorthwindApi.Controllers
         }
 
         // DELETE: api/Shipper/5
+        [HttpDelete]
         public async Task<HttpResponseMessage> Delete(Int32 id)
         {
             var response = new SingleShipperResponse() as ISingleViewModelResponse<Shipper>;

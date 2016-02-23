@@ -2,6 +2,11 @@
 
 <h3>{{ vm.translation.deleteConfirmation }}</h3>
 
+<div class="alert alert-danger" role="alert" ng-show="vm.requestResult.didError">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    {{ vm.requestResult.errorMessage }}
+</div>
+
 <div>
     <h4>{{ vm.translation.shipper }}</h4>
 
@@ -9,14 +14,14 @@
 
     <dl class="dl-horizontal">
         <dt>{{ vm.translation.companyName }}</dt>
-        <dd>{{ vm.model.companyName }}</dd>
+        <dd>{{ vm.result.model.companyName }}</dd>
 
         <dt>{{ vm.translation.phone }}</dt>
-        <dd>{{ vm.model.phone }}</dd>
+        <dd>{{ vm.result.model.phone }}</dd>
     </dl>
 
     <div class="form-actions no-color">
-        <a ng-click="vm.delete(model.shipperID)" class="btn btn-default">{{ vm.translation.delete }}</a>
+        <a ng-click="vm.delete()" class="btn btn-default">{{ vm.translation.delete }}</a>
         <a ng-click="vm.cancel()" class="btn btn-small">{{ vm.translation.cancel }}</a>
     </div>
 </div>

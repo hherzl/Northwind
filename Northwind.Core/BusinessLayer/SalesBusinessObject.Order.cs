@@ -102,5 +102,13 @@ namespace Northwind.Core.BusinessLayer
 
             return header;
         }
+
+        async Task<IEnumerable<Order>> GetOrdersByShipVia(Int32? shipVia)
+        {
+            return await Task.Run(() =>
+            {
+                return Uow.OrderRepository.GetAll().Where(item => item.ShipVia == shipVia);
+            });
+        }
     }
 }

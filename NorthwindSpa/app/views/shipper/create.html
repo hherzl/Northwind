@@ -1,32 +1,32 @@
-﻿<h2>{{ translation.create }}</h2>
+﻿<h2>{{ vm.translation.create }}</h2>
 
-<form name="form" novalidate ng-submit="create()">
+<form name="form" novalidate ng-submit="vm.create()">
     <div class="form-horizontal">
-        <h4>{{ translation.shipper }}</h4>
+        <h4>{{ vm.translation.shipper }}</h4>
 
         <hr />
 
         <div class="form-group" ng-class="{ 'has-error': form.companyName.$invalid }">
-            <label for="companyName" class="control-label col-md-2">{{ translation.companyName }}</label>
+            <label for="companyName" class="control-label col-md-2">{{ vm.translation.companyName }}</label>
             <div class="col-md-10">
                 <input type="text" name="companyName" class="form-control" required ng-model="model.companyName" ng-maxlength="80" />
-                <span class="text-danger help-block" ng-show="form.companyName.$error.required">{{ translation.required }}</span>
-                <span class="text-danger help-block" ng-show="form.companyName.$error.maxlength">{{ translation.companyNameMaxLength }}</span>
+                <span class="text-danger help-block" ng-show="form.companyName.$error.required">{{ vm.translation.required }}</span>
+                <span class="text-danger help-block" ng-show="form.companyName.$error.maxlength">{{ vm.translation.companyNameMaxLength }}</span>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="phone" class="control-label col-md-2">{{ translation.phone }}</label>
+            <label for="phone" class="control-label col-md-2">{{ vm.translation.phone }}</label>
             <div class="col-md-10">
                 <input type="text" name="phone" class="form-control" ng-model="model.phone" ng-maxlength="48" />
-                <span class="text-danger help-block" ng-show="form.phone.$error.maxlength">{{ translation.phoneMaxLength }}</span>
+                <span class="text-danger help-block" ng-show="form.phone.$error.maxlength">{{ vm.translation.phoneMaxLength }}</span>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="{{ translation.create }}" class="btn btn-default" ng-disabled="!form.$valid" />
-                <a ng-click="cancel()">{{ translation.cancel }}</a>
+                <input type="submit" value="{{ vm.translation.create }}" class="btn btn-default" ng-disabled="!form.$valid" />
+                <a ng-click="vm.cancel()">{{ vm.translation.cancel }}</a>
             </div>
         </div>
     </div>

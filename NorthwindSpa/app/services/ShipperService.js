@@ -22,8 +22,8 @@
             return $http.put(rest.put(id), entity);
         };
 
-        svc.delete = function (id, entity) {
-            return $http.delete(rest.delete(id), entity);
+        svc.delete = function (id) {
+            return $http.delete(rest.delete(id));
         };
     };
 })();

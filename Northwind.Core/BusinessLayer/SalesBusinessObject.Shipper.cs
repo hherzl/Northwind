@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.EntityLayer;
@@ -59,6 +61,13 @@ namespace Northwind.Core.BusinessLayer
 
             if (entity != null)
             {
+                var task = await GetOrdersByShipVia(entity.ShipperID);
+
+                if (task.Count() > 0)
+                {
+                    throw new ForeignKeyDependencyException(String.Format("Unable to delete shipper with id: '{0}', because has orders associated.", entity.ShipperID));
+                }
+
                 Uow.ShipperRepository.Remove(entity);
 
                 await Uow.CommitChangesAsync();
