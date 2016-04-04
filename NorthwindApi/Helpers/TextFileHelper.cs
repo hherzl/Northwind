@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NorthwindApi.Helpers
 {
-    public class TextFileHelper
+    public static class TextFileHelper
     {
         public static void Create(String path, String data, FileMode mode, FileAccess access, Encoding encoding)
         {

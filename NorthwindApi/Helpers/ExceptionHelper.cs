@@ -14,39 +14,37 @@ namespace NorthwindApi.Helpers
         {
             var log = new StringBuilder();
 
-            log.AppendLine(String.Format("Fecha: {0}", errorLog.Date));
-            log.AppendLine(String.Format("Usuario: {0}", errorLog.User));
+            log.AppendLine(String.Format("Date: {0}", errorLog.Date));
+            log.AppendLine(String.Format("User: {0}", errorLog.User));
 
             if (errorLog.UrlReferrer != null)
             {
-                log.AppendLine(String.Format("Url referida: {0}", errorLog.UrlReferrer));
+                log.AppendLine(String.Format("UrlReferrer: {0}", errorLog.UrlReferrer));
             }
 
             log.AppendLine(String.Format("Url: {0}", errorLog.Url));
 
-            log.AppendLine(String.Format("Navegador: {0}", errorLog.Browser));
-            log.AppendLine(String.Format("Versión de navegador: {0}", errorLog.BrowserVersion));
+            log.AppendLine(String.Format("Browser: {0}", errorLog.Browser));
+            log.AppendLine(String.Format("Browser version: {0}", errorLog.BrowserVersion));
 
             foreach (var m in errorLog.ValidationMessages)
             {
                 log.AppendLine(String.Format(" * {0}", m));
             }
 
-            log.AppendLine(String.Format("Excepción: {0}", errorLog.Exception.ToString()));
-            log.AppendLine("");
-            log.AppendLine("*****************************************************************************************************");
-            log.AppendLine("");
+            log.AppendLine(String.Format("Exception: {0}", errorLog.Exception));
+            log.AppendLine();
 
             TextFileHelper.Append(path, log.ToString(), Encoding.UTF8);
         }
 
         private static void SaveToLog(String path, ErrorLog errorLog)
         {
-            var ctx = new ErrorLogDbContext();
+            var dbContext = new ErrorLogDbContext();
 
-            ctx.ErrorLog.Add(errorLog);
+            dbContext.ErrorLog.Add(errorLog);
 
-            ctx.SaveChanges();
+            dbContext.SaveChanges();
 
             var list = ErrorLogHelper.GetData(path);
 
