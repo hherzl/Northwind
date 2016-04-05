@@ -128,9 +128,9 @@
     <Compile Include="EntityLayer\Region.cs" />
     <Compile Include="EntityLayer\Shipper.cs" />
     <Compile Include="EntityLayer\Supplier.cs" />
-    <Compile Include="Helpers\ChangeTrackerHelper.cs" />
+    <Compile Include="Helpers\EfChangeTrackerHelper.cs" />
+    <Compile Include="Helpers\EfErrorHelper.cs" />
     <Compile Include="Helpers\EfMetadataHelper.cs" />
-    <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

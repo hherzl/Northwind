@@ -7,8 +7,6 @@ namespace NorthwindApi.Models
 {
     public class ErrorLog
     {
-        private List<String> m_validationMessages;
-
         public ErrorLog()
         {
 
@@ -28,6 +26,10 @@ namespace NorthwindApi.Models
 
         public String BrowserVersion { get; set; }
 
+        public String Exception { get; set; }
+
+        private List<String> m_validationMessages;
+
         public List<String> ValidationMessages
         {
             get
@@ -35,8 +37,24 @@ namespace NorthwindApi.Models
                 return m_validationMessages ?? (m_validationMessages = new List<String>());
             }
         }
+    }
 
-        public String Exception { get; set; }
+    public class ErrorLogMap : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<ErrorLog>
+    {
+        public ErrorLogMap()
+        {
+            HasKey(p => p.ID);
+
+            Property(p => p.ID).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+        }
+    }
+
+    public class ErrorLogDbInitializer : CreateDatabaseIfNotExists<ErrorLogDbContext>
+    {
+        protected override void Seed(ErrorLogDbContext context)
+        {
+            base.Seed(context);
+        }
     }
 
     public class ErrorLogDbContext : System.Data.Entity.DbContext
@@ -45,17 +63,24 @@ namespace NorthwindApi.Models
             : base("ErrorLogConnectionString")
         {
             Configuration.ProxyCreationEnabled = false;
+
+            Database.SetInitializer(new ErrorLogDbInitializer());
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Configurations.Add(new ErrorLogMap());
+
+            base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<ErrorLog> ErrorLog { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        public void AddErrorLog(ErrorLog entity)
         {
-            modelBuilder.Entity<ErrorLog>().HasKey(p => p.ID);
+            ErrorLog.Add(entity);
 
-            modelBuilder.Entity<ErrorLog>().Property(p => p.ID).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-
-            base.OnModelCreating(modelBuilder);
+            SaveChanges();
         }
     }
 }

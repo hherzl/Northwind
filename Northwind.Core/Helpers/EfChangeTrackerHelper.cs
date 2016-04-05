@@ -6,7 +6,7 @@ using Northwind.Core.EntityLayer;
 
 namespace Northwind.Core.Helpers
 {
-    public static class ChangeTrackerHelper
+    public static class EfChangeTrackerHelper
     {
         public static IEnumerable<ChangeLog> GetChanges(DbContext dbContext, DbEntityEntry entry)
         {

@@ -203,7 +203,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AppSettingsHelper.cs" />
-    <Compile Include="Helpers\ErrorLogHelper.cs" />
     <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="Helpers\TextFileHelper.cs" />
     <Compile Include="Models\ErrorLog.cs" />
