@@ -5,32 +5,38 @@
     angular.module("northwindApp").controller("CreateSupplierController", CreateSupplierController);
     angular.module("northwindApp").controller("EditSupplierController", EditSupplierController);
 
-    SupplierController.$inject = ["$log", "$location", "$routeParams", "ngTableParams", "$filter", "UnitOfWork"];
+    SupplierController.$inject = ["$log", "$location", "$routeParams", "$filter", "toaster", "ngTableParams", "UnitOfWork"];
     CreateSupplierController.$inject = ["$log", "$location", "UnitOfWork"];
     EditSupplierController.$inject = ["$log", "$location", "$routeParams", "UnitOfWork"];
 
-    function SupplierController($log, $location, $routeParams, ngTableParams, $filter, uow) {
+    function SupplierController($log, $location, $routeParams, $filter, toaster, ngTableParams, uow) {
         var vm = this;
 
         vm.result = {};
 
+        toaster.pop("wait", "Notification", "Loading suppliers...");
+
         uow.supplierRepository.get().then(function (result) {
             vm.result = result.data;
 
-            vm.tableParams = new ngTableParams({
-                page: 1,
-                count: 10,
-                sorting: {
-                    name: "asc"
-                }
-            }, {
-                total: vm.result.model.length,
-                getData: function ($defer, params) {
-                    var orderedData = params.sorting() ? $filter("orderBy")(vm.result.model, params.orderBy()) : vm.result.model;
+            if (!vm.result.didError) {
+                toaster.pop("success", "Message", "Suppliers data was loaded successfully!");
 
-                    $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-                }
-            });
+                vm.tableParams = new ngTableParams({
+                    page: 1,
+                    count: 10,
+                    sorting: {
+                        name: "asc"
+                    }
+                }, {
+                    total: vm.result.model.length,
+                    getData: function ($defer, params) {
+                        var orderedData = params.sorting() ? $filter("orderBy")(vm.result.model, params.orderBy()) : vm.result.model;
+
+                        $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                    }
+                });
+            }
         });
 
         vm.create = function () {

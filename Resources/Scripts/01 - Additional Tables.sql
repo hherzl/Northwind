@@ -1,4 +1,7 @@
-﻿create table ChangeLog
+﻿use Northwind
+go
+
+create table ChangeLog
 (
 	ChangeLogID int not null identity(1, 1),
 	TableName varchar(255) not null,

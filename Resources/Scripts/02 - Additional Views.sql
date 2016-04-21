@@ -1,4 +1,7 @@
-﻿create view dbo.OrderDetailSummary
+﻿use Northwind
+go
+
+create view dbo.OrderDetailSummary
 as
 	select
 		Details.OrderID,

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.EntityLayer;
+using NorthwindApi.Helpers;
 using NorthwindApi.Responses;
 using NorthwindApi.Services;
 using NorthwindApi.ViewModels;
@@ -53,8 +54,9 @@ namespace NorthwindApi.Controllers
             }
             catch (Exception ex)
             {
-                response.DidError = true;
+                ExceptionHelper.Publish(ex);
 
+                response.DidError = true;
                 response.ErrorMessage = ex.Message;
             }
 
@@ -74,6 +76,8 @@ namespace NorthwindApi.Controllers
             }
             catch (Exception ex)
             {
+                ExceptionHelper.Publish(ex);
+
                 response.DidError = true;
                 response.ErrorMessage = ex.Message;
             }
@@ -94,6 +98,8 @@ namespace NorthwindApi.Controllers
             }
             catch (Exception ex)
             {
+                ExceptionHelper.Publish(ex);
+
                 response.DidError = true;
                 response.ErrorMessage = ex.Message;
             }
@@ -102,12 +108,12 @@ namespace NorthwindApi.Controllers
         }
 
         // PUT: api/Order/5
-        public void Put(int id, [FromBody]string value)
+        public void Put(Int32 id, [FromBody]Order value)
         {
         }
 
         // DELETE: api/Order/5
-        public void Delete(int id)
+        public void Delete(Int32 id)
         {
         }
     }

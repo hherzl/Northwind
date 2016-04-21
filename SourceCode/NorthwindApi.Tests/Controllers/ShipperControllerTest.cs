@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -21,7 +22,7 @@ namespace NorthwindApi.Tests.Controllers
         }
 
         [TestMethod]
-        public async Task GetAsync()
+        public async Task Administration_GetShippersAsync()
         {
             // Arrange
             var controller = new ShipperController(service);
@@ -37,6 +38,26 @@ namespace NorthwindApi.Tests.Controllers
             result.TryGetContentValue(out value);
 
             Assert.IsNotNull(value.Model);
+            Assert.IsNotNull(value.Model.Count() > 0);
+        }
+
+        [TestMethod]
+        public async Task Administration_GetShipperByIdAsync()
+        {
+            // Arrange
+            var controller = new ShipperController(service);
+            controller.Request = new HttpRequestMessage();
+            controller.Configuration = new HttpConfiguration();
+
+            // Act
+            var result = await controller.Get(1);
+
+            // Assert
+            var response = default(ISingleViewModelResponse<Shipper>);
+
+            result.TryGetContentValue(out response);
+
+            Assert.IsNotNull(response.Model);
         }
 
         [TestMethod]
@@ -62,25 +83,6 @@ namespace NorthwindApi.Tests.Controllers
             result.TryGetContentValue(out response);
 
             Assert.IsNotNull(response.Model.ShipperID);
-        }
-
-        [TestMethod]
-        public async Task GetByIdAsync()
-        {
-            // Arrange
-            var controller = new ShipperController(service);
-            controller.Request = new HttpRequestMessage();
-            controller.Configuration = new HttpConfiguration();
-
-            // Act
-            var result = await controller.Get(7);
-
-            // Assert
-            var response = default(ISingleViewModelResponse<Shipper>);
-
-            result.TryGetContentValue(out response);
-
-            Assert.IsNotNull(response.Model);
         }
 
         [TestMethod]
