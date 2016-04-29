@@ -1,16 +1,46 @@
-﻿(function () {
+﻿var foo;
+
+(function () {
     "use strict";
 
     angular.module("northwindApp").controller("OrderController", OrderController);
     angular.module("northwindApp").controller("CreateOrderController", CreateOrderController);
     angular.module("northwindApp").controller("OrderDetailsController", OrderDetailsController);
 
-    OrderController.$inject = ["$log", "$location", "$routeParams", "$filter", "ngTableParams", "toaster", "UnitOfWork"];
+    OrderController.$inject = ["$log", "$scope", "$location", "$routeParams", "$filter", "ngTableParams", "toaster", "UnitOfWork"];
     CreateOrderController.$inject = ["$log", "$location", "toaster", "UnitOfWork"];
     OrderDetailsController.$inject = ["$log", "$location", "$routeParams", "UnitOfWork"];
 
-    function OrderController($log, $location, $routeParams, $filter, ngTableParams, toaster, uow) {
+    function OrderController($log, $scope, $location, $routeParams, $filter, ngTableParams, toaster, uow) {
         var vm = this;
+
+        foo = vm;
+
+        vm.start = undefined;
+        vm.end = undefined;
+
+        vm.open = function (obj) {
+            debugger;
+            obj[0].open(obj[1]);
+        };
+
+        vm.searchParams = {};
+
+        $scope.$watch("vm.start", function (newValue, oldValue) {
+            $log.log("vm.start");
+            if (newValue == undefined || newValue == null) {
+                vm.start = undefined;
+                vm.searchParams.start = undefined;
+            }
+        });
+
+        $scope.$watch("vm.end", function (newValue, oldValue) {
+            $log.log("vm.end");
+            if (newValue == undefined || newValue == null) {
+                vm.end = undefined;
+                vm.searchParams.end = undefined;
+            }
+        });
 
         uow.customerRepository.get().then(function (result) {
             vm.customerResult = result.data;
@@ -53,16 +83,24 @@
             vm.tableParams.reload();
         });
 
-        vm.search = function () {
-            uow.orderRepository.getSummaries(vm.orderID, vm.customerID, vm.employeeID, vm.shipperID).then(function (result) {
-                toaster.pop("wait", "Notification", "Searching orders...");
+        //vm.search = function () {
+        //    toaster.pop("wait", "Notification", "Searching orders...");
 
-                vm.result = result.data;
+        //    if (vm.start) {
+        //        vm.search.start = buildDateString(vm.start);
+        //    }
 
-                vm.tableParams.total(vm.result.model.length);
-                vm.tableParams.reload();
-            });
-        };
+        //    if (vm.end) {
+        //        vm.search.start = buildDateString(vm.end);
+        //    }
+
+        //    uow.orderRepository.getSummaries(vm.orderID, vm.customerID, vm.employeeID, vm.shipperID).then(function (result) {
+        //        vm.result = result.data;
+
+        //        vm.tableParams.total(vm.result.model.length);
+        //        vm.tableParams.reload();
+        //    });
+        //};
 
         vm.create = function () {
             $location.path("/order-create");
@@ -71,6 +109,107 @@
         vm.details = function (obj) {
             $location.path("/order-details/" + obj.orderID);
         };
+
+        vm.s = {};
+        vm.e = {};
+
+        initDatePickerScope(vm.s);
+        initDatePickerScope(vm.e);
+    };
+
+    function buildDate(dateTime, time) {
+        console.log("buildDate");
+
+        if (time) {
+            return new Date(dateTime.getFullYear(), dateTime.getMonth(), dateTime.getDate(), time.getHours(), time.getMinutes(), 0, 0);
+        } else {
+            return new Date(dateTime.getFullYear(), dateTime.getMonth(), dateTime.getDate());
+        }
+    };
+
+    function buildDateString(dateTime) {
+        console.log("buildDateString");
+
+        return dateTime.getDate() + "/" + (dateTime.getMonth() + 1) + "/" + dateTime.getFullYear();
+    };
+
+    function initDatePickerScope(target) {
+        console.log("initDatePickerScope");
+
+        target.currentText = "Now";
+        target.clearText = "Clear";
+        target.closeText = "Close";
+
+        target.today = function () {
+            target.dt = new Date();
+        };
+
+        target.today();
+
+        target.clear = function () {
+            target.dt = null;
+        };
+
+        // Disable weekend selection
+        target.disabled = function (date, mode) {
+            return (mode === "day" && (date.getDay() === 0));
+        };
+
+        target.toggleMin = function () {
+            target.minDate = target.minDate ? null : new Date();
+        };
+
+        target.toggleMin();
+
+        target.open = function ($event) {
+            //$event.preventDefault();
+            //$event.stopPropagation();
+
+            target.opened = true;
+        };
+
+        target.dateOptions = {
+            formatYear: "yy",
+            startingDay: 1
+        };
+
+        target.formats = ["dd/MM/yyyy"];
+        target.format = target.formats[0];
+
+        var tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        var afterTomorrow = new Date();
+        afterTomorrow.setDate(tomorrow.getDate() + 2);
+
+        target.events = [
+            {
+                date: tomorrow,
+                status: "full"
+            },
+            {
+                date: afterTomorrow,
+                status: "partially"
+            }
+        ];
+
+        target.getDayClass = function (date, mode) {
+            if (mode === "day") {
+                var dayToCheck = new Date(date).setHours(0, 0, 0, 0);
+
+                for (var i = 0; i < target.events.length; i++) {
+                    var currentDay = new Date(target.events[i].date).setHours(0, 0, 0, 0);
+
+                    if (dayToCheck === currentDay) {
+                        return target.events[i].status;
+                    }
+                }
+            }
+
+            return "";
+        };
+
+        target.ismeridian = true;
     };
 
     function CreateOrderController($log, $location, toaster, uow) {

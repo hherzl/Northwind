@@ -19,8 +19,11 @@ namespace NorthwindSpa
                         "~/Scripts/angular-route.js",
                         "~/Scripts/angular-resource.js",
                         "~/Scripts/angular-cookies.js",
-                        "~/Scripts/angular-ui/ui-bootstrap.js",
                         "~/Scripts/angular-animate.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/angular-ui").Include(
+                        "~/Scripts/angular-ui/ui-bootstrap.js",
+                        "~/Scripts/angular-ui/ui-bootstrap-tpls.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/angular-components").Include(
                         "~/Scripts/toaster.js",
@@ -66,6 +69,9 @@ namespace NorthwindSpa
                       "~/Content/bootstrap.css",
                       "~/Content/bootstrap-theme.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/angular-ui").Include(
+                      "~/Content/ui-bootstrap-csp.css"));
 
             bundles.Add(new StyleBundle("~/Content/angular").Include(
                       "~/Content/toaster.css",

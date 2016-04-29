@@ -15,6 +15,18 @@
     <div class="row">
         <form class="form-inline" role="form" method="get">
             <div class="form-group">
+                <input type="text" class="form-control input-sm" style="width: 100px;" placeholder="Start" ng-model="vm.start" datepicker-popup="{{ vm.s.format }}" is-open="vm.s.opened" datepicker-options="vm.s.dateOptions" date-disabled="vm.s.disabled(vm.s.date, vm.s.mode)" current-text="{{ vm.s.currentText }}" clear-text="{{ vm.s.clearText }}" close-text="{{ vm.s.closeText }}" />
+                <button type="button" class="btn btn-default btn-sm" ng-click="vm.s.open($event);">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+
+                <input type="text" class="form-control input-sm" style="width: 100px;" placeholder="End" ng-model="vm.end" datepicker-popup="{{ vm.e.format }}" is-open="vm.e.opened" datepicker-options="vm.e.dateOptions" date-disabled="vm.e.disabled(vm.e.date, vm.e.mode)" current-text="{{ vm.e.currentText }}" clear-text="{{ vm.e.clearText }}" close-text="{{ vm.e.closeText }}" />
+                <button type="button" class="btn btn-default btn-sm" ng-click="vm.e.open($event)">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+            </div>
+
+            <div class="form-group">
                 <input type="text" name="orderID" size="5" class="form-control" placeholder="Order #" ng-model="vm.orderID" />
             </div>
             <div class="form-group">
