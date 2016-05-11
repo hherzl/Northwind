@@ -34,7 +34,7 @@ namespace NorthwindApi.Controllers
         // GET: api/Shipper
         public async Task<HttpResponseMessage> Get()
         {
-            var response = new ComposedShipperResponse() as IComposedViewModelResponse<Shipper>;
+            var response = new ComposedViewModelResponse<Shipper>() as IComposedViewModelResponse<Shipper>;
 
             try
             {
@@ -50,13 +50,13 @@ namespace NorthwindApi.Controllers
                 response.DidError = true;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
 
         // GET: api/Shipper/5
         public async Task<HttpResponseMessage> Get(Int32 id)
         {
-            var response = new SingleShipperResponse() as ISingleViewModelResponse<Shipper>;
+            var response = new SingleViewModelResponse<Shipper>() as ISingleViewModelResponse<Shipper>;
 
             try
             {
@@ -71,17 +71,17 @@ namespace NorthwindApi.Controllers
             {
                 ExceptionHelper.Publish(ex);
 
-                response.ErrorMessage = ex.Message;
                 response.DidError = true;
+                response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
 
         // POST: api/Shipper
         public async Task<HttpResponseMessage> Post([FromBody]Shipper value)
         {
-            var response = new SingleShipperResponse() as ISingleViewModelResponse<Shipper>;
+            var response = new SingleViewModelResponse<Shipper>() as ISingleViewModelResponse<Shipper>;
 
             try
             {
@@ -93,17 +93,17 @@ namespace NorthwindApi.Controllers
             {
                 ExceptionHelper.Publish(ex);
 
-                response.ErrorMessage = ex.Message;
                 response.DidError = true;
+                response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
 
         // PUT: api/Shipper/5
         public async Task<HttpResponseMessage> Put(Int32 id, [FromBody]Shipper value)
         {
-            var response = new SingleShipperResponse() as ISingleViewModelResponse<Shipper>;
+            var response = new SingleViewModelResponse<Shipper>() as ISingleViewModelResponse<Shipper>;
 
             try
             {
@@ -124,18 +124,18 @@ namespace NorthwindApi.Controllers
             {
                 ExceptionHelper.Publish(ex);
 
-                response.ErrorMessage = ex.Message;
                 response.DidError = true;
+                response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
 
         // DELETE: api/Shipper/5
         [HttpDelete]
         public async Task<HttpResponseMessage> Delete(Int32 id)
         {
-            var response = new SingleShipperResponse() as ISingleViewModelResponse<Shipper>;
+            var response = new SingleViewModelResponse<Shipper>() as ISingleViewModelResponse<Shipper>;
 
             try
             {
@@ -156,11 +156,11 @@ namespace NorthwindApi.Controllers
             {
                 ExceptionHelper.Publish(ex);
 
-                response.ErrorMessage = ex.Message;
                 response.DidError = true;
+                response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
     }
 }

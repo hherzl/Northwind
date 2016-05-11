@@ -102,7 +102,10 @@ namespace Northwind.Core.Mocks
                             }
                         }
 
-                        var entity = await businessObject.CreateOrder(header);
+                        var entity = await Task.Run(() =>
+                        {
+                            return businessObject.CreateOrder(header);
+                        });
 
                         Console.WriteLine("Order #: {0}", entity.OrderID);
                     }

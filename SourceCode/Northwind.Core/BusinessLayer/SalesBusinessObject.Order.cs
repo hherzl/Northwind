@@ -10,28 +10,22 @@ namespace Northwind.Core.BusinessLayer
 {
     public partial class SalesBusinessObject : ISalesBusinessObject
     {
-        public async Task<IEnumerable<OrderSummary>> GetOrderSummaries(String customerID, Int32? employeeID, Int32? shipperID)
+        public IEnumerable<OrderSummary> GetOrderSummaries(String customerID, Int32? employeeID, Int32? shipperID)
         {
-            return await Task.Run(() =>
-            {
-                return Uow
-                    .OrderRepository
-                    .GetSummaries(customerID, employeeID, shipperID)
-                    .OrderByDescending(item => item.OrderDate);
-            });
+            return Uow
+                .OrderRepository
+                .GetSummaries(customerID, employeeID, shipperID)
+                .OrderByDescending(item => item.OrderDate);
         }
 
-        public async Task<Order> GetOrder(Order entity)
+        public Order GetOrder(Order entity)
         {
-            return await Task.Run(() =>
-            {
-                return Uow
-                    .OrderRepository
-                    .Get(new Order(entity.OrderID));
-            });
+            return Uow
+                .OrderRepository
+                .Get(new Order(entity.OrderID));
         }
 
-        public async Task<Order> CreateOrder(Order entity)
+        public Order CreateOrder(Order entity)
         {
             var header = new Order();
 
@@ -54,7 +48,7 @@ namespace Northwind.Core.BusinessLayer
 
                     Uow.OrderRepository.Add(header);
 
-                    await Uow.CommitChangesAsync();
+                    Uow.CommitChanges();
 
                     foreach (var summary in entity.OrderSummaries)
                     {
@@ -86,7 +80,7 @@ namespace Northwind.Core.BusinessLayer
                         Uow.ProductRepository.Update(product);
                     }
 
-                    await Uow.CommitChangesAsync();
+                    Uow.CommitChanges();
 
                     entity.OrderID = header.OrderID;
 

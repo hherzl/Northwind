@@ -189,6 +189,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
@@ -214,6 +215,8 @@
     <Compile Include="Responses\ComposedRegionResponse.cs" />
     <Compile Include="Responses\ComposedShipperResponse.cs" />
     <Compile Include="Responses\ComposedSupplierResponse.cs" />
+    <Compile Include="Responses\ComposedViewModelResponse.cs" />
+    <Compile Include="Responses\Extensions.cs" />
     <Compile Include="Responses\IComposedViewModelResponse.cs" />
     <Compile Include="Responses\IResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -227,6 +230,7 @@
     <Compile Include="Responses\SingleRegionResponse.cs" />
     <Compile Include="Responses\SingleShipperResponse.cs" />
     <Compile Include="Responses\SingleSupplierResponse.cs" />
+    <Compile Include="Responses\SingleViewModelResponse.cs" />
     <Compile Include="Services\IBusinessObjectService.cs" />
     <Compile Include="Services\BusinessObjectService.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />

@@ -1,9 +1,9 @@
-﻿(function () {
+﻿(function (app) {
     "use strict";
 
-    angular.module("northwindApp").controller("ProductController", ProductController);
-    angular.module("northwindApp").controller("CreateProductController", CreateProductController);
-    angular.module("northwindApp").controller("EditProductController", EditProductController);
+    app.controller("ProductController", ProductController);
+    app.controller("CreateProductController", CreateProductController);
+    app.controller("EditProductController", EditProductController);
 
     ProductController.$inject = ["$log", "$location", "$routeParams", "$filter", "toaster", "ngTableParams", "UnitOfWork"];
     CreateProductController.$inject = ["$log", "$location", "UnitOfWork"];
@@ -132,4 +132,4 @@
             $location.path("/product");
         };
     };
-})();
+})(angular.module("northwindApp"));

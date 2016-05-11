@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -48,6 +49,7 @@ namespace NorthwindApi.Tests.Controllers
             result.TryGetContentValue(out value);
 
             Assert.IsNotNull(value.Model);
+            Console.WriteLine("Model.Count: {0}", value.Model.Count());
         }
     }
 }

@@ -8,11 +8,11 @@ namespace Northwind.Core.BusinessLayer.Contracts
 {
     public interface ISalesBusinessObject : IBusinessObject
     {
-        Task<IEnumerable<OrderSummary>> GetOrderSummaries(String customerID, Int32? employeeID, Int32? shipperID);
+        IEnumerable<OrderSummary> GetOrderSummaries(String customerID, Int32? employeeID, Int32? shipperID);
 
-        Task<Order> GetOrder(Order entity);
+        Order GetOrder(Order entity);
 
-        Task<Order> CreateOrder(Order entity);
+        Order CreateOrder(Order entity);
 
         Task<IEnumerable<ProductDetail>> GetProductsDetails(String productName, Int32? supplierID, Int32? categoryID);
 

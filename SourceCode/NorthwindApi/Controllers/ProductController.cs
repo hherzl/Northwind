@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.EntityLayer;
+using NorthwindApi.Helpers;
 using NorthwindApi.Responses;
 using NorthwindApi.Services;
 using NorthwindApi.ViewModels;
@@ -34,7 +34,7 @@ namespace NorthwindApi.Controllers
         // GET: api/Product
         public async Task<HttpResponseMessage> Get(String productName, Int32? supplierID, Int32? categoryID)
         {
-            var response = new ComposedProductDetailResponse();
+            var response = new ComposedViewModelResponse<ProductDetailViewModel>() as IComposedViewModelResponse<ProductDetailViewModel>;
 
             try
             {
@@ -44,17 +44,19 @@ namespace NorthwindApi.Controllers
             }
             catch (Exception ex)
             {
+                ExceptionHelper.Publish(ex);
+
                 response.DidError = true;
                 response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
 
         // GET: api/Product/5
         public async Task<HttpResponseMessage> Get(Int32 id)
         {
-            var response = new SingleProductResponse();
+            var response = new SingleViewModelResponse<Product>() as ISingleViewModelResponse<Product>;
 
             try
             {
@@ -66,13 +68,13 @@ namespace NorthwindApi.Controllers
                 response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
 
         // POST: api/Product
         public async Task<HttpResponseMessage> Post([FromBody]Product value)
         {
-            var response = new SingleProductResponse();
+            var response = new SingleViewModelResponse<Product>() as ISingleViewModelResponse<Product>;
 
             try
             {
@@ -86,13 +88,13 @@ namespace NorthwindApi.Controllers
                 response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
 
         // PUT: api/Product/5
         public async Task<HttpResponseMessage> Put(Int32 id, [FromBody]Product value)
         {
-            var response = new SingleProductResponse();
+            var response = new SingleViewModelResponse<Product>() as ISingleViewModelResponse<Product>;
 
             try
             {
@@ -115,13 +117,13 @@ namespace NorthwindApi.Controllers
                 response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
 
         // DELETE: api/Product/5
         public async Task<HttpResponseMessage> Delete(Int32 id)
         {
-            var response = new SingleProductResponse();
+            var response = new SingleViewModelResponse<Product>() as ISingleViewModelResponse<Product>;
 
             try
             {
@@ -144,7 +146,7 @@ namespace NorthwindApi.Controllers
                 response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
     }
 }
