@@ -93,7 +93,7 @@
             $location.path("/shipper-edit/" + id);
         };
 
-        vm.update = function () {
+        vm.save = function () {
             uow.shipperRepository.put(vm.result.model.shipperID, vm.result.model).then(function (result) {
                 $location.path("/shipper");
             });
