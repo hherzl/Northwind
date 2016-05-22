@@ -17,9 +17,7 @@ namespace Northwind.Core.Mocks
         [TestMethod]
         public async Task IncreaseStocks()
         {
-            var uow = new SalesUow(new SalesDbContext()) as ISalesUow;
-
-            var businessObject = new SalesBusinessObject(uow) as ISalesBusinessObject;
+            var businessObject = new SalesBusinessObject(new SalesUow(new SalesDbContext()) as ISalesUow) as ISalesBusinessObject;
 
             var productsTask = await businessObject.GetProductsDetails(String.Empty, null, null);
 
@@ -47,9 +45,7 @@ namespace Northwind.Core.Mocks
             {
                 if (date.DayOfWeek != DayOfWeek.Sunday)
                 {
-                    var uow = new SalesUow(new SalesDbContext()) as ISalesUow;
-
-                    var businessObject = new SalesBusinessObject(uow) as ISalesBusinessObject;
+                    var businessObject = new SalesBusinessObject(new SalesUow(new SalesDbContext()) as ISalesUow) as ISalesBusinessObject;
 
                     var customersTask = await businessObject.GetCustomers();
                     var employeesTask = await businessObject.GetEmployees();
@@ -124,7 +120,7 @@ namespace Northwind.Core.Mocks
                 startDate: new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1),
                 endDate: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month)),
                 limit: 10,
-                freights: new Decimal?[] { 15.99m, 19.99m, 24.99m, 29.99m  }
+                freights: new Decimal?[] { 15.99m, 19.99m, 24.99m, 29.99m }
             );
         }
     }
