@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.EntityLayer;
+using NorthwindApi.Helpers;
 using NorthwindApi.Responses;
 using NorthwindApi.Services;
 using NorthwindApi.ViewModels;
@@ -34,7 +34,7 @@ namespace NorthwindApi.Controllers
         // GET: api/Employee
         public async Task<HttpResponseMessage> Get()
         {
-            var response = new ComposedEmployeeDetailResponse();
+            var response = new ComposedModelResponse<EmployeeDetailViewModel>() as IComposedModelResponse<EmployeeDetailViewModel>;
 
             try
             {
@@ -44,17 +44,19 @@ namespace NorthwindApi.Controllers
             }
             catch (Exception ex)
             {
+                ExceptionHelper.Publish(ex);
+
                 response.DidError = true;
                 response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
 
         // GET: api/Employee/5
         public async Task<HttpResponseMessage> Get(Int32 id)
         {
-            var response = new SingleEmployeeResponse();
+            var response = new SingleModelResponse<Employee>() as ISingleModelResponse<Employee>;
 
             try
             {
@@ -62,29 +64,13 @@ namespace NorthwindApi.Controllers
             }
             catch (Exception ex)
             {
+                ExceptionHelper.Publish(ex);
+
                 response.DidError = true;
                 response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
-        }
-
-        // POST: api/Employee
-        public void Post([FromBody]Employee value)
-        {
-
-        }
-
-        // PUT: api/Employee/5
-        public void Put(Int32 id, [FromBody]Employee value)
-        {
-
-        }
-
-        // DELETE: api/Employee/5
-        public void Delete(Int32 id)
-        {
-
+            return response.ToHttpResponse(Request);
         }
     }
 }

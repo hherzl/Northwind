@@ -44,7 +44,7 @@ namespace NorthwindApi.Tests.Controllers
             var result = await controller.Get(orderID, customerID, employeeID, shipperID);
 
             // Assert
-            var value = default(IComposedViewModelResponse<OrderSummaryViewModel>);
+            var value = default(IComposedModelResponse<OrderSummaryViewModel>);
 
             result.TryGetContentValue(out value);
 

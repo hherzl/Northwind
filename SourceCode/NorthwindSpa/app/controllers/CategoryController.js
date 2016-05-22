@@ -1,7 +1,7 @@
-﻿(function () {
+﻿(function (app) {
     "use strict";
 
-    angular.module("northwindApp").controller("CategoryController", CategoryController);
+    app.controller("CategoryController", CategoryController);
 
     CategoryController.$inject = ["$log", "$location", "$routeParams", "toaster", "ngTableParams", "$filter", "UnitOfWork"];
 
@@ -49,4 +49,4 @@
             $location.path("/category-delete/" + id);
         };
     };
-})();
+})(angular.module("northwindApp"));

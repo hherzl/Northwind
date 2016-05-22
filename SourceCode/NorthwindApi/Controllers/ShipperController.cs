@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -34,7 +33,7 @@ namespace NorthwindApi.Controllers
         // GET: api/Shipper
         public async Task<HttpResponseMessage> Get()
         {
-            var response = new ComposedViewModelResponse<Shipper>() as IComposedViewModelResponse<Shipper>;
+            var response = new ComposedModelResponse<Shipper>() as IComposedModelResponse<Shipper>;
 
             try
             {
@@ -56,16 +55,11 @@ namespace NorthwindApi.Controllers
         // GET: api/Shipper/5
         public async Task<HttpResponseMessage> Get(Int32 id)
         {
-            var response = new SingleViewModelResponse<Shipper>() as ISingleViewModelResponse<Shipper>;
+            var response = new SingleModelResponse<Shipper>() as ISingleModelResponse<Shipper>;
 
             try
             {
                 response.Model = await BusinessObject.GetShipper(new Shipper(id));
-
-                if (response.Model == null)
-                {
-                    return Request.CreateResponse(HttpStatusCode.NotFound);
-                }
             }
             catch (Exception ex)
             {
@@ -81,13 +75,13 @@ namespace NorthwindApi.Controllers
         // POST: api/Shipper
         public async Task<HttpResponseMessage> Post([FromBody]Shipper value)
         {
-            var response = new SingleViewModelResponse<Shipper>() as ISingleViewModelResponse<Shipper>;
+            var response = new SingleModelResponse<Shipper>() as ISingleModelResponse<Shipper>;
 
             try
             {
-                await BusinessObject.CreateShipper(value);
+                var entity = await BusinessObject.CreateShipper(value);
 
-                response.Model = value;
+                response.Model = entity;
             }
             catch (Exception ex)
             {
@@ -103,22 +97,13 @@ namespace NorthwindApi.Controllers
         // PUT: api/Shipper/5
         public async Task<HttpResponseMessage> Put(Int32 id, [FromBody]Shipper value)
         {
-            var response = new SingleViewModelResponse<Shipper>() as ISingleViewModelResponse<Shipper>;
+            var response = new SingleModelResponse<Shipper>() as ISingleModelResponse<Shipper>;
 
             try
             {
                 var entity = await BusinessObject.UpdateShipper(value);
 
-                if (entity == null)
-                {
-                    response.DidError = true;
-                    response.ErrorMessage = String.Format("There isn't a record with id: {0}", id);
-                }
-                else
-                {
-                    response.Model = value;
-                    response.Message = "Update was successfully!";
-                }
+                response.Model = entity;
             }
             catch (Exception ex)
             {
@@ -135,22 +120,13 @@ namespace NorthwindApi.Controllers
         [HttpDelete]
         public async Task<HttpResponseMessage> Delete(Int32 id)
         {
-            var response = new SingleViewModelResponse<Shipper>() as ISingleViewModelResponse<Shipper>;
+            var response = new SingleModelResponse<Shipper>() as ISingleModelResponse<Shipper>;
 
             try
             {
                 var entity = await BusinessObject.DeleteShipper(new Shipper(id));
 
-                if (entity == null)
-                {
-                    response.DidError = true;
-                    response.ErrorMessage = String.Format("There isn't a record with id: {0}", id);
-                }
-                else
-                {
-                    response.Model = entity;
-                    response.Message = "Delete was successfully!";
-                }
+                response.Model = entity;
             }
             catch (Exception ex)
             {

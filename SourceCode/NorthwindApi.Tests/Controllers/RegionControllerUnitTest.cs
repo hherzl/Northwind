@@ -32,7 +32,7 @@ namespace NorthwindApi.Tests
             var result = await controller.Get();
 
             // Assert
-            var value = default(IComposedViewModelResponse<Region>);
+            var value = default(IComposedModelResponse<Region>);
 
             result.TryGetContentValue(out value);
 
@@ -57,7 +57,7 @@ namespace NorthwindApi.Tests
             var result = await controller.Post(model);
 
             // Assert
-            var response = default(ISingleViewModelResponse<Region>);
+            var response = default(ISingleModelResponse<Region>);
 
             result.TryGetContentValue(out response);
 
@@ -76,7 +76,7 @@ namespace NorthwindApi.Tests
             var result = await controller.Get(5);
 
             // Assert
-            var response = default(ISingleViewModelResponse<Region>);
+            var response = default(ISingleModelResponse<Region>);
 
             result.TryGetContentValue(out response);
 
@@ -100,7 +100,7 @@ namespace NorthwindApi.Tests
             var result = await controller.Put(5, model);
 
             // Assert
-            var value = default(ISingleViewModelResponse<Region>);
+            var value = default(ISingleModelResponse<Region>);
 
             result.TryGetContentValue(out value);
 
@@ -119,7 +119,7 @@ namespace NorthwindApi.Tests
             var result = await controller.Delete(5);
 
             // Assert
-            var value = default(ISingleViewModelResponse<Region>);
+            var value = default(ISingleModelResponse<Region>);
 
             result.TryGetContentValue(out value);
 

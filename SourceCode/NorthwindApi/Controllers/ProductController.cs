@@ -34,7 +34,7 @@ namespace NorthwindApi.Controllers
         // GET: api/Product
         public async Task<HttpResponseMessage> Get(String productName, Int32? supplierID, Int32? categoryID)
         {
-            var response = new ComposedViewModelResponse<ProductDetailViewModel>() as IComposedViewModelResponse<ProductDetailViewModel>;
+            var response = new ComposedModelResponse<ProductDetailViewModel>() as IComposedModelResponse<ProductDetailViewModel>;
 
             try
             {
@@ -56,7 +56,7 @@ namespace NorthwindApi.Controllers
         // GET: api/Product/5
         public async Task<HttpResponseMessage> Get(Int32 id)
         {
-            var response = new SingleViewModelResponse<Product>() as ISingleViewModelResponse<Product>;
+            var response = new SingleModelResponse<Product>() as ISingleModelResponse<Product>;
 
             try
             {
@@ -64,6 +64,8 @@ namespace NorthwindApi.Controllers
             }
             catch (Exception ex)
             {
+                ExceptionHelper.Publish(ex);
+
                 response.DidError = true;
                 response.ErrorMessage = ex.Message;
             }
@@ -74,7 +76,7 @@ namespace NorthwindApi.Controllers
         // POST: api/Product
         public async Task<HttpResponseMessage> Post([FromBody]Product value)
         {
-            var response = new SingleViewModelResponse<Product>() as ISingleViewModelResponse<Product>;
+            var response = new SingleModelResponse<Product>() as ISingleModelResponse<Product>;
 
             try
             {
@@ -84,6 +86,8 @@ namespace NorthwindApi.Controllers
             }
             catch (Exception ex)
             {
+                ExceptionHelper.Publish(ex);
+
                 response.DidError = true;
                 response.ErrorMessage = ex.Message;
             }
@@ -94,25 +98,18 @@ namespace NorthwindApi.Controllers
         // PUT: api/Product/5
         public async Task<HttpResponseMessage> Put(Int32 id, [FromBody]Product value)
         {
-            var response = new SingleViewModelResponse<Product>() as ISingleViewModelResponse<Product>;
+            var response = new SingleModelResponse<Product>() as ISingleModelResponse<Product>;
 
             try
             {
                 var entity = await BusinessObject.UpdateProduct(value);
 
-                if (entity == null)
-                {
-                    response.DidError = true;
-                    response.ErrorMessage = String.Format("There isn't a record with id: {0}", id);
-                }
-                else
-                {
-                    response.Model = value;
-                    response.Message = "Update was successfully!";
-                }
+                response.Model = entity;
             }
             catch (Exception ex)
             {
+                ExceptionHelper.Publish(ex);
+
                 response.DidError = true;
                 response.ErrorMessage = ex.Message;
             }
@@ -123,25 +120,18 @@ namespace NorthwindApi.Controllers
         // DELETE: api/Product/5
         public async Task<HttpResponseMessage> Delete(Int32 id)
         {
-            var response = new SingleViewModelResponse<Product>() as ISingleViewModelResponse<Product>;
+            var response = new SingleModelResponse<Product>() as ISingleModelResponse<Product>;
 
             try
             {
                 var entity = await BusinessObject.DeleteProduct(new Product(id));
 
-                if (entity == null)
-                {
-                    response.DidError = true;
-                    response.ErrorMessage = String.Format("There isn't a record with id: {0}", id);
-                }
-                else
-                {
-                    response.Model = entity;
-                    response.Message = "Delete was successfully!";
-                }
+                response.Model = entity;
             }
             catch (Exception ex)
             {
+                ExceptionHelper.Publish(ex);
+
                 response.DidError = true;
                 response.ErrorMessage = ex.Message;
             }

@@ -33,7 +33,7 @@ namespace NorthwindApi.Tests.Controllers
             var result = await controller.Get();
 
             // Assert
-            var value = default(IComposedViewModelResponse<CategoryViewModel>);
+            var value = default(IComposedModelResponse<CategoryViewModel>);
 
             result.TryGetContentValue(out value);
 
@@ -58,7 +58,7 @@ namespace NorthwindApi.Tests.Controllers
             var result = await controller.Post(model);
 
             // Assert
-            var response = default(ISingleViewModelResponse<CategoryViewModel>);
+            var response = default(ISingleModelResponse<CategoryViewModel>);
 
             result.TryGetContentValue(out response);
 
@@ -77,7 +77,7 @@ namespace NorthwindApi.Tests.Controllers
             var result = await controller.Get(7);
 
             // Assert
-            var response = default(ISingleViewModelResponse<CategoryViewModel>);
+            var response = default(ISingleModelResponse<CategoryViewModel>);
 
             result.TryGetContentValue(out response);
 
@@ -102,7 +102,7 @@ namespace NorthwindApi.Tests.Controllers
             var result = await controller.Put(8, model);
 
             // Assert
-            var value = default(ISingleViewModelResponse<CategoryViewModel>);
+            var value = default(ISingleModelResponse<CategoryViewModel>);
 
             result.TryGetContentValue(out value);
 
@@ -121,7 +121,7 @@ namespace NorthwindApi.Tests.Controllers
             var result = await controller.Delete(9);
 
             // Assert
-            var value = default(ISingleViewModelResponse<CategoryViewModel>);
+            var value = default(ISingleModelResponse<CategoryViewModel>);
 
             result.TryGetContentValue(out value);
 

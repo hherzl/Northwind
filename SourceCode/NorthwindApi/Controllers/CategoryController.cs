@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -35,7 +34,7 @@ namespace NorthwindApi.Controllers
         // GET: api/Category
         public async Task<HttpResponseMessage> Get()
         {
-            var response = new ComposedCategoryResponse();
+            var response = new ComposedModelResponse<CategoryViewModel>() as IComposedModelResponse<CategoryViewModel>;
 
             try
             {
@@ -47,120 +46,99 @@ namespace NorthwindApi.Controllers
             {
                 ExceptionHelper.Publish(ex);
 
-                response.ErrorMessage = ex.Message;
                 response.DidError = true;
+                response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
 
         // GET: api/Category/5
         public async Task<HttpResponseMessage> Get(Int32 id)
         {
-            var response = new SingleCategoryResponse();
+            var response = new SingleModelResponse<CategoryViewModel>() as ISingleModelResponse<CategoryViewModel>;
 
             try
             {
-                response.Model = await BusinessObject.GetCategory(new Category(id));
+                var entity = await BusinessObject.GetCategory(new Category(id));
 
-                if (response.Model == null)
-                {
-                    return Request.CreateResponse(HttpStatusCode.NotFound);
-                }
+                response.Model = new CategoryViewModel(entity);
             }
             catch (Exception ex)
             {
                 ExceptionHelper.Publish(ex);
 
-                response.ErrorMessage = ex.Message;
                 response.DidError = true;
+                response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
 
         // POST: api/Category
         public async Task<HttpResponseMessage> Post([FromBody]Category value)
         {
-            var response = new SingleCategoryResponse();
+            var response = new SingleModelResponse<CategoryViewModel>() as ISingleModelResponse<CategoryViewModel>;
 
             try
             {
-                await BusinessObject.CreateCategory(value);
+                var entity = await BusinessObject.CreateCategory(value);
 
-                response.Model = value;
+                response.Model = new CategoryViewModel(entity);
             }
             catch (Exception ex)
             {
                 ExceptionHelper.Publish(ex);
 
-                response.ErrorMessage = ex.Message;
                 response.DidError = true;
+                response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
 
         // PUT: api/Category/5
         public async Task<HttpResponseMessage> Put(Int32 id, [FromBody]Category value)
         {
-            var response = new SingleCategoryResponse();
+            var response = new SingleModelResponse<CategoryViewModel>() as ISingleModelResponse<CategoryViewModel>;
 
             try
             {
                 var entity = await BusinessObject.UpdateCategory(value);
 
-                if (entity == null)
-                {
-                    response.DidError = true;
-                    response.ErrorMessage = String.Format("There isn't a record with id: {0}", id);
-                }
-                else
-                {
-                    response.Model = value;
-                    response.Message = "Update was successfully!";
-                }
+                response.Model = new CategoryViewModel(entity);
             }
             catch (Exception ex)
             {
                 ExceptionHelper.Publish(ex);
 
-                response.ErrorMessage = ex.Message;
                 response.DidError = true;
+                response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
 
         // DELETE: api/Category/5
         public async Task<HttpResponseMessage> Delete(Int32 id)
         {
-            var response = new SingleCategoryResponse();
+            var response = new SingleModelResponse<CategoryViewModel>() as ISingleModelResponse<CategoryViewModel>;
 
             try
             {
                 var entity = await BusinessObject.DeleteCategory(new Category(id));
 
-                if (entity == null)
-                {
-                    response.DidError = true;
-                    response.ErrorMessage = String.Format("There isn't a record with id: {0}", id);
-                }
-                else
-                {
-                    response.Model = entity;
-                    response.Message = "Delete was successfully!";
-                }
+                response.Model = new CategoryViewModel(entity);
             }
             catch (Exception ex)
             {
                 ExceptionHelper.Publish(ex);
 
-                response.ErrorMessage = ex.Message;
                 response.DidError = true;
+                response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
     }
 }

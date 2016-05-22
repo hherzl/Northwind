@@ -5,7 +5,7 @@ namespace NorthwindApi.Responses
 {
     public static class Extensions
     {
-        public static HttpResponseMessage ToHttpResponse<TModel>(this IComposedViewModelResponse<TModel> composedModelResponse, HttpRequestMessage request)
+        public static HttpResponseMessage ToHttpResponse<TModel>(this IComposedModelResponse<TModel> composedModelResponse, HttpRequestMessage request)
         {
             var status = default(HttpStatusCode);
 
@@ -21,7 +21,7 @@ namespace NorthwindApi.Responses
             return request.CreateResponse(status, composedModelResponse);
         }
 
-        public static HttpResponseMessage ToHttpResponse<TModel>(this ISingleViewModelResponse<TModel> singleModelResponse, HttpRequestMessage request)
+        public static HttpResponseMessage ToHttpResponse<TModel>(this ISingleModelResponse<TModel> singleModelResponse, HttpRequestMessage request)
         {
             var status = default(HttpStatusCode);
 

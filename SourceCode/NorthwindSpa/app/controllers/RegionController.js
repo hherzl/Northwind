@@ -1,7 +1,7 @@
-﻿(function () {
+﻿(function (app) {
     "use strict";
 
-    angular.module("northwindApp").controller("RegionController", RegionController);
+    app.controller("RegionController", RegionController);
 
     RegionController.$inject = ["$log", "$location", "$routeParams", "toaster", "ngTableParams", "$filter", "UnitOfWork"];
 
@@ -51,4 +51,4 @@
             $location.path("/region-delete/" + id);
         };
     };
-})();
+})(angular.module("northwindApp"));

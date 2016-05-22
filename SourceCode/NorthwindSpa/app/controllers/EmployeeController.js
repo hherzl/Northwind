@@ -1,7 +1,7 @@
-﻿(function () {
+﻿(function (app) {
     "use strict";
 
-    angular.module("northwindApp").controller("EmployeeController", EmployeeController);
+    app.controller("EmployeeController", EmployeeController);
 
     EmployeeController.$inject = ["$log", "$location", "$routeParams", "toaster", "ngTableParams", "$filter", "UnitOfWork"];
 
@@ -51,4 +51,4 @@
             $location.path("/employee-delete/" + id);
         };
     };
-})();
+})(angular.module("northwindApp"));

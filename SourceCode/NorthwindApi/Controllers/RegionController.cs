@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Northwind.Core.BusinessLayer.Contracts;
-using Northwind.Core.DataLayer.Contracts;
 using Northwind.Core.EntityLayer;
 using NorthwindApi.Helpers;
 using NorthwindApi.Responses;
@@ -35,7 +33,7 @@ namespace NorthwindApi.Controllers
         // GET: api/Region
         public async Task<HttpResponseMessage> Get()
         {
-            var response = new ComposedRegionResponse() as IComposedViewModelResponse<Region>;
+            var response = new ComposedModelResponse<Region>() as IComposedModelResponse<Region>;
 
             try
             {
@@ -51,22 +49,17 @@ namespace NorthwindApi.Controllers
                 response.DidError = true;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
 
         // GET: api/Region/5
         public async Task<HttpResponseMessage> Get(Int32 id)
         {
-            var response = new SingleRegionResponse() as ISingleViewModelResponse<Region>;
+            var response = new SingleModelResponse<Region>() as ISingleModelResponse<Region>;
 
             try
             {
                 response.Model = await BusinessObject.GetRegion(new Region(id));
-
-                if (response.Model == null)
-                {
-                    return Request.CreateResponse(HttpStatusCode.NotFound);
-                }
             }
             catch (Exception ex)
             {
@@ -76,17 +69,39 @@ namespace NorthwindApi.Controllers
                 response.DidError = true;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
 
         // POST: api/Region
         public async Task<HttpResponseMessage> Post([FromBody]Region value)
         {
-            var response = new SingleRegionResponse() as ISingleViewModelResponse<Region>;
+            var response = new SingleModelResponse<Region>() as ISingleModelResponse<Region>;
 
             try
             {
-                await BusinessObject.CreateRegion(value);
+                var entity = await BusinessObject.CreateRegion(value);
+
+                response.Model = entity;
+            }
+            catch (Exception ex)
+            {
+                ExceptionHelper.Publish(ex);
+
+                response.ErrorMessage = ex.Message;
+                response.DidError = true;
+            }
+
+            return response.ToHttpResponse(Request);
+        }
+
+        // PUT: api/Region/5
+        public async Task<HttpResponseMessage> Put(Int32 id, [FromBody]Region value)
+        {
+            var response = new SingleModelResponse<Region>() as ISingleModelResponse<Region>;
+
+            try
+            {
+                var entity = await BusinessObject.UpdateRegion(value);
 
                 response.Model = value;
             }
@@ -98,59 +113,19 @@ namespace NorthwindApi.Controllers
                 response.DidError = true;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
-        }
-
-        // PUT: api/Region/5
-        public async Task<HttpResponseMessage> Put(Int32 id, [FromBody]Region value)
-        {
-            var response = new SingleRegionResponse() as ISingleViewModelResponse<Region>;
-
-            try
-            {
-                var entity = await BusinessObject.UpdateRegion(value);
-
-                if (entity == null)
-                {
-                    response.DidError = true;
-                    response.ErrorMessage = String.Format("There isn't a record with id: {0}", id);
-                }
-                else
-                {
-                    response.Model = value;
-                    response.Message = "Update was successfully!";
-                }
-            }
-            catch (Exception ex)
-            {
-                ExceptionHelper.Publish(ex);
-
-                response.ErrorMessage = ex.Message;
-                response.DidError = true;
-            }
-
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
 
         // DELETE: api/Region/5
         public async Task<HttpResponseMessage> Delete(Int32 id)
         {
-            var response = new SingleRegionResponse() as ISingleViewModelResponse<Region>;
+            var response = new SingleModelResponse<Region>() as ISingleModelResponse<Region>;
 
             try
             {
                 var entity = await BusinessObject.DeleteRegion(new Region(id));
 
-                if (entity == null)
-                {
-                    response.DidError = true;
-                    response.ErrorMessage = String.Format("There isn't a record with id: {0}", id);
-                }
-                else
-                {
-                    response.Model = entity;
-                    response.Message = "Delete was successfully!";
-                }
+                response.Model = entity;
             }
             catch (Exception ex)
             {
@@ -160,7 +135,7 @@ namespace NorthwindApi.Controllers
                 response.DidError = true;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
     }
 }

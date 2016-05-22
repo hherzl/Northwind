@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -35,7 +34,7 @@ namespace NorthwindApi.Controllers
         // GET: api/Order
         public async Task<HttpResponseMessage> Get(Int32? orderID, String customerID, Int32? employeeID, Int32? shipperID)
         {
-            var response = new ComposedViewModelResponse<OrderSummaryViewModel>() as IComposedViewModelResponse<OrderSummaryViewModel>;
+            var response = new ComposedModelResponse<OrderSummaryViewModel>() as IComposedModelResponse<OrderSummaryViewModel>;
 
             try
             {
@@ -69,7 +68,7 @@ namespace NorthwindApi.Controllers
         // GET: api/Order/5
         public async Task<HttpResponseMessage> Get(Int32 id)
         {
-            var response = new SingleViewModelResponse<Order>() as ISingleViewModelResponse<Order>;
+            var response = new SingleModelResponse<Order>() as ISingleModelResponse<Order>;
 
             try
             {
@@ -88,13 +87,13 @@ namespace NorthwindApi.Controllers
                 response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
 
         // POST: api/Order
         public async Task<HttpResponseMessage> Post([FromBody]Order value)
         {
-            var response = new SingleOrderResponse();
+            var response = new SingleModelResponse<Order>() as ISingleModelResponse<Order>;
 
             try
             {
@@ -113,17 +112,7 @@ namespace NorthwindApi.Controllers
                 response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
-        }
-
-        // PUT: api/Order/5
-        public void Put(Int32 id, [FromBody]Order value)
-        {
-        }
-
-        // DELETE: api/Order/5
-        public void Delete(Int32 id)
-        {
+            return response.ToHttpResponse(Request);
         }
     }
 }

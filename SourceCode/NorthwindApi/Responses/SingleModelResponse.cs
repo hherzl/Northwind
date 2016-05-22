@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace NorthwindApi.Responses
 {
-    [DataContract]
-    public class ComposedViewModelResponse<TViewModel> : IComposedViewModelResponse<TViewModel>
+    public class SingleModelResponse<TModel> : ISingleModelResponse<TModel>
     {
-        public ComposedViewModelResponse()
+        public SingleModelResponse()
         {
 
         }
@@ -22,6 +20,6 @@ namespace NorthwindApi.Responses
         public String ErrorMessage { get; set; }
 
         [DataMember(Name = "model")]
-        public IEnumerable<TViewModel> Model { get; set; }
+        public TModel Model { get; set; }
     }
 }

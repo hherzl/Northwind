@@ -82,7 +82,7 @@ namespace NorthwindMvc5.Areas.Administration.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
+            catch
             {
                 return View();
             }

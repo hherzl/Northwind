@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.EntityLayer;
+using NorthwindApi.Helpers;
 using NorthwindApi.Responses;
 using NorthwindApi.Services;
 using NorthwindApi.ViewModels;
@@ -34,7 +35,7 @@ namespace NorthwindApi.Controllers
         // GET: api/Supplier
         public async Task<HttpResponseMessage> Get()
         {
-            var response = new ComposedSupplierResponse();
+            var response = new ComposedModelResponse<SupplierDetailViewModel>() as IComposedModelResponse<SupplierDetailViewModel>;
 
             try
             {
@@ -44,17 +45,19 @@ namespace NorthwindApi.Controllers
             }
             catch (Exception ex)
             {
+                ExceptionHelper.Publish(ex);
+
                 response.DidError = true;
                 response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
 
         // GET: api/Supplier/5
         public async Task<HttpResponseMessage> Get(Int32 id)
         {
-            var response = new SingleSupplierResponse();
+            var response = new SingleModelResponse<Supplier>() as ISingleModelResponse<Supplier>;
 
             try
             {
@@ -62,17 +65,19 @@ namespace NorthwindApi.Controllers
             }
             catch (Exception ex)
             {
+                ExceptionHelper.Publish(ex);
+
                 response.DidError = true;
                 response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
 
         // POST: api/Supplier
         public async Task<HttpResponseMessage> Post([FromBody]Supplier value)
         {
-            var response = new SingleSupplierResponse();
+            var response = new SingleModelResponse<Supplier>() as ISingleModelResponse<Supplier>;
 
             try
             {
@@ -82,35 +87,30 @@ namespace NorthwindApi.Controllers
             }
             catch (Exception ex)
             {
+                ExceptionHelper.Publish(ex);
+
                 response.DidError = true;
                 response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
 
         // PUT: api/Supplier/5
         public async Task<HttpResponseMessage> Put(Int32 id, [FromBody]Supplier value)
         {
-            var response = new SingleSupplierResponse();
+            var response = new SingleModelResponse<Supplier>() as ISingleModelResponse<Supplier>;
 
             try
             {
                 var entity = await BusinessObject.UpdateSupplier(value);
 
-                if (entity == null)
-                {
-                    response.DidError = true;
-                    response.ErrorMessage = String.Format("There isn't a record with id: {0}", id);
-                }
-                else
-                {
-                    response.Model = value;
-                    response.Message = "Update was successfully!";
-                }
+                response.Model = entity;
             }
             catch (Exception ex)
             {
+                ExceptionHelper.Publish(ex);
+
                 response.DidError = true;
                 response.ErrorMessage = ex.Message;
             }
@@ -121,30 +121,23 @@ namespace NorthwindApi.Controllers
         // DELETE: api/Supplier/5
         public async Task<HttpResponseMessage> Delete(Int32 id)
         {
-            var response = new SingleSupplierResponse();
+            var response = new SingleModelResponse<Supplier>() as ISingleModelResponse<Supplier>;
 
             try
             {
                 var entity = await BusinessObject.DeleteSupplier(new Supplier(id));
 
-                if (entity == null)
-                {
-                    response.DidError = true;
-                    response.ErrorMessage = String.Format("There isn't a record with id: {0}", id);
-                }
-                else
-                {
-                    response.Model = entity;
-                    response.Message = "Delete was successfully!";
-                }
+                response.Model = entity;
             }
             catch (Exception ex)
             {
+                ExceptionHelper.Publish(ex);
+
                 response.DidError = true;
                 response.ErrorMessage = ex.Message;
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, response);
+            return response.ToHttpResponse(Request);
         }
     }
 }

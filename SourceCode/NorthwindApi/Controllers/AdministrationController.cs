@@ -35,7 +35,7 @@ namespace NorthwindApi.Controllers
         [Route("Order")]
         public async Task<HttpResponseMessage> Get(Int32? orderID, String customerID, Int32? employeeID, Int32? shipperID)
         {
-            var response = new ComposedViewModelResponse<OrderSummaryViewModel>() as IComposedViewModelResponse<OrderSummaryViewModel>;
+            var response = new ComposedModelResponse<OrderSummaryViewModel>() as IComposedModelResponse<OrderSummaryViewModel>;
 
             try
             {
