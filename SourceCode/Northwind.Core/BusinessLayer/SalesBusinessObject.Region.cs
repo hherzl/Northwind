@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.EntityLayer;
 
@@ -7,36 +6,26 @@ namespace Northwind.Core.BusinessLayer
 {
     public partial class SalesBusinessObject : ISalesBusinessObject
     {
-        public async Task<IEnumerable<Region>> GetRegions()
+        public IEnumerable<Region> GetRegions()
         {
-            return await Task.Run(() =>
-            {
-                return Uow
-                    .RegionRepository
-                    .GetAll();
-            });
+            return Uow.RegionRepository.GetAll();
         }
 
-        public async Task<Region> GetRegion(Region entity)
+        public Region GetRegion(Region entity)
         {
-            return await Task.Run(() =>
-            {
-                return Uow
-                    .RegionRepository
-                    .Get(entity);
-            });
+            return Uow.RegionRepository.Get(entity);
         }
 
-        public async Task<Region> CreateRegion(Region entity)
+        public Region CreateRegion(Region entity)
         {
             Uow.RegionRepository.Add(entity);
 
-            await Uow.CommitChangesAsync();
+            Uow.CommitChanges();
 
             return entity;
         }
 
-        public async Task<Region> UpdateRegion(Region value)
+        public Region UpdateRegion(Region value)
         {
             var entity = Uow.RegionRepository.Get(value);
 
@@ -46,13 +35,13 @@ namespace Northwind.Core.BusinessLayer
 
                 Uow.RegionRepository.Update(entity);
 
-                await Uow.CommitChangesAsync();
+                Uow.CommitChanges();
             }
 
             return entity;
         }
 
-        public async Task<Region> DeleteRegion(Region value)
+        public Region DeleteRegion(Region value)
         {
             var entity = Uow.RegionRepository.Get(value);
 
@@ -60,7 +49,7 @@ namespace Northwind.Core.BusinessLayer
             {
                 Uow.RegionRepository.Remove(entity);
 
-                await Uow.CommitChangesAsync();
+                Uow.CommitChanges();
             }
 
             return entity;

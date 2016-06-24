@@ -3,44 +3,28 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.EntityLayer;
 using NorthwindApi.Helpers;
 using NorthwindApi.Responses;
-using NorthwindApi.Services;
 using NorthwindApi.ViewModels;
 
 namespace NorthwindApi.Controllers
 {
-    public class CategoryController : ApiController
+    public partial class AdministrationController : ApiController
     {
-        protected ISalesBusinessObject BusinessObject;
-
-        public CategoryController(IBusinessObjectService service)
-        {
-            BusinessObject = service.GetSalesBusinessObject();
-        }
-
-        protected override void Dispose(Boolean disposing)
-        {
-            if (BusinessObject != null)
-            {
-                BusinessObject.Release();
-            }
-
-            base.Dispose(disposing);
-        }
-
         // GET: api/Category
-        public async Task<HttpResponseMessage> Get()
+        [HttpGet]
+        [Route("Category")]
+        public async Task<HttpResponseMessage> GetCategories()
         {
             var response = new ComposedModelResponse<CategoryViewModel>() as IComposedModelResponse<CategoryViewModel>;
 
             try
             {
-                var task = await BusinessObject.GetCategories();
-
-                response.Model = task.Select(item => new CategoryViewModel(item)).ToList();
+                response.Model = await Task.Run(() =>
+                    {
+                        return BusinessObject.GetCategories().Select(item => new CategoryViewModel(item)).ToList();
+                    });
             }
             catch (Exception ex)
             {
@@ -54,13 +38,18 @@ namespace NorthwindApi.Controllers
         }
 
         // GET: api/Category/5
-        public async Task<HttpResponseMessage> Get(Int32 id)
+        [HttpGet]
+        [Route("Category")]
+        public async Task<HttpResponseMessage> GetCategory(Int32 id)
         {
             var response = new SingleModelResponse<CategoryViewModel>() as ISingleModelResponse<CategoryViewModel>;
 
             try
             {
-                var entity = await BusinessObject.GetCategory(new Category(id));
+                var entity = await Task.Run(() =>
+                    {
+                        return BusinessObject.GetCategory(new Category(id));
+                    });
 
                 response.Model = new CategoryViewModel(entity);
             }
@@ -76,13 +65,18 @@ namespace NorthwindApi.Controllers
         }
 
         // POST: api/Category
-        public async Task<HttpResponseMessage> Post([FromBody]Category value)
+        [HttpPost]
+        [Route("Category")]
+        public async Task<HttpResponseMessage> CreateCategory([FromBody]Category value)
         {
             var response = new SingleModelResponse<CategoryViewModel>() as ISingleModelResponse<CategoryViewModel>;
 
             try
             {
-                var entity = await BusinessObject.CreateCategory(value);
+                var entity = await Task.Run(() =>
+                    {
+                        return BusinessObject.CreateCategory(value);
+                    });
 
                 response.Model = new CategoryViewModel(entity);
             }
@@ -98,13 +92,18 @@ namespace NorthwindApi.Controllers
         }
 
         // PUT: api/Category/5
-        public async Task<HttpResponseMessage> Put(Int32 id, [FromBody]Category value)
+        [HttpPut]
+        [Route("Category")]
+        public async Task<HttpResponseMessage> UpdateCategory(Int32 id, [FromBody]Category value)
         {
             var response = new SingleModelResponse<CategoryViewModel>() as ISingleModelResponse<CategoryViewModel>;
 
             try
             {
-                var entity = await BusinessObject.UpdateCategory(value);
+                var entity = await Task.Run(() =>
+                    {
+                        return BusinessObject.UpdateCategory(value);
+                    });
 
                 response.Model = new CategoryViewModel(entity);
             }
@@ -120,13 +119,18 @@ namespace NorthwindApi.Controllers
         }
 
         // DELETE: api/Category/5
-        public async Task<HttpResponseMessage> Delete(Int32 id)
+        [HttpDelete]
+        [Route("Category")]
+        public async Task<HttpResponseMessage> DeleteCategory(Int32 id)
         {
             var response = new SingleModelResponse<CategoryViewModel>() as ISingleModelResponse<CategoryViewModel>;
 
             try
             {
-                var entity = await BusinessObject.DeleteCategory(new Category(id));
+                var entity = await Task.Run(() =>
+                    {
+                        return BusinessObject.DeleteCategory(new Category(id));
+                    });
 
                 response.Model = new CategoryViewModel(entity);
             }

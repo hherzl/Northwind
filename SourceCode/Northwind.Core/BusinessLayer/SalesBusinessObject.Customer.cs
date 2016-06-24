@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.EntityLayer;
@@ -7,36 +8,31 @@ namespace Northwind.Core.BusinessLayer
 {
     public partial class SalesBusinessObject : ISalesBusinessObject
     {
-        public async Task<IEnumerable<Customer>> GetCustomers()
+        public IEnumerable<Customer> GetCustomers()
         {
-            return await Task.Run(() =>
-            {
-                return Uow
-                    .CustomerRepository
-                    .GetAll();
-            });
+            return Uow.CustomerRepository.GetAll();
         }
 
-        public async Task<Customer> GetCustomer(Customer entity)
+        public Customer GetCustomer(Customer entity)
         {
-            return await Task.Run(() =>
-            {
-                return Uow
-                    .CustomerRepository
-                    .Get(entity);
-            });
+            return Uow.CustomerRepository.Get(entity);
         }
 
-        public async Task<Customer> CreateCustomer(Customer entity)
+        public Customer CreateCustomer(Customer entity)
         {
+            if (entity != null && !String.IsNullOrEmpty(entity.CustomerID))
+            {
+                entity.CustomerID = entity.CompanyName.Substring(0, 5).ToUpper();
+            }
+
             Uow.CustomerRepository.Add(entity);
 
-            await Uow.CommitChangesAsync();
+            Uow.CommitChanges();
 
             return entity;
         }
 
-        public async Task<Customer> UpdateCustomer(Customer value)
+        public Customer UpdateCustomer(Customer value)
         {
             var entity = Uow.CustomerRepository.Get(value);
 
@@ -55,13 +51,13 @@ namespace Northwind.Core.BusinessLayer
 
                 Uow.CustomerRepository.Update(entity);
 
-                await Uow.CommitChangesAsync();
+                Uow.CommitChanges();
             }
 
             return entity;
         }
 
-        public async Task<Customer> DeleteCustomer(Customer value)
+        public Customer DeleteCustomer(Customer value)
         {
             var entity = Uow.CustomerRepository.Get(value);
 
@@ -69,7 +65,7 @@ namespace Northwind.Core.BusinessLayer
             {
                 Uow.CustomerRepository.Remove(entity);
 
-                await Uow.CommitChangesAsync();
+                Uow.CommitChanges();
             }
 
             return entity;

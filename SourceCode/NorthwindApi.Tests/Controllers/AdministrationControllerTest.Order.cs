@@ -6,32 +6,17 @@ using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NorthwindApi.Controllers;
 using NorthwindApi.Responses;
-using NorthwindApi.Services;
 using NorthwindApi.ViewModels;
 
 namespace NorthwindApi.Tests.Controllers
 {
-    [TestClass]
-    public class OrderControllerTest
+    public partial class AdministrationControllerTest
     {
-        public OrderControllerTest()
-        {
-
-        }
-
-        private IBusinessObjectService service;
-
-        [TestInitialize]
-        public void Init()
-        {
-            service = new BusinessObjectService();
-        }
-
         [TestMethod]
-        public async Task GetAsync()
+        public async Task Administration_GetOrdersAsync()
         {
             // Arrange
-            var controller = new OrderController(service);
+            var controller = new AdministrationController(service);
             controller.Request = new HttpRequestMessage();
             controller.Configuration = new HttpConfiguration();
 
@@ -41,7 +26,7 @@ namespace NorthwindApi.Tests.Controllers
             var shipperID = default(Int32?);
 
             // Act
-            var result = await controller.Get(orderID, customerID, employeeID, shipperID);
+            var result = await controller.GetOrders(orderID, customerID, employeeID, shipperID);
 
             // Assert
             var value = default(IComposedModelResponse<OrderSummaryViewModel>);

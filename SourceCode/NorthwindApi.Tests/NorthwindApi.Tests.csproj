@@ -102,12 +102,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AdministrationControllerTest.cs" />
     <Compile Include="Controllers\ShipperControllerTest.cs" />
-    <Compile Include="Controllers\CategoryControllerUnitTest.cs" />
-    <Compile Include="Controllers\OrderControllerTest.cs" />
+    <Compile Include="Controllers\AdministrationControllerTest.Category.cs" />
+    <Compile Include="Controllers\AdministrationControllerTest.Order.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
-    <Compile Include="Controllers\RegionControllerUnitTest.cs" />
+    <Compile Include="Controllers\AdministrationControllerTest.Region.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />

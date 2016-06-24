@@ -3,36 +3,19 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.EntityLayer;
 using NorthwindApi.Helpers;
 using NorthwindApi.Responses;
-using NorthwindApi.Services;
 using NorthwindApi.ViewModels;
 
 namespace NorthwindApi.Controllers
 {
-    public class OrderController : ApiController
+    public partial class AdministrationController : ApiController
     {
-        protected ISalesBusinessObject Uow;
-
-        public OrderController(IBusinessObjectService service)
-        {
-            Uow = service.GetSalesBusinessObject();
-        }
-
-        protected override void Dispose(Boolean disposing)
-        {
-            if (Uow != null)
-            {
-                Uow.Release();
-            }
-
-            base.Dispose(disposing);
-        }
-
         // GET: api/Order
-        public async Task<HttpResponseMessage> Get(Int32? orderID, String customerID, Int32? employeeID, Int32? shipperID)
+        [HttpGet]
+        [Route("Order")]
+        public async Task<HttpResponseMessage> GetOrders(Int32? orderID, String customerID, Int32? employeeID, Int32? shipperID)
         {
             var response = new ComposedModelResponse<OrderSummaryViewModel>() as IComposedModelResponse<OrderSummaryViewModel>;
 
@@ -40,7 +23,7 @@ namespace NorthwindApi.Controllers
             {
                 var query = await Task.Run(() =>
                 {
-                    return Uow.GetOrderSummaries(customerID, employeeID, shipperID);
+                    return BusinessObject.GetOrderSummaries(customerID, employeeID, shipperID);
                 });
 
                 if (String.IsNullOrEmpty(customerID) && !employeeID.HasValue && !shipperID.HasValue)
@@ -66,7 +49,9 @@ namespace NorthwindApi.Controllers
         }
 
         // GET: api/Order/5
-        public async Task<HttpResponseMessage> Get(Int32 id)
+        [HttpGet]
+        [Route("Order")]
+        public async Task<HttpResponseMessage> GetOrder(Int32 id)
         {
             var response = new SingleModelResponse<Order>() as ISingleModelResponse<Order>;
 
@@ -74,7 +59,7 @@ namespace NorthwindApi.Controllers
             {
                 var entity = await Task.Run(() =>
                 {
-                    return Uow.GetOrder(new Order(id));
+                    return BusinessObject.GetOrder(new Order(id));
                 });
 
                 response.Model = entity;
@@ -91,7 +76,9 @@ namespace NorthwindApi.Controllers
         }
 
         // POST: api/Order
-        public async Task<HttpResponseMessage> Post([FromBody]Order value)
+        [HttpPost]
+        [Route("Order")]
+        public async Task<HttpResponseMessage> CreateOrder([FromBody]Order value)
         {
             var response = new SingleModelResponse<Order>() as ISingleModelResponse<Order>;
 
@@ -99,7 +86,7 @@ namespace NorthwindApi.Controllers
             {
                 var entity = await Task.Run(() =>
                 {
-                    return Uow.CreateOrder(value);
+                    return BusinessObject.CreateOrder(value);
                 });
 
                 response.Model = entity;

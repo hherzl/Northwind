@@ -19,17 +19,21 @@ namespace Northwind.Core.Mocks
         {
             var businessObject = new SalesBusinessObject(new SalesUow(new SalesDbContext()) as ISalesUow) as ISalesBusinessObject;
 
-            var productsTask = await businessObject.GetProductsDetails(String.Empty, null, null);
-
-            var products = productsTask.ToList();
+            var products = await Task.Run(() => { return businessObject.GetProductsDetails(String.Empty, null, null).Where(item => item.Discontinued == false).ToList(); });
 
             foreach (var item in products)
             {
-                var entity = await businessObject.GetProduct(new Product(item.ProductID));
+                var entity = await Task.Run(() =>
+                    {
+                        return businessObject.GetProduct(new Product(item.ProductID));
+                    });
 
                 entity.UnitsInStock += 9999;
 
-                await businessObject.UpdateProduct(entity);
+                await Task.Run(() =>
+                    {
+                        businessObject.UpdateProduct(entity);
+                    });
             }
 
             businessObject.Release();
@@ -47,15 +51,10 @@ namespace Northwind.Core.Mocks
                 {
                     var businessObject = new SalesBusinessObject(new SalesUow(new SalesDbContext()) as ISalesUow) as ISalesBusinessObject;
 
-                    var customersTask = await businessObject.GetCustomers();
-                    var employeesTask = await businessObject.GetEmployees();
-                    var shippersTask = await businessObject.GetShippers();
-                    var productsTask = await businessObject.GetProductsDetails(null, null, null);
-
-                    var customers = customersTask.ToList();
-                    var employees = employeesTask.ToList();
-                    var shippers = shippersTask.ToList();
-                    var products = productsTask.Where(item => item.Discontinued == false).ToList();
+                    var customers = await Task.Run(() => { return businessObject.GetCustomers().ToList(); });
+                    var employees = await Task.Run(() => { return businessObject.GetEmployees().ToList(); });
+                    var shippers = await Task.Run(() => { return businessObject.GetShippers().ToList(); });
+                    var products = await Task.Run(() => { return businessObject.GetProductsDetails(null, null, null).Where(item => item.Discontinued == false).ToList(); });
 
                     for (var j = 0; j < limit; j++)
                     {

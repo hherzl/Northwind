@@ -6,31 +6,21 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Northwind.Core.EntityLayer;
 using NorthwindApi.Controllers;
 using NorthwindApi.Responses;
-using NorthwindApi.Services;
 
 namespace NorthwindApi.Tests.Controllers
 {
-    [TestClass]
-    public class ShipperControllerTest
+    public partial class AdministrationControllerTest
     {
-        private IBusinessObjectService service;
-
-        [TestInitialize]
-        public void Init()
-        {
-            service = new BusinessObjectService();
-        }
-
         [TestMethod]
         public async Task Administration_GetShippersAsync()
         {
             // Arrange
-            var controller = new ShipperController(service);
+            var controller = new AdministrationController(service);
             controller.Request = new HttpRequestMessage();
             controller.Configuration = new HttpConfiguration();
 
             // Act
-            var result = await controller.Get();
+            var result = await controller.GetShippers();
 
             // Assert
             var value = default(IComposedModelResponse<Shipper>);
@@ -42,15 +32,15 @@ namespace NorthwindApi.Tests.Controllers
         }
 
         [TestMethod]
-        public async Task Administration_GetShipperByIdAsync()
+        public async Task Administration_GetShipperAsync()
         {
             // Arrange
-            var controller = new ShipperController(service);
+            var controller = new AdministrationController(service);
             controller.Request = new HttpRequestMessage();
             controller.Configuration = new HttpConfiguration();
 
             // Act
-            var result = await controller.Get(1);
+            var result = await controller.GetShipper(1);
 
             // Assert
             var response = default(ISingleModelResponse<Shipper>);
@@ -61,10 +51,10 @@ namespace NorthwindApi.Tests.Controllers
         }
 
         [TestMethod]
-        public async Task PostAsync()
+        public async Task Administration_CreateShipperAsync()
         {
             // Arrange
-            var controller = new ShipperController(service);
+            var controller = new AdministrationController(service);
             controller.Request = new HttpRequestMessage();
             controller.Configuration = new HttpConfiguration();
 
@@ -75,7 +65,7 @@ namespace NorthwindApi.Tests.Controllers
                 Phone = "12345 67890"
             };
 
-            var result = await controller.Post(model);
+            var result = await controller.CreateShipper(model);
 
             // Assert
             var response = default(ISingleModelResponse<Shipper>);
@@ -86,10 +76,10 @@ namespace NorthwindApi.Tests.Controllers
         }
 
         [TestMethod]
-        public async Task PutAsync()
+        public async Task Administration_UpdateShipperAsync()
         {
             // Arrange
-            var controller = new ShipperController(service);
+            var controller = new AdministrationController(service);
             controller.Request = new HttpRequestMessage();
             controller.Configuration = new HttpConfiguration();
 
@@ -100,7 +90,7 @@ namespace NorthwindApi.Tests.Controllers
                 Phone = "22445 77990"
             };
 
-            var result = await controller.Put(8, model);
+            var result = await controller.UpdateShipper(8, model);
 
             // Assert
             var value = default(ISingleModelResponse<Shipper>);
@@ -111,15 +101,15 @@ namespace NorthwindApi.Tests.Controllers
         }
 
         [TestMethod]
-        public async Task DeleteAsync()
+        public async Task Administration_DeleteShipperAsync()
         {
             // Arrange
-            var controller = new ShipperController(service);
+            var controller = new AdministrationController(service);
             controller.Request = new HttpRequestMessage();
             controller.Configuration = new HttpConfiguration();
 
             // Act
-            var result = await controller.Delete(8);
+            var result = await controller.DeleteShipper(8);
 
             // Assert
             var value = default(ISingleModelResponse<Shipper>);

@@ -21,7 +21,6 @@ namespace Northwind.Core.DataLayer.Repositories
                 from product in GetAll()
                 join supplier in DbContext.Set<Supplier>() on product.SupplierID equals supplier.SupplierID
                 join category in DbContext.Set<Category>() on product.CategoryID equals category.CategoryID
-                where product.Discontinued == false
                 select new ProductDetail()
                     {
                         ProductID = product.ProductID,

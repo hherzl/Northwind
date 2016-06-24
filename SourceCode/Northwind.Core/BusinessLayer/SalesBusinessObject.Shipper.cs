@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.EntityLayer;
 
@@ -9,36 +8,26 @@ namespace Northwind.Core.BusinessLayer
 {
     public partial class SalesBusinessObject : ISalesBusinessObject
     {
-        public async Task<IEnumerable<Shipper>> GetShippers()
+        public IEnumerable<Shipper> GetShippers()
         {
-            return await Task.Run(() =>
-            {
-                return Uow
-                    .ShipperRepository
-                    .GetAll();
-            });
+            return Uow.ShipperRepository.GetAll();
         }
 
-        public async Task<Shipper> GetShipper(Shipper entity)
+        public Shipper GetShipper(Shipper entity)
         {
-            return await Task.Run(() =>
-            {
-                return Uow
-                    .ShipperRepository
-                    .Get(entity);
-            });
+            return Uow.ShipperRepository.Get(entity);
         }
 
-        public async Task<Shipper> CreateShipper(Shipper entity)
+        public Shipper CreateShipper(Shipper entity)
         {
             Uow.ShipperRepository.Add(entity);
 
-            await Uow.CommitChangesAsync();
+            Uow.CommitChanges();
 
             return entity;
         }
 
-        public async Task<Shipper> UpdateShipper(Shipper value)
+        public Shipper UpdateShipper(Shipper value)
         {
             var entity = Uow.ShipperRepository.Get(value);
 
@@ -49,28 +38,28 @@ namespace Northwind.Core.BusinessLayer
 
                 Uow.ShipperRepository.Update(entity);
 
-                await Uow.CommitChangesAsync();
+                Uow.CommitChanges();
             }
 
             return entity;
         }
 
-        public async Task<Shipper> DeleteShipper(Shipper value)
+        public Shipper DeleteShipper(Shipper value)
         {
             var entity = Uow.ShipperRepository.Get(value);
 
             if (entity != null)
             {
-                var task = await GetOrdersByShipVia(entity.ShipperID);
+                var relatedOrders = GetOrdersByShipVia(entity.ShipperID);
 
-                if (task.Count() > 0)
+                if (relatedOrders.Count() > 0)
                 {
                     throw new ForeignKeyDependencyException(String.Format("Unable to delete shipper with id: '{0}', because has orders associated.", entity.ShipperID));
                 }
 
                 Uow.ShipperRepository.Remove(entity);
 
-                await Uow.CommitChangesAsync();
+                Uow.CommitChanges();
             }
 
             return entity;

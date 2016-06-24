@@ -10,7 +10,7 @@ namespace NorthwindApi.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "Northwind Web API";
 
             return View();
         }

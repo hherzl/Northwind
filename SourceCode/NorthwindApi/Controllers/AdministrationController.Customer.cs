@@ -3,41 +3,24 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.EntityLayer;
 using NorthwindApi.Helpers;
 using NorthwindApi.Responses;
-using NorthwindApi.Services;
 
 namespace NorthwindApi.Controllers
 {
-    public class CustomerController : ApiController
+    public partial class AdministrationController : ApiController
     {
-        protected ISalesBusinessObject BusinessObject;
-
-        public CustomerController(IBusinessObjectService service)
-        {
-            BusinessObject = service.GetSalesBusinessObject();
-        }
-
-        protected override void Dispose(Boolean disposing)
-        {
-            if (BusinessObject != null)
-            {
-                BusinessObject.Release();
-            }
-
-            base.Dispose(disposing);
-        }
-
         // GET: api/Customer
-        public async Task<HttpResponseMessage> Get()
+        [HttpGet]
+        [Route("Customer")]
+        public async Task<HttpResponseMessage> GetCustomers()
         {
             var response = new ComposedModelResponse<Customer>() as IComposedModelResponse<Customer>;
 
             try
             {
-                var task = await BusinessObject.GetCustomers();
+                var task = await Task.Run(() => { return BusinessObject.GetCustomers(); });
 
                 response.Model = task.ToList();
             }
@@ -53,13 +36,15 @@ namespace NorthwindApi.Controllers
         }
 
         // GET: api/Customer/5
-        public async Task<HttpResponseMessage> Get(String id)
+        [HttpGet]
+        [Route("Customer")]
+        public async Task<HttpResponseMessage> GetCustomer(String id)
         {
             var response = new SingleModelResponse<Customer>() as ISingleModelResponse<Customer>;
 
             try
             {
-                response.Model = await BusinessObject.GetCustomer(new Customer(id));
+                response.Model = await Task.Run(() => { return BusinessObject.GetCustomer(new Customer(id)); });
             }
             catch (Exception ex)
             {
@@ -73,17 +58,15 @@ namespace NorthwindApi.Controllers
         }
 
         // POST: api/Customer
-        public async Task<HttpResponseMessage> Post([FromBody]Customer value)
+        [HttpPost]
+        [Route("Customer")]
+        public async Task<HttpResponseMessage> CreateCustomer([FromBody]Customer value)
         {
             var response = new SingleModelResponse<Customer>() as ISingleModelResponse<Customer>;
 
             try
             {
-                value.CustomerID = value.CompanyName.Substring(0, 5).ToUpper();
-
-                await BusinessObject.CreateCustomer(value);
-
-                response.Model = value;
+                response.Model = await Task.Run(() => { return BusinessObject.CreateCustomer(value); }); ;
 
                 response.Message = "The data was saved successfully!";
             }
@@ -99,13 +82,15 @@ namespace NorthwindApi.Controllers
         }
 
         // PUT: api/Customer/5
-        public async Task<HttpResponseMessage> Put(String id, [FromBody]Customer value)
+        [HttpPut]
+        [Route("Customer")]
+        public async Task<HttpResponseMessage> UpdateCustomer(String id, [FromBody]Customer value)
         {
             var response = new SingleModelResponse<Customer>() as ISingleModelResponse<Customer>;
 
             try
             {
-                var entity = await BusinessObject.UpdateCustomer(value);
+                var entity = await Task.Run(() => { return BusinessObject.UpdateCustomer(value); });
 
                 response.Model = entity;
             }
@@ -121,13 +106,15 @@ namespace NorthwindApi.Controllers
         }
 
         // DELETE: api/Customer/5
-        public async Task<HttpResponseMessage> Delete(String id)
+        [HttpDelete]
+        [Route("Customer")]
+        public async Task<HttpResponseMessage> DeleteCustomer(String id)
         {
             var response = new SingleModelResponse<Customer>() as ISingleModelResponse<Customer>;
 
             try
             {
-                var entity = await BusinessObject.DeleteCustomer(new Customer(id));
+                var entity = await Task.Run(() => { return BusinessObject.DeleteCustomer(new Customer(id)); });
 
                 response.Model = entity;
             }

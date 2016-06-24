@@ -3,44 +3,28 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.EntityLayer;
 using NorthwindApi.Helpers;
 using NorthwindApi.Responses;
-using NorthwindApi.Services;
 using NorthwindApi.ViewModels;
 
 namespace NorthwindApi.Controllers
 {
-    public class ProductController : ApiController
+    public partial class AdministrationController : ApiController
     {
-        protected ISalesBusinessObject BusinessObject;
-
-        public ProductController(IBusinessObjectService service)
-        {
-            BusinessObject = service.GetSalesBusinessObject();
-        }
-
-        protected override void Dispose(Boolean disposing)
-        {
-            if (BusinessObject != null)
-            {
-                BusinessObject.Release();
-            }
-
-            base.Dispose(disposing);
-        }
-
         // GET: api/Product
-        public async Task<HttpResponseMessage> Get(String productName, Int32? supplierID, Int32? categoryID)
+        [HttpGet]
+        [Route("Product")]
+        public async Task<HttpResponseMessage> GetProducts(String productName, Int32? supplierID, Int32? categoryID)
         {
             var response = new ComposedModelResponse<ProductDetailViewModel>() as IComposedModelResponse<ProductDetailViewModel>;
 
             try
             {
-                var task = await BusinessObject.GetProductsDetails(productName, supplierID, categoryID);
-
-                response.Model = task.Select(item => new ProductDetailViewModel(item)).ToList();
+                response.Model = await Task.Run(() =>
+                {
+                    return BusinessObject.GetProductsDetails(productName, supplierID, categoryID).Select(item => new ProductDetailViewModel(item)).ToList();
+                });
             }
             catch (Exception ex)
             {
@@ -54,13 +38,18 @@ namespace NorthwindApi.Controllers
         }
 
         // GET: api/Product/5
-        public async Task<HttpResponseMessage> Get(Int32 id)
+        [HttpGet]
+        [Route("Product")]
+        public async Task<HttpResponseMessage> GetProduct(Int32 id)
         {
             var response = new SingleModelResponse<Product>() as ISingleModelResponse<Product>;
 
             try
             {
-                response.Model = await BusinessObject.GetProduct(new Product(id));
+                response.Model = await Task.Run(() =>
+                    {
+                        return BusinessObject.GetProduct(new Product(id));
+                    });
             }
             catch (Exception ex)
             {
@@ -74,15 +63,18 @@ namespace NorthwindApi.Controllers
         }
 
         // POST: api/Product
-        public async Task<HttpResponseMessage> Post([FromBody]Product value)
+        [HttpPost]
+        [Route("Product")]
+        public async Task<HttpResponseMessage> CreateProduct([FromBody]Product value)
         {
             var response = new SingleModelResponse<Product>() as ISingleModelResponse<Product>;
 
             try
             {
-                await BusinessObject.CreateProduct(value);
-
-                response.Model = value;
+                response.Model = await Task.Run(() =>
+                    {
+                        return BusinessObject.CreateProduct(value);
+                    });
             }
             catch (Exception ex)
             {
@@ -96,13 +88,18 @@ namespace NorthwindApi.Controllers
         }
 
         // PUT: api/Product/5
-        public async Task<HttpResponseMessage> Put(Int32 id, [FromBody]Product value)
+        [HttpPut]
+        [Route("Product")]
+        public async Task<HttpResponseMessage> UpdateProduct(Int32 id, [FromBody]Product value)
         {
             var response = new SingleModelResponse<Product>() as ISingleModelResponse<Product>;
 
             try
             {
-                var entity = await BusinessObject.UpdateProduct(value);
+                var entity = await Task.Run(() =>
+                    {
+                        return BusinessObject.UpdateProduct(value);
+                    });
 
                 response.Model = entity;
             }
@@ -118,13 +115,18 @@ namespace NorthwindApi.Controllers
         }
 
         // DELETE: api/Product/5
-        public async Task<HttpResponseMessage> Delete(Int32 id)
+        [HttpDelete]
+        [Route("Product")]
+        public async Task<HttpResponseMessage> DeleteProduct(Int32 id)
         {
             var response = new SingleModelResponse<Product>() as ISingleModelResponse<Product>;
 
             try
             {
-                var entity = await BusinessObject.DeleteProduct(new Product(id));
+                var entity = await Task.Run(() =>
+                    {
+                        return BusinessObject.DeleteProduct(new Product(id));
+                    });
 
                 response.Model = entity;
             }

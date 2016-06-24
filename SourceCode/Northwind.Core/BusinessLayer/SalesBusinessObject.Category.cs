@@ -1,21 +1,20 @@
-﻿using System.Threading.Tasks;
-using Northwind.Core.BusinessLayer.Contracts;
+﻿using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.EntityLayer;
 
 namespace Northwind.Core.BusinessLayer
 {
     public partial class SalesBusinessObject : ISalesBusinessObject
     {
-        public async Task<Category> CreateCategory(Category entity)
+        public Category CreateCategory(Category entity)
         {
             Uow.CategoryRepository.Add(entity);
 
-            await Uow.CommitChangesAsync();
+            Uow.CommitChanges();
 
             return entity;
         }
 
-        public async Task<Category> UpdateCategory(Category value)
+        public Category UpdateCategory(Category value)
         {
             var entity = Uow.CategoryRepository.Get(value);
 
@@ -27,13 +26,13 @@ namespace Northwind.Core.BusinessLayer
 
                 Uow.CategoryRepository.Update(entity);
 
-                await Uow.CommitChangesAsync();
+                Uow.CommitChanges();
             }
 
             return entity;
         }
 
-        public async Task<Category> DeleteCategory(Category value)
+        public Category DeleteCategory(Category value)
         {
             var entity = Uow.CategoryRepository.Get(value);
 
@@ -41,7 +40,7 @@ namespace Northwind.Core.BusinessLayer
             {
                 Uow.CategoryRepository.Remove(entity);
 
-                await Uow.CommitChangesAsync();
+                Uow.CommitChanges();
             }
 
             return entity;

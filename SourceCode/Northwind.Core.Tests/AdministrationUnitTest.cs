@@ -13,7 +13,7 @@ namespace Northwind.Core.Tests
     public class AdministrationUnitTest
     {
         [TestMethod]
-        public async Task SearchProductsLinqQuery()
+        public async Task SearchProducts()
         {
             var dbContext = new SalesDbContext();
 
@@ -27,7 +27,10 @@ namespace Northwind.Core.Tests
             Int32? supplierID = null;
             Int32? categoryID = null;
 
-            var query = await businessObject.GetProductsDetails(productName, supplierID, categoryID);
+            var query = await Task.Run(() =>
+                {
+                    return businessObject.GetProductsDetails(productName, supplierID, categoryID);
+                });
 
             foreach (var item in query.ToList())
             {

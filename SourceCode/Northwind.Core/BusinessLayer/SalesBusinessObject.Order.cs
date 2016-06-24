@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.DataLayer.DataContracts;
 using Northwind.Core.EntityLayer;
@@ -97,12 +96,9 @@ namespace Northwind.Core.BusinessLayer
             return header;
         }
 
-        async Task<IEnumerable<Order>> GetOrdersByShipVia(Int32? shipVia)
+        IEnumerable<Order> GetOrdersByShipVia(Int32? shipVia)
         {
-            return await Task.Run(() =>
-            {
-                return Uow.OrderRepository.GetAll().Where(item => item.ShipVia == shipVia);
-            });
+            return Uow.OrderRepository.GetAll().Where(item => item.ShipVia == shipVia);
         }
     }
 }

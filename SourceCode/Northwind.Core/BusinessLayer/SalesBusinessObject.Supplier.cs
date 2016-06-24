@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.EntityLayer;
 
@@ -7,36 +6,26 @@ namespace Northwind.Core.BusinessLayer
 {
     public partial class SalesBusinessObject : ISalesBusinessObject
     {
-        public async Task<IEnumerable<Supplier>> GetSuppliers()
+        public IEnumerable<Supplier> GetSuppliers()
         {
-            return await Task.Run(() =>
-            {
-                return Uow
-                    .SupplierRepository
-                    .GetAll();
-            });
+            return Uow.SupplierRepository.GetAll();
         }
 
-        public async Task<Supplier> GetSupplier(Supplier entity)
+        public Supplier GetSupplier(Supplier entity)
         {
-            return await Task.Run(() =>
-            {
-                return Uow
-                    .SupplierRepository
-                    .Get(entity);
-            });
+            return Uow.SupplierRepository.Get(entity);
         }
 
-        public async Task<Supplier> CreateSupplier(Supplier entity)
+        public Supplier CreateSupplier(Supplier entity)
         {
             Uow.SupplierRepository.Add(entity);
 
-            await Uow.CommitChangesAsync();
+            Uow.CommitChanges();
 
             return entity;
         }
 
-        public async Task<Supplier> UpdateSupplier(Supplier value)
+        public Supplier UpdateSupplier(Supplier value)
         {
             var entity = Uow.SupplierRepository.Get(value);
 
@@ -56,13 +45,13 @@ namespace Northwind.Core.BusinessLayer
 
                 Uow.SupplierRepository.Update(entity);
 
-                await Uow.CommitChangesAsync();
+                Uow.CommitChanges();
             }
 
             return entity;
         }
 
-        public async Task<Supplier> DeleteSupplier(Supplier value)
+        public Supplier DeleteSupplier(Supplier value)
         {
             var entity = Uow.SupplierRepository.Get(value);
 
@@ -70,7 +59,7 @@ namespace Northwind.Core.BusinessLayer
             {
                 Uow.SupplierRepository.Remove(entity);
 
-                await Uow.CommitChangesAsync();
+                Uow.CommitChanges();
             }
 
             return entity;

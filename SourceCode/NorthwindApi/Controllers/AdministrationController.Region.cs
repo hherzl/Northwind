@@ -3,43 +3,27 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.EntityLayer;
 using NorthwindApi.Helpers;
 using NorthwindApi.Responses;
-using NorthwindApi.Services;
 
 namespace NorthwindApi.Controllers
 {
-    public class RegionController : ApiController
+    public partial class AdministrationController : ApiController
     {
-        protected ISalesBusinessObject BusinessObject;
-
-        public RegionController(IBusinessObjectService service)
-        {
-            BusinessObject = service.GetSalesBusinessObject();
-        }
-
-        protected override void Dispose(Boolean disposing)
-        {
-            if (BusinessObject != null)
-            {
-                BusinessObject.Release();
-            }
-
-            base.Dispose(disposing);
-        }
-
         // GET: api/Region
-        public async Task<HttpResponseMessage> Get()
+        [HttpGet]
+        [Route("Region")]
+        public async Task<HttpResponseMessage> GetRegions()
         {
             var response = new ComposedModelResponse<Region>() as IComposedModelResponse<Region>;
 
             try
             {
-                var task = await BusinessObject.GetRegions();
-
-                response.Model = task.ToList();
+                response.Model = await Task.Run(() =>
+                    {
+                        return BusinessObject.GetRegions().ToList();
+                    });
             }
             catch (Exception ex)
             {
@@ -53,13 +37,18 @@ namespace NorthwindApi.Controllers
         }
 
         // GET: api/Region/5
-        public async Task<HttpResponseMessage> Get(Int32 id)
+        [HttpGet]
+        [Route("Region")]
+        public async Task<HttpResponseMessage> GetRegion(Int32 id)
         {
             var response = new SingleModelResponse<Region>() as ISingleModelResponse<Region>;
 
             try
             {
-                response.Model = await BusinessObject.GetRegion(new Region(id));
+                response.Model = await Task.Run(() =>
+                    {
+                        return BusinessObject.GetRegion(new Region(id));
+                    });
             }
             catch (Exception ex)
             {
@@ -73,13 +62,18 @@ namespace NorthwindApi.Controllers
         }
 
         // POST: api/Region
-        public async Task<HttpResponseMessage> Post([FromBody]Region value)
+        [HttpPost]
+        [Route("Region")]
+        public async Task<HttpResponseMessage> CreateRegion([FromBody]Region value)
         {
             var response = new SingleModelResponse<Region>() as ISingleModelResponse<Region>;
 
             try
             {
-                var entity = await BusinessObject.CreateRegion(value);
+                var entity = await Task.Run(() =>
+                    {
+                        return BusinessObject.CreateRegion(value);
+                    });
 
                 response.Model = entity;
             }
@@ -95,13 +89,18 @@ namespace NorthwindApi.Controllers
         }
 
         // PUT: api/Region/5
-        public async Task<HttpResponseMessage> Put(Int32 id, [FromBody]Region value)
+        [HttpPut]
+        [Route("Region")]
+        public async Task<HttpResponseMessage> UpdateRegion(Int32 id, [FromBody]Region value)
         {
             var response = new SingleModelResponse<Region>() as ISingleModelResponse<Region>;
 
             try
             {
-                var entity = await BusinessObject.UpdateRegion(value);
+                var entity = await Task.Run(() =>
+                    {
+                        return BusinessObject.UpdateRegion(value);
+                    });
 
                 response.Model = value;
             }
@@ -117,13 +116,18 @@ namespace NorthwindApi.Controllers
         }
 
         // DELETE: api/Region/5
-        public async Task<HttpResponseMessage> Delete(Int32 id)
+        [HttpDelete]
+        [Route("Region")]
+        public async Task<HttpResponseMessage> DeleteRegion(Int32 id)
         {
             var response = new SingleModelResponse<Region>() as ISingleModelResponse<Region>;
 
             try
             {
-                var entity = await BusinessObject.DeleteRegion(new Region(id));
+                var entity = await Task.Run(() =>
+                    {
+                        return BusinessObject.DeleteRegion(new Region(id));
+                    });
 
                 response.Model = entity;
             }

@@ -5,34 +5,25 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Northwind.Core.EntityLayer;
 using NorthwindApi.Controllers;
 using NorthwindApi.Responses;
-using NorthwindApi.Services;
+using NorthwindApi.ViewModels;
 
-namespace NorthwindApi.Tests
+namespace NorthwindApi.Tests.Controllers
 {
-    [TestClass]
-    public class RegionUnitTest
+    public partial class AdministrationControllerTest
     {
-        private IBusinessObjectService service;
-
-        [TestInitialize]
-        public void Init()
-        {
-            service = new BusinessObjectService();
-        }
-
         [TestMethod]
-        public async Task GetAsync()
+        public async Task AdministrationControllerTest_GetCategoriesAsync()
         {
             // Arrange
-            var controller = new RegionController(service);
+            var controller = new AdministrationController(service);
             controller.Request = new HttpRequestMessage();
             controller.Configuration = new HttpConfiguration();
 
             // Act
-            var result = await controller.Get();
+            var result = await controller.GetCategories();
 
             // Assert
-            var value = default(IComposedModelResponse<Region>);
+            var value = default(IComposedModelResponse<CategoryViewModel>);
 
             result.TryGetContentValue(out value);
 
@@ -40,43 +31,43 @@ namespace NorthwindApi.Tests
         }
 
         [TestMethod]
-        public async Task PostAsync()
+        public async Task AdministrationControllerTest_CreateCategoryAsync()
         {
             // Arrange
-            var controller = new RegionController(service);
+            var controller = new AdministrationController(service);
             controller.Request = new HttpRequestMessage();
             controller.Configuration = new HttpConfiguration();
 
             // Act
-            var model = new Region()
+            var model = new Category()
             {
-                RegionID = 5,
-                RegionDescription = "Acme Region"
+                CategoryName = "Acme Category",
+                Description = "Acme category description"
             };
 
-            var result = await controller.Post(model);
+            var result = await controller.CreateCategory(model);
 
             // Assert
-            var response = default(ISingleModelResponse<Region>);
+            var response = default(ISingleModelResponse<CategoryViewModel>);
 
             result.TryGetContentValue(out response);
 
-            Assert.IsNotNull(response.Model.RegionID);
+            Assert.IsNotNull(response.Model.CategoryID);
         }
 
         [TestMethod]
-        public async Task GetByIdAsync()
+        public async Task AdministrationControllerTest_GetCategoryAsync()
         {
             // Arrange
-            var controller = new RegionController(service);
+            var controller = new AdministrationController(service);
             controller.Request = new HttpRequestMessage();
             controller.Configuration = new HttpConfiguration();
 
             // Act
-            var result = await controller.Get(5);
+            var result = await controller.GetCategory(7);
 
             // Assert
-            var response = default(ISingleModelResponse<Region>);
+            var response = default(ISingleModelResponse<CategoryViewModel>);
 
             result.TryGetContentValue(out response);
 
@@ -84,23 +75,24 @@ namespace NorthwindApi.Tests
         }
 
         [TestMethod]
-        public async Task PutAsync()
+        public async Task AdministrationControllerTest_UpdateCategoryAsync()
         {
             // Arrange
-            var controller = new RegionController(service);
+            var controller = new AdministrationController(service);
             controller.Request = new HttpRequestMessage();
             controller.Configuration = new HttpConfiguration();
 
             // Act
-            var model = new Region()
+            var model = new Category()
             {
-                RegionDescription = "Acme Region 2",
+                CategoryName = "Acme 2",
+                Description = "22445 77990"
             };
 
-            var result = await controller.Put(5, model);
+            var result = await controller.UpdateCategory(8, model);
 
             // Assert
-            var value = default(ISingleModelResponse<Region>);
+            var value = default(ISingleModelResponse<CategoryViewModel>);
 
             result.TryGetContentValue(out value);
 
@@ -108,18 +100,18 @@ namespace NorthwindApi.Tests
         }
 
         [TestMethod]
-        public async Task DeleteAsync()
+        public async Task AdministrationControllerTest_DeleteCategoryAsync()
         {
             // Arrange
-            var controller = new RegionController(service);
+            var controller = new AdministrationController(service);
             controller.Request = new HttpRequestMessage();
             controller.Configuration = new HttpConfiguration();
 
             // Act
-            var result = await controller.Delete(5);
+            var result = await controller.DeleteCategory(9);
 
             // Assert
-            var value = default(ISingleModelResponse<Region>);
+            var value = default(ISingleModelResponse<CategoryViewModel>);
 
             result.TryGetContentValue(out value);
 
