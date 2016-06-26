@@ -23,7 +23,7 @@ namespace NorthwindApi.Controllers
             {
                 response.Model = await Task.Run(() =>
                 {
-                    return BusinessObject.GetProductsDetails(productName, supplierID, categoryID).Select(item => new ProductDetailViewModel(item)).ToList();
+                    return BusinessObject.GetProductsDetails(supplierID, categoryID, productName).Select(item => new ProductDetailViewModel(item)).ToList();
                 });
             }
             catch (Exception ex)

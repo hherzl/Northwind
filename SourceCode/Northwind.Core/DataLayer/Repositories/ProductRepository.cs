@@ -15,7 +15,7 @@ namespace Northwind.Core.DataLayer.Repositories
         {
         }
 
-        public IEnumerable<ProductDetail> GetDetails(String productName, Int32? supplierID, Int32? categoryID)
+        public IEnumerable<ProductDetail> GetDetails(Int32? supplierID, Int32? categoryID, String productName)
         {
             var query =
                 from product in GetAll()
@@ -34,11 +34,6 @@ namespace Northwind.Core.DataLayer.Repositories
                         Discontinued = product.Discontinued
                     };
 
-            if (!String.IsNullOrEmpty(productName))
-            {
-                query = query.Where(item => item.ProductName.Contains(productName));
-            }
-
             if (supplierID.HasValue)
             {
                 query = query.Where(item => item.SupplierID == supplierID);
@@ -47,6 +42,11 @@ namespace Northwind.Core.DataLayer.Repositories
             if (categoryID.HasValue)
             {
                 query = query.Where(item => item.CategoryID == categoryID);
+            }
+
+            if (!String.IsNullOrEmpty(productName))
+            {
+                query = query.Where(item => item.ProductName.Contains(productName));
             }
 
             return query;

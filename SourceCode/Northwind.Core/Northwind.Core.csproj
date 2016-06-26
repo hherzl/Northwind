@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="BusinessLayer\Contracts\IBusinessObject.cs" />
     <Compile Include="BusinessLayer\Contracts\ISalesBusinessObject.cs" />
+    <Compile Include="BusinessLayer\Contracts\IStoreBusinessObject.cs" />
     <Compile Include="BusinessLayer\DiscontinuedProductException.cs" />
     <Compile Include="BusinessLayer\ForeignKeyDependencyException.cs" />
     <Compile Include="BusinessLayer\NullEntityException.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="BusinessLayer\SalesBusinessObject.Region.cs" />
     <Compile Include="BusinessLayer\SalesBusinessObject.Shipper.cs" />
     <Compile Include="BusinessLayer\SalesBusinessObject.Supplier.cs" />
+    <Compile Include="BusinessLayer\StoreBusinessObject.cs" />
     <Compile Include="DataLayer\Repositories\ChangeLogRepository.cs" />
     <Compile Include="DataLayer\Contracts\IChangeLogRepository.cs" />
     <Compile Include="DataLayer\Contracts\IOrderDetailSummaryRepository.cs" />
@@ -128,9 +130,7 @@
     <Compile Include="EntityLayer\Region.cs" />
     <Compile Include="EntityLayer\Shipper.cs" />
     <Compile Include="EntityLayer\Supplier.cs" />
-    <Compile Include="Helpers\EfChangeTrackerHelper.cs" />
-    <Compile Include="Helpers\EfErrorHelper.cs" />
-    <Compile Include="Helpers\EfMetadataHelper.cs" />
+    <Compile Include="DataLayer\EfExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

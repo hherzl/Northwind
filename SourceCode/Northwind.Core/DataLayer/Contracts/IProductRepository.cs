@@ -7,7 +7,7 @@ namespace Northwind.Core.DataLayer.Contracts
 {
     public interface IProductRepository : IRepository<Product>
     {
-        IEnumerable<ProductDetail> GetDetails(String productName, Int32? supplierID, Int32? categoryID);
+        IEnumerable<ProductDetail> GetDetails(Int32? supplierID, Int32? categoryID, String productName);
 
         IEnumerable<TenMostExpensiveProduct> GetTenMostExpensiveProducts();
     }

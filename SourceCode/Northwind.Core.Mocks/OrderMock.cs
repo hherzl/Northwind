@@ -19,7 +19,7 @@ namespace Northwind.Core.Mocks
         {
             var businessObject = new SalesBusinessObject(new SalesUow(new SalesDbContext()) as ISalesUow) as ISalesBusinessObject;
 
-            var products = await Task.Run(() => { return businessObject.GetProductsDetails(String.Empty, null, null).Where(item => item.Discontinued == false).ToList(); });
+            var products = await Task.Run(() => { return businessObject.GetProductsDetails(null, null, String.Empty).Where(item => item.Discontinued == false).ToList(); });
 
             foreach (var item in products)
             {

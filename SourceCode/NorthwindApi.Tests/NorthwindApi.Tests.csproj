@@ -103,9 +103,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AdministrationControllerTest.cs" />
-    <Compile Include="Controllers\ShipperControllerTest.cs" />
+    <Compile Include="Controllers\AdministrationControllerTest.Shipper.cs" />
     <Compile Include="Controllers\AdministrationControllerTest.Category.cs" />
     <Compile Include="Controllers\AdministrationControllerTest.Order.cs" />
+    <Compile Include="Controllers\StoreControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="Controllers\AdministrationControllerTest.Region.cs" />

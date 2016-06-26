@@ -8,9 +8,9 @@ namespace Northwind.Core.BusinessLayer
 {
     public partial class SalesBusinessObject : ISalesBusinessObject
     {
-        public IEnumerable<ProductDetail> GetProductsDetails(String productName, Int32? supplierID, Int32? categoryID)
+        public IEnumerable<ProductDetail> GetProductsDetails(Int32? supplierID, Int32? categoryID, String productName)
         {
-            return Uow.ProductRepository.GetDetails(productName, supplierID, categoryID);
+            return Uow.ProductRepository.GetDetails(supplierID, categoryID, productName);
         }
 
         public Product GetProduct(Product entity)

@@ -58,7 +58,7 @@ namespace Northwind.Core.DataLayer
             {
                 if (entry.State == EntityState.Modified)
                 {
-                    foreach (var change in EfChangeTrackerHelper.GetChanges(DbContext, entry))
+                    foreach (var change in EfExtensions.GetChanges(DbContext, entry))
                     {
                         ChangeLogRepository.Add(change);
                     }

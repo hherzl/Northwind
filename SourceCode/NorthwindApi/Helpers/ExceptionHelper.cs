@@ -29,7 +29,7 @@ namespace NorthwindApi.Helpers
                 errorLog.BrowserVersion = httpContext.Request.Browser.Version;
             }
 
-            foreach (var validationError in EfErrorHelper.GetEntityValidationErrors(ex))
+            foreach (var validationError in ex.GetEntityValidationErrors())
             {
                 errorLog.ValidationMessages.Add(String.Format("{0}: {1}", validationError.PropertyName, validationError.ErrorMessage));
             }

@@ -13,7 +13,7 @@ namespace Northwind.Core.BusinessLayer.Contracts
 
         Order CreateOrder(Order entity);
 
-        IEnumerable<ProductDetail> GetProductsDetails(String productName, Int32? supplierID, Int32? categoryID);
+        IEnumerable<ProductDetail> GetProductsDetails(Int32? supplierID, Int32? categoryID, String productName);
 
         Product GetProduct(Product entity);
 

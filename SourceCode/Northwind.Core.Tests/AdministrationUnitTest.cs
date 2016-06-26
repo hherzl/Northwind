@@ -22,14 +22,14 @@ namespace Northwind.Core.Tests
             var uow = new SalesUow(dbContext) as ISalesUow;
 
             var businessObject = new SalesBusinessObject(uow) as ISalesBusinessObject;
-
-            String productName = null;
+            
             Int32? supplierID = null;
             Int32? categoryID = null;
+            String productName = null;
 
             var query = await Task.Run(() =>
                 {
-                    return businessObject.GetProductsDetails(productName, supplierID, categoryID);
+                    return businessObject.GetProductsDetails(supplierID, categoryID, productName);
                 });
 
             foreach (var item in query.ToList())

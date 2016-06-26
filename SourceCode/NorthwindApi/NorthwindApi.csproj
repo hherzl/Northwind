@@ -200,6 +200,7 @@
     <Compile Include="Controllers\AdministrationController.Region.cs" />
     <Compile Include="Controllers\AdministrationController.Shipper.cs" />
     <Compile Include="Controllers\AdministrationController.Supplier.cs" />
+    <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -213,7 +214,6 @@
     <Compile Include="Responses\IResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Responses\ISingleModelResponse.cs" />
-    <Compile Include="Responses\Response.cs" />
     <Compile Include="Responses\SingleModelResponse.cs">
       <SubType>Code</SubType>
     </Compile>
