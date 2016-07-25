@@ -138,6 +138,7 @@
     <Content Include="app\controllers\ShipperController.js" />
     <Content Include="app\controllers\SupplierController.js" />
     <Content Include="app\index.html" />
+    <Content Include="app\services\AdministrationService.js" />
     <Content Include="app\services\CategoryService.js" />
     <Content Include="app\services\CustomerService.js" />
     <Content Include="app\services\EmployeeService.js" />

@@ -13,7 +13,7 @@ namespace NorthwindApi.Services
 
         public IStoreBusinessObject GetStoreBusinessObject()
         {
-            return new StoreBusinessObject(new SalesUow(new SalesDbContext()));
+            return new StoreBusinessObject(new StoreUow(new SalesDbContext()));
         }
     }
 }

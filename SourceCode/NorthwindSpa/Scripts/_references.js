@@ -37,3 +37,4 @@
 /// <reference path="toaster.min.js" />
 /// <reference path="angular-ui/ui-bootstrap.js" />
 /// <reference path="ng-table.min.js" />
+/// <reference path="../app/services/administrationservice.js" />

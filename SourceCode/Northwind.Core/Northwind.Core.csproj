@@ -65,6 +65,11 @@
     <Compile Include="BusinessLayer\SalesBusinessObject.Shipper.cs" />
     <Compile Include="BusinessLayer\SalesBusinessObject.Supplier.cs" />
     <Compile Include="BusinessLayer\StoreBusinessObject.cs" />
+    <Compile Include="DataLayer\Contracts\IShoppingCartItemRepository.cs" />
+    <Compile Include="DataLayer\Contracts\IShoppingCartRepository.cs" />
+    <Compile Include="DataLayer\Contracts\IStoreUow.cs" />
+    <Compile Include="DataLayer\Mapping\ShoppingCartItemMap.cs" />
+    <Compile Include="DataLayer\Mapping\ShoppingCartMap.cs" />
     <Compile Include="DataLayer\Repositories\ChangeLogRepository.cs" />
     <Compile Include="DataLayer\Contracts\IChangeLogRepository.cs" />
     <Compile Include="DataLayer\Contracts\IOrderDetailSummaryRepository.cs" />
@@ -75,6 +80,8 @@
     <Compile Include="DataLayer\Mapping\OrderDetailSummaryMap.cs" />
     <Compile Include="DataLayer\Repositories\OrderDetailSummaryRepository.cs" />
     <Compile Include="DataLayer\ReportsUow.cs" />
+    <Compile Include="DataLayer\Repositories\ShoppingCartItemRepository.cs" />
+    <Compile Include="DataLayer\Repositories\ShoppingCartRepository.cs" />
     <Compile Include="DataLayer\SalesUow.cs" />
     <Compile Include="DataLayer\Mapping\CategoryMap.cs" />
     <Compile Include="DataLayer\Mapping\CategorySaleFor1997Map.cs" />
@@ -116,6 +123,7 @@
     <Compile Include="DataLayer\Repositories\SupplierRepository.cs" />
     <Compile Include="DataLayer\Repository.cs" />
     <Compile Include="DataLayer\SalesDbContext.cs" />
+    <Compile Include="DataLayer\StoreUow.cs" />
     <Compile Include="DataLayer\Uow.cs" />
     <Compile Include="EntityLayer\Category.cs" />
     <Compile Include="EntityLayer\CategorySaleFor1997.cs" />
@@ -129,6 +137,8 @@
     <Compile Include="EntityLayer\Product.cs" />
     <Compile Include="EntityLayer\Region.cs" />
     <Compile Include="EntityLayer\Shipper.cs" />
+    <Compile Include="EntityLayer\ShoppingCart.cs" />
+    <Compile Include="EntityLayer\ShoppingCartItem.cs" />
     <Compile Include="EntityLayer\Supplier.cs" />
     <Compile Include="DataLayer\EfExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

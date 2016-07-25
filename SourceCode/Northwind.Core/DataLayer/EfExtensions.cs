@@ -21,7 +21,14 @@ namespace Northwind.Core.Helpers
 
             var mapping = metadata.GetItems<EntityContainerMapping>(DataSpace.CSSpace).Single().EntitySetMappings.ToList();
 
-            var tableName = mapping.Where(item => item.EntitySet.ElementType.Name == type.Name).First().EntityTypeMappings[0].Fragments[0].StoreEntitySet.MetadataProperties["Table"].Value;
+            var tableName = mapping
+                .Where(item => item.EntitySet.ElementType.Name == type.Name)
+                .First()
+                .EntityTypeMappings[0]
+                .Fragments[0]
+                .StoreEntitySet
+                .MetadataProperties["Table"]
+                .Value;
 
             return tableName.ToString();
         }
@@ -34,7 +41,11 @@ namespace Northwind.Core.Helpers
 
             var items = metadata.GetItems(DataSpace.SSpace);
 
-            var entity = items.Where(item => item.BuiltInTypeKind == BuiltInTypeKind.EntityType).Select(item => item as EntityType).Where(item => item.Name == type.Name).SingleOrDefault();
+            var entity = items
+                .Where(item => item.BuiltInTypeKind == BuiltInTypeKind.EntityType)
+                .Select(item => item as EntityType)
+                .Where(item => item.Name == type.Name)
+                .SingleOrDefault();
 
             for (var i = 0; i < entity.Properties.Count; i++)
             {
@@ -79,32 +90,15 @@ namespace Northwind.Core.Helpers
 
         public static IEnumerable<DbValidationError> GetEntityValidationErrors(this Exception ex)
         {
-            var entityValidationException = ex as DbEntityValidationException;
-
-            if (entityValidationException != null)
-            {
-                foreach (var validationError in entityValidationException.EntityValidationErrors.SelectMany(item => item.ValidationErrors))
-                {
-                    yield return validationError;
-                }
-            }
-        }
-
-        public static IEnumerable<DbValidationError> ExtractValidationMessages(this Exception ex)
-        {
-            var result = new List<DbValidationError>();
-
             var dbEntityValidationException = ex as DbEntityValidationException;
 
             if (dbEntityValidationException != null)
             {
                 foreach (var validationError in dbEntityValidationException.EntityValidationErrors.SelectMany(item => item.ValidationErrors))
                 {
-                    result.Add(validationError);
+                    yield return validationError;
                 }
             }
-
-            return result;
         }
     }
 }

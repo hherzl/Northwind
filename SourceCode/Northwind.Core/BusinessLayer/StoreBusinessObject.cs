@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using Northwind.Core.BusinessLayer.Contracts;
 using Northwind.Core.DataLayer.Contracts;
 using Northwind.Core.DataLayer.DataContracts;
+using Northwind.Core.EntityLayer;
 
 namespace Northwind.Core.BusinessLayer
 {
     public class StoreBusinessObject : IStoreBusinessObject
     {
-        protected ISalesUow Uow;
+        protected IStoreUow Uow;
 
-        public StoreBusinessObject(ISalesUow uow)
+        public StoreBusinessObject(IStoreUow uow)
         {
             Uow = uow;
         }
@@ -23,9 +24,14 @@ namespace Northwind.Core.BusinessLayer
             }
         }
 
-        public IEnumerable<ProductDetail> SearchProducts(Int32? supplierID, Int32? categoryID, String productName)
+        public IEnumerable<ProductDetail> SearchProducts(String productName)
         {
-            return null;
+            return Uow.ProductRepository.GetDetails(null, null, productName);
+        }
+
+        public ShoppingCart GetShoppingCart(String customerID)
+        {
+            return Uow.ShoppingCartRepository.Get(new ShoppingCart { });
         }
     }
 }

@@ -7,8 +7,8 @@
     "toaster"
 ]);
 
-(function () {
-    angular.module("northwindApp").config(function ($routeProvider) {
+(function (app) {
+    app.config(function ($routeProvider) {
         var base = "/app/views/";
 
         $routeProvider
@@ -156,4 +156,4 @@
                 controllerAs: "vm"
             });
     });
-})();
+})(angular.module("northwindApp"));
